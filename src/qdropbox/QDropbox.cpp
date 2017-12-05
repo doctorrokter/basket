@@ -211,6 +211,38 @@ void QDropbox::onFolderCreated() {
     reply->deleteLater();
 }
 
+void QDropbox::deleteFile(const QString& path) {
+    QNetworkRequest req = prepareRequest("/files/delete_v2");
+    QVariantMap map;
+    map["path"] = path;
+
+    QJson::Serializer serializer;
+    QNetworkReply* reply = m_network.post(req, serializer.serialize(map));
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onFileDeleted()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void QDropbox::onFileDeleted() {
+    QNetworkReply* reply = getReply();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        QJson::Parser parser;
+        bool* res = new bool(false);
+        QVariant data = parser.parse(reply->readAll(), res);
+        if (*res) {
+            QDropboxFile* pFile = new QDropboxFile(this);
+            pFile->fromMap(data.toMap().value("metadata").toMap());
+            emit fileDeleted(pFile);
+        }
+        delete res;
+    }
+
+    reply->deleteLater();
+}
+
 void QDropbox::getAccount(const QString& accountId) {
     QNetworkRequest req = prepareRequest("/users/get_account");
     QVariantMap map;

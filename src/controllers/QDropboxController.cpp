@@ -18,6 +18,8 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, QObject* parent) : QO
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(folderCreated(QDropboxFile*)), this, SLOT(onFolderCreated(QDropboxFile*)));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(fileDeleted(QDropboxFile*)), this, SLOT(onFileDeleted(QDropboxFile*)));
+    Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(currentAccountLoaded(Account*)), this, SIGNAL(currentAccountLoaded(Account*)));
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(spaceUsageLoaded(QDropboxSpaceUsage*)), this, SLOT(onSpaceUsageLoaded(QDropboxSpaceUsage*)));
@@ -31,6 +33,8 @@ QDropboxController::~QDropboxController() {
     res = QObject::disconnect(m_pQDropbox, SIGNAL(listFolderContinueLoaded(QList<QDropboxFile*>&, const QString&, const QString&, const bool&)), this, SLOT(onListFolderContinueLoaded(QList<QDropboxFile*>&, const QString&, const QString&, const bool&)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(folderCreated(QDropboxFile*)), this, SLOT(onFolderCreated(QDropboxFile*)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(fileDeleted(QDropboxFile*)), this, SLOT(onFileDeleted(QDropboxFile*)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(currentAccountLoaded(Account*)), this, SIGNAL(currentAccountLoaded(Account*)));
     Q_ASSERT(res);
@@ -91,6 +95,15 @@ void QDropboxController::createFolder(const QString& path) {
 void QDropboxController::onFolderCreated(QDropboxFile* folder) {
     emit folderCreated(folder->toMap());
     folder->deleteLater();
+}
+
+void QDropboxController::deleteFile(const QString& path) {
+    m_pQDropbox->deleteFile(path);
+}
+
+void QDropboxController::onFileDeleted(QDropboxFile* file) {
+    emit fileDeleted(file->toMap());
+    file->deleteLater();
 }
 
 void QDropboxController::getCurrentAccount() {

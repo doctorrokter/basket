@@ -1,6 +1,7 @@
 import bb.cascades 1.4
 import bb.device 1.4
 import bb.system 1.2
+import "../actions"
 
 CustomListItem {
     id: root
@@ -188,18 +189,8 @@ CustomListItem {
     contextActions: [
         ActionSet {
             actions: [
-                DeleteActionItem {
-                    id: deleteAction
-                    
-                    shortcuts: [
-                        Shortcut {
-                            key: "d"
-                            
-                            onTriggered: {
-                                deleteAction.triggered();
-                            }
-                        }
-                    ]
+                DeleteFileAction {
+                    pathDisplay: root.pathDisplay    
                 },
                 
                 ActionItem {

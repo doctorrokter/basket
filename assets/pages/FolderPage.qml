@@ -264,8 +264,10 @@ Page {
     ]
     
     onSpaceUsageChanged: {
-        bytesLabel.text = (Number(spaceUsage.used / root.bytesInGB).toFixed(1) + qsTr("GB") + Retranslate.onLocaleOrLanguageChanged) + 
-        "/" + (Number(spaceUsage.allocation.allocated / root.bytesInGB).toFixed(1) + qsTr("GB") + Retranslate.onLocaleOrLanguageChanged);
+        if (spaceUsage !== undefined) {
+            bytesLabel.text = (Number(spaceUsage.used / root.bytesInGB).toFixed(1) + qsTr("GB") + Retranslate.onLocaleOrLanguageChanged) + 
+            "/" + (Number(spaceUsage.allocation.allocated / root.bytesInGB).toFixed(1) + qsTr("GB") + Retranslate.onLocaleOrLanguageChanged);
+        }
     }
     
     function listFolderLoaded(path, files, cursor, hasMore) {
@@ -289,13 +291,25 @@ Page {
     function folderCreated(folder) {
         spinner.stop();
         var p = folder.path_lower;
-        if (root.path === "" && p.split("/").length === 2) {
-            dataModel.insert(0, folder);
-            listView.scrollToPosition(ScrollPosition.Beginning, ScrollAnimation.Smooth);
-        } else if (p.indexOf(root.path) !== -1) {
+        if (root.isInRoot(p) || p.indexOf(root.path) !== -1) {
             dataModel.insert(0, folder);
             listView.scrollToPosition(ScrollPosition.Beginning, ScrollAnimation.Smooth);
         }
+    }
+    
+    function fileDeleted(file) {
+        var p = file.path_lower;
+        if (root.isInRoot(p) || p.indexOf(root.path) !== -1) {
+            for (var i = 0; i < dataModel.size(); i++) {
+                if (dataModel.value(i).id === file.id) {
+                    dataModel.removeAt(i);
+                }
+            }
+        }
+    }
+    
+    function isInRoot(path) {
+        return root.path === "" && path.split("/").length === 2;
     }
     
     function cleanUp() {
@@ -303,12 +317,14 @@ Page {
         _qdropbox.listFolderLoaded.disconnect(root.listFolderLoaded);
         _qdropbox.listFolderContinueLoaded.disconnect(root.listFolderContinueLoaded);
         _qdropbox.folderCreated.disconnect(root.folderCreated);
+        _qdropbox.fileDeleted.disconnect(root.fileDeleted);
     }
     
     onCreationCompleted: {
         _qdropbox.listFolderLoaded.connect(root.listFolderLoaded);
         _qdropbox.listFolderContinueLoaded.connect(root.listFolderContinueLoaded);
         _qdropbox.folderCreated.connect(root.folderCreated);
+        _qdropbox.fileDeleted.connect(root.fileDeleted);
     }
     
     onPathChanged: {

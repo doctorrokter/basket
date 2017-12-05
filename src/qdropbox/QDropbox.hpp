@@ -55,6 +55,7 @@ public:
                     const int& limit = 0, SharedLink sharedLink = SharedLink());
     void listFolderContinue(const QString& cursor);
     void createFolder(const QString& path, const bool& autorename = false);
+    void deleteFile(const QString& path);
 
     // users
     void getAccount(const QString& accountId);
@@ -68,6 +69,7 @@ Q_SIGNALS:
     void listFolderLoaded(const QString& path, QList<QDropboxFile*>& files, const QString& cursor, const bool& hasMore);
     void listFolderContinueLoaded(QList<QDropboxFile*>& files, const QString& prevCursor, const QString& cursor, const bool& hasMore);
     void folderCreated(QDropboxFile* folder);
+    void fileDeleted(QDropboxFile* folder);
 
     // users signals
     void accountLoaded(Account* account);
@@ -81,6 +83,7 @@ private slots:
     void onListFolderLoaded();
     void onListFolderContinueLoaded();
     void onFolderCreated();
+    void onFileDeleted();
 
     // users slots
     void onAccountLoaded();
