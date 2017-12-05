@@ -54,6 +54,7 @@ public:
                     const bool& includeDeleted = false, const bool& includeHasExplicitSharedMembers = false, const bool& includeMountedFolders = true,
                     const int& limit = 0, SharedLink sharedLink = SharedLink());
     void listFolderContinue(const QString& cursor);
+    void createFolder(const QString& path, const bool& autorename = false);
 
     // users
     void getAccount(const QString& accountId);
@@ -66,6 +67,7 @@ Q_SIGNALS:
     // files signals
     void listFolderLoaded(const QString& path, QList<QDropboxFile*>& files, const QString& cursor, const bool& hasMore);
     void listFolderContinueLoaded(QList<QDropboxFile*>& files, const QString& prevCursor, const QString& cursor, const bool& hasMore);
+    void folderCreated(QDropboxFile* folder);
 
     // users signals
     void accountLoaded(Account* account);
@@ -78,6 +80,7 @@ private slots:
     // files slots
     void onListFolderLoaded();
     void onListFolderContinueLoaded();
+    void onFolderCreated();
 
     // users slots
     void onAccountLoaded();
@@ -104,6 +107,7 @@ private:
     void generateFullUrl();
 
     QNetworkRequest prepareRequest(const QString& apiMethod);
+    QNetworkReply* getReply();
 };
 
 #endif /* QDROPBOX_HPP_ */

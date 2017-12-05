@@ -19,61 +19,7 @@ Page {
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     actionBarVisibility: ChromeVisibility.Overlay
     
-    titleBar: TitleBar {
-        kind: TitleBarKind.FreeForm
-        kindProperties: FreeFormTitleBarKindProperties {
-            
-            content: Container {
-                horizontalAlignment: HorizontalAlignment.Fill
-                verticalAlignment: VerticalAlignment.Fill
-                
-                leftPadding: ui.du(1)
-                topPadding: ui.du(0.5)
-                rightPadding: ui.du(1)
-                bottomPadding: ui.du(1)
-                
-                layout: DockLayout {}
-                
-                Label {
-                    visible: root.path !== "/"
-                    verticalAlignment: VerticalAlignment.Center
-                    text: root.name
-                    textStyle.base: SystemDefaults.TextStyles.TitleText
-                    textStyle.fontWeight: FontWeight.W500
-                }
-                
-                Label {
-                    id: fioLabel
-                    visible: root.account !== undefined
-                    verticalAlignment: VerticalAlignment.Top
-                    textStyle.fontWeight: FontWeight.W500
-                    textStyle.fontSize: FontSize.PointValue
-                    textStyle.fontSizeValue: 10
-                    text: root.account === undefined ? "" : root.account.name.display_name
-                }
-
-                Label {
-                    id: loginLabel
-                    visible: root.account !== undefined
-                    verticalAlignment: VerticalAlignment.Bottom
-                    textStyle.base: SystemDefaults.TextStyles.SubtitleText
-                    textStyle.fontSize: FontSize.PointValue
-                    textStyle.fontSizeValue: 7
-                    text: root.account === undefined ? "" : root.account.email
-                }
-                
-                Label {
-                    id: bytesLabel
-                    visible: root.spaceUsage !== undefined
-                    verticalAlignment: VerticalAlignment.Bottom
-                    horizontalAlignment: HorizontalAlignment.Right
-                    textStyle.base: SystemDefaults.TextStyles.SubtitleText
-                    textStyle.fontSize: FontSize.PointValue
-                    textStyle.fontSizeValue: 7
-                }
-            }
-        }
-    }
+    titleBar: defaultTitleBar
     
     Container {
         horizontalAlignment: HorizontalAlignment.Fill
@@ -202,6 +148,19 @@ Page {
             title: qsTr("Create folder") + Retranslate.onLocaleOrLanguageChanged
             imageSource: "asset:///images/ic_add_folder.png"
             ActionBar.placement: ActionBarPlacement.Signature
+            
+            shortcuts: SystemShortcut {
+                type: SystemShortcuts.CreateNew
+                
+                onTriggered: {
+                    createFolder.triggered();
+                }
+            }
+            
+            onTriggered: {
+                root.titleBar = inputTitleBar;
+                root.titleBar.focus();
+            }
         }
     ]
     
@@ -224,6 +183,83 @@ Page {
         
         DisplayInfo {
             id: rootDisplayInfo
+        },
+        
+        InputTitleBar {
+            id: inputTitleBar    
+            
+            onCancel: {
+                inputTitleBar.reset();
+                root.titleBar = defaultTitleBar;
+            }
+            
+            onSubmit: {
+                if (text !== "") {
+                    spinner.start();
+                    var fullPath = (root.path === "" ? "/" : root.path) + text;
+                    _qdropbox.createFolder(fullPath);
+                    root.titleBar.reset();
+                    root.titleBar = defaultTitleBar;
+                }
+            }
+        },
+        
+        TitleBar {
+            id: defaultTitleBar
+            
+            kind: TitleBarKind.FreeForm
+            kindProperties: FreeFormTitleBarKindProperties {
+                
+                content: Container {
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    verticalAlignment: VerticalAlignment.Fill
+                    
+                    leftPadding: ui.du(1)
+                    topPadding: ui.du(0.5)
+                    rightPadding: ui.du(1)
+                    bottomPadding: ui.du(1)
+                    
+                    layout: DockLayout {}
+                    
+                    Label {
+                        visible: root.path !== "/"
+                        verticalAlignment: VerticalAlignment.Center
+                        text: root.name
+                        textStyle.base: SystemDefaults.TextStyles.TitleText
+                        textStyle.fontWeight: FontWeight.W500
+                    }
+                    
+                    Label {
+                        id: fioLabel
+                        visible: root.account !== undefined
+                        verticalAlignment: VerticalAlignment.Top
+                        textStyle.fontWeight: FontWeight.W500
+                        textStyle.fontSize: FontSize.PointValue
+                        textStyle.fontSizeValue: 10
+                        text: root.account === undefined ? "" : root.account.name.display_name
+                    }
+                    
+                    Label {
+                        id: loginLabel
+                        visible: root.account !== undefined
+                        verticalAlignment: VerticalAlignment.Bottom
+                        textStyle.base: SystemDefaults.TextStyles.SubtitleText
+                        textStyle.fontSize: FontSize.PointValue
+                        textStyle.fontSizeValue: 7
+                        text: root.account === undefined ? "" : root.account.email
+                    }
+                    
+                    Label {
+                        id: bytesLabel
+                        visible: root.spaceUsage !== undefined
+                        verticalAlignment: VerticalAlignment.Bottom
+                        horizontalAlignment: HorizontalAlignment.Right
+                        textStyle.base: SystemDefaults.TextStyles.SubtitleText
+                        textStyle.fontSize: FontSize.PointValue
+                        textStyle.fontSizeValue: 7
+                    }
+                }
+            }
         }
     ]
     
@@ -250,15 +286,29 @@ Page {
         }
     }
     
+    function folderCreated(folder) {
+        spinner.stop();
+        var p = folder.path_lower;
+        if (root.path === "" && p.split("/").length === 2) {
+            dataModel.insert(0, folder);
+            listView.scrollToPosition(ScrollPosition.Beginning, ScrollAnimation.Smooth);
+        } else if (p.indexOf(root.path) !== -1) {
+            dataModel.insert(0, folder);
+            listView.scrollToPosition(ScrollPosition.Beginning, ScrollAnimation.Smooth);
+        }
+    }
+    
     function cleanUp() {
         _qdropbox.popPath();
         _qdropbox.listFolderLoaded.disconnect(root.listFolderLoaded);
         _qdropbox.listFolderContinueLoaded.disconnect(root.listFolderContinueLoaded);
+        _qdropbox.folderCreated.disconnect(root.folderCreated);
     }
     
     onCreationCompleted: {
         _qdropbox.listFolderLoaded.connect(root.listFolderLoaded);
         _qdropbox.listFolderContinueLoaded.connect(root.listFolderContinueLoaded);
+        _qdropbox.folderCreated.connect(root.folderCreated);
     }
     
     onPathChanged: {

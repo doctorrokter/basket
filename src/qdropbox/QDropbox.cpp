@@ -109,7 +109,7 @@ void QDropbox::listFolder(const QString& path, const bool& includeMediaInfo, con
 }
 
 void QDropbox::onListFolderLoaded() {
-    QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    QNetworkReply* reply = getReply();
 
     if (reply->error() == QNetworkReply::NoError) {
         QJson::Parser parser;
@@ -152,7 +152,7 @@ void QDropbox::listFolderContinue(const QString& cursor) {
 }
 
 void QDropbox::onListFolderContinueLoaded() {
-    QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    QNetworkReply* reply = getReply();
 
     if (reply->error() == QNetworkReply::NoError) {
         QJson::Parser parser;
@@ -177,6 +177,40 @@ void QDropbox::onListFolderContinueLoaded() {
     reply->deleteLater();
 }
 
+void QDropbox::createFolder(const QString& path, const bool& autorename) {
+    QNetworkRequest req = prepareRequest("/files/create_folder_v2");
+    QVariantMap map;
+    map["path"] = path;
+    map["autorename"] = autorename;
+
+    QJson::Serializer serializer;
+    QNetworkReply* reply = m_network.post(req, serializer.serialize(map));
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onFolderCreated()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void QDropbox::onFolderCreated() {
+    QNetworkReply* reply = getReply();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        QJson::Parser parser;
+        bool* res = new bool(false);
+        QVariant data = parser.parse(reply->readAll(), res);
+        if (*res) {
+            QDropboxFile* pFolder = new QDropboxFile(this);
+            pFolder->fromMap(data.toMap().value("metadata").toMap());
+            pFolder->setTag("folder");
+            emit folderCreated(pFolder);
+        }
+        delete res;
+    }
+
+    reply->deleteLater();
+}
+
 void QDropbox::getAccount(const QString& accountId) {
     QNetworkRequest req = prepareRequest("/users/get_account");
     QVariantMap map;
@@ -193,7 +227,7 @@ void QDropbox::getAccount(const QString& accountId) {
 }
 
 void QDropbox::onAccountLoaded() {
-    QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    QNetworkReply* reply = getReply();
 
     if (reply->error() == QNetworkReply::NoError) {
         QJson::Parser parser;
@@ -221,7 +255,7 @@ void QDropbox::getCurrentAccount() {
 }
 
 void QDropbox::onCurrentAccountLoaded() {
-    QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    QNetworkReply* reply = getReply();
 
     if (reply->error() == QNetworkReply::NoError) {
         QJson::Parser parser;
@@ -249,7 +283,7 @@ void QDropbox::getSpaceUsage() {
 }
 
 void QDropbox::onSpaceUsageLoaded() {
-    QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    QNetworkReply* reply = getReply();
 
     if (reply->error() == QNetworkReply::NoError) {
         QJson::Parser parser;
@@ -267,7 +301,7 @@ void QDropbox::onSpaceUsageLoaded() {
 }
 
 void QDropbox::onError(QNetworkReply::NetworkError e) {
-    QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    QNetworkReply* reply = getReply();
     logger.error(reply->errorString());
     logger.error(e);
 }
@@ -298,4 +332,8 @@ QNetworkRequest QDropbox::prepareRequest(const QString& apiMethod) {
     logger.debug(url);
 
     return req;
+}
+
+QNetworkReply* QDropbox::getReply() {
+    return qobject_cast<QNetworkReply*>(QObject::sender());
 }

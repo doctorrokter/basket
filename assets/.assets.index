@@ -1,5 +1,5 @@
 1
-41
+42
 sheets/FilePickersSheet.qml
 main.qml
 components/GridListItem.qml
@@ -7,6 +7,7 @@ components/PropListItem.qml
 components/BackgroundContainer.qml
 components/FilesMover.qml
 components/StackListItem.qml
+components/InputTitleBar.qml
 components/FilesUploader.qml
 pages/HelpPage.qml
 pages/AuthPage.qml

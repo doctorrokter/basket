@@ -16,6 +16,8 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, QObject* parent) : QO
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(listFolderContinueLoaded(QList<QDropboxFile*>&, const QString&, const QString&, const bool&)), this, SLOT(onListFolderContinueLoaded(QList<QDropboxFile*>&, const QString&, const QString&, const bool&)));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(folderCreated(QDropboxFile*)), this, SLOT(onFolderCreated(QDropboxFile*)));
+    Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(currentAccountLoaded(Account*)), this, SIGNAL(currentAccountLoaded(Account*)));
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(spaceUsageLoaded(QDropboxSpaceUsage*)), this, SLOT(onSpaceUsageLoaded(QDropboxSpaceUsage*)));
@@ -27,6 +29,8 @@ QDropboxController::~QDropboxController() {
     bool res = QObject::disconnect(m_pQDropbox, SIGNAL(listFolderLoaded(const QString&, QList<QDropboxFile*>&, const QString&, const bool&)), this, SLOT(onListFolderLoaded(const QString&, QList<QDropboxFile*>&, const QString&, const bool&)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(listFolderContinueLoaded(QList<QDropboxFile*>&, const QString&, const QString&, const bool&)), this, SLOT(onListFolderContinueLoaded(QList<QDropboxFile*>&, const QString&, const QString&, const bool&)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(folderCreated(QDropboxFile*)), this, SLOT(onFolderCreated(QDropboxFile*)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(currentAccountLoaded(Account*)), this, SIGNAL(currentAccountLoaded(Account*)));
     Q_ASSERT(res);
@@ -78,6 +82,15 @@ void QDropboxController::onListFolderContinueLoaded(QList<QDropboxFile*>& files,
     }
     emit listFolderContinueLoaded(list, prevCursor, cursor, hasMore);
     clear(files);
+}
+
+void QDropboxController::createFolder(const QString& path) {
+    m_pQDropbox->createFolder(path, false);
+}
+
+void QDropboxController::onFolderCreated(QDropboxFile* folder) {
+    emit folderCreated(folder->toMap());
+    folder->deleteLater();
 }
 
 void QDropboxController::getCurrentAccount() {

@@ -28,18 +28,21 @@ public:
     Q_INVOKABLE QString popPath();
     Q_INVOKABLE void listFolder(const QString& path = "", const int& limit = 0);
     Q_INVOKABLE void listFolderContinue(const QString& cursor);
+    Q_INVOKABLE void createFolder(const QString& path);
     Q_INVOKABLE void getCurrentAccount();
     Q_INVOKABLE void getSpaceUsage();
 
     Q_SIGNALS:
         void listFolderLoaded(const QString& path, const QVariantList& files, const QString& cursor, const bool& hasMore);
         void listFolderContinueLoaded(const QVariantList& files, const QString& prevCursor, const QString& cursor, const bool& hasMore);
+        void folderCreated(const QVariantMap& folder);
         void currentAccountLoaded(Account* account);
         void spaceUsageLoaded(const QVariantMap& spaceUsage);
 
 private slots:
     void onListFolderLoaded(const QString& path, QList<QDropboxFile*>& files, const QString& cursor, const bool& hasMore);
     void onListFolderContinueLoaded(QList<QDropboxFile*>& files, const QString& prevCursor, const QString& cursor, const bool& hasMore);
+    void onFolderCreated(QDropboxFile* folder);
     void onSpaceUsageLoaded(QDropboxSpaceUsage* spaceUsage);
 
 private:
