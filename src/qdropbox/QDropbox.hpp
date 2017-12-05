@@ -13,10 +13,12 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QList>
+#include <QVariantMap>
 
 #include "SharedLink.hpp"
 #include "QDropboxFile.hpp"
 #include "Account.hpp"
+#include "QDropboxSpaceUsage.hpp"
 #include "../Logger.hpp"
 
 class QDropbox : public QObject {
@@ -55,26 +57,29 @@ public:
     // users
     void getAccount(const QString& accountId);
     void getCurrentAccount();
+    void getSpaceUsage();
 
 Q_SIGNALS:
     void accessTokenChanged(const QString& accessToken);
 
-    // files
+    // files signals
     void listFolderLoaded(const QString& path, QList<QDropboxFile*>& files, const QString& cursor, const bool& hasMore);
 
-    // users
+    // users signals
     void accountLoaded(Account* account);
     void currentAccountLoaded(Account* account);
+    void spaceUsageLoaded(QDropboxSpaceUsage* spaceUsage);
 
 private slots:
     void onError(QNetworkReply::NetworkError e);
 
-    // files
+    // files slots
     void onListFolderLoaded();
 
-    // users
+    // users slots
     void onAccountLoaded();
     void onCurrentAccountLoaded();
+    void onSpaceUsageLoaded();
 
 private:
     static Logger logger;

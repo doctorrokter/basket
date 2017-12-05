@@ -70,7 +70,11 @@ NavigationPane {
         _app.currentAccountLoaded.connect(function(account) {
             fp.account = account;
         });
+        _qdropbox.spaceUsageLoaded.connect(function(spaceUsage) {
+            fp.spaceUsage = spaceUsage;
+        });
         _qdropbox.getCurrentAccount();
+        _qdropbox.getSpaceUsage();
     }
     
     onPopTransitionEnded: {

@@ -156,6 +156,15 @@
     </message>
 </context>
 <context>
+    <name>FolderPage</name>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="201"/>
+        <location filename="../assets/pages/FolderPage.qml" line="202"/>
+        <source>GB</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GridListItem</name>
     <message>
         <location filename="../assets/components/GridListItem.qml" line="177"/>

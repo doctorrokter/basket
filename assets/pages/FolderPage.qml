@@ -12,6 +12,9 @@ Page {
     property bool hasMore: true
     property int limit: 50
     property variant account: undefined
+    property variant spaceUsage: undefined
+    
+    property int bytesInGB: 1073741824
     
     titleBar: TitleBar {
         kind: TitleBarKind.FreeForm
@@ -55,16 +58,16 @@ Page {
                     textStyle.fontSizeValue: 7
                     text: root.account === undefined ? "" : root.account.email
                 }
-//                
-//                Label {
-//                    id: bytesLabel
-//                    visible: path === "/" && _userController.user !== null
-//                    verticalAlignment: VerticalAlignment.Bottom
-//                    horizontalAlignment: HorizontalAlignment.Right
-//                    textStyle.base: SystemDefaults.TextStyles.SubtitleText
-//                    textStyle.fontSize: FontSize.PointValue
-//                    textStyle.fontSizeValue: 7
-//                }
+                
+                Label {
+                    id: bytesLabel
+                    visible: root.spaceUsage !== undefined
+                    verticalAlignment: VerticalAlignment.Bottom
+                    horizontalAlignment: HorizontalAlignment.Right
+                    textStyle.base: SystemDefaults.TextStyles.SubtitleText
+                    textStyle.fontSize: FontSize.PointValue
+                    textStyle.fontSizeValue: 7
+                }
             }
         }
     }
@@ -193,6 +196,11 @@ Page {
             id: rootDisplayInfo
         }
     ]
+    
+    onSpaceUsageChanged: {
+        bytesLabel.text = (Number(spaceUsage.used / root.bytesInGB).toFixed(1) + qsTr("GB") + Retranslate.onLocaleOrLanguageChanged) + 
+        "/" + (Number(spaceUsage.allocation.allocated / root.bytesInGB).toFixed(1) + qsTr("GB") + Retranslate.onLocaleOrLanguageChanged);
+    }
     
     function listFolderLoaded(path, files, cursor, hasMore) {
         if (root.path === path) {

@@ -157,7 +157,7 @@ void QDropbox::onAccountLoaded() {
         QJson::Parser parser;
         bool* res = new bool(false);
         QVariant data = parser.parse(reply->readAll(), res);
-        if (res) {
+        if (*res) {
             Account* account = new Account(this);
             account->fromMap(data.toMap());
             emit accountLoaded(account);
@@ -185,10 +185,38 @@ void QDropbox::onCurrentAccountLoaded() {
         QJson::Parser parser;
         bool* res = new bool(false);
         QVariant data = parser.parse(reply->readAll(), res);
-        if (res) {
+        if (*res) {
             Account* account = new Account(this);
             account->fromMap(data.toMap());
             emit currentAccountLoaded(account);
+        }
+        delete res;
+    }
+
+    reply->deleteLater();
+}
+
+void QDropbox::getSpaceUsage() {
+    QNetworkRequest req = prepareRequest("/users/get_space_usage");
+    QNetworkReply* reply = m_network.post(req, "null");
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onSpaceUsageLoaded()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void QDropbox::onSpaceUsageLoaded() {
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
+
+    if (reply->error() == QNetworkReply::NoError) {
+        QJson::Parser parser;
+        bool* res = new bool(false);
+        QVariant data = parser.parse(reply->readAll(), res);
+        if (*res) {
+            QDropboxSpaceUsage* spaceUsage = new QDropboxSpaceUsage(this);
+            spaceUsage->fromMap(data.toMap());
+            emit spaceUsageLoaded(spaceUsage);
         }
         delete res;
     }

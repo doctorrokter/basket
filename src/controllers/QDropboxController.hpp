@@ -14,6 +14,7 @@
 #include "../qdropbox/QDropbox.hpp"
 #include "../qdropbox/QDropboxFile.hpp"
 #include "../qdropbox/Account.hpp"
+#include "../qdropbox/QDropboxSpaceUsage.hpp"
 #include "../Logger.hpp"
 
 class QDropboxController: public QObject {
@@ -27,13 +28,16 @@ public:
     Q_INVOKABLE QString popPath();
     Q_INVOKABLE void listFolder(const QString& path = "", const int& limit = 0);
     Q_INVOKABLE void getCurrentAccount();
+    Q_INVOKABLE void getSpaceUsage();
 
     Q_SIGNALS:
         void listFolderLoaded(const QString& path, const QVariantList& files, const QString& cursor, const bool& hasMore);
         void currentAccountLoaded(Account* account);
+        void spaceUsageLoaded(const QVariantMap& spaceUsage);
 
 private slots:
     void onListFolderLoaded(const QString& path, QList<QDropboxFile*>& files, const QString& cursor, const bool& hasMore);
+    void onSpaceUsageLoaded(QDropboxSpaceUsage* spaceUsage);
 
 private:
     static Logger logger;
