@@ -103,6 +103,8 @@ void QDropbox::listFolder(const QString& path, const bool& includeMediaInfo, con
     reply->setProperty("path", path);
     bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onListFolderLoaded()));
     Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
     Q_UNUSED(res);
 }
 
@@ -127,9 +129,49 @@ void QDropbox::onListFolderLoaded() {
             emit listFolderLoaded(reply->property("path").toString(), files, cursor, hasMore);
         }
         delete res;
-    } else {
-        logger.error(reply->error());
-        logger.error(reply->errorString());
+    }
+
+    reply->deleteLater();
+}
+
+void QDropbox::listFolderContinue(const QString& cursor) {
+    QNetworkRequest req = prepareRequest("/files/list_folder/continue");
+    QVariantMap map;
+    map["cursor"] = cursor;
+
+    QJson::Serializer serializer;
+
+    QNetworkReply* reply = m_network.post(req, serializer.serialize(map));
+    reply->setProperty("cursor", cursor);
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onListFolderContinueLoaded()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+
+}
+
+void QDropbox::onListFolderContinueLoaded() {
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
+
+    if (reply->error() == QNetworkReply::NoError) {
+        QJson::Parser parser;
+        bool* res = new bool(false);
+        QVariant data = parser.parse(reply->readAll(), res);
+        if (*res) {
+            QVariantMap dataMap = data.toMap();
+            QString cursor = dataMap.value("cursor").toString();
+            bool hasMore = dataMap.value("has_more").toBool();
+            QVariantList entries = dataMap.value("entries").toList();
+            QList<QDropboxFile*> files;
+            foreach(QVariant v, entries) {
+                QDropboxFile* pFile = new QDropboxFile(this);
+                pFile->fromMap(v.toMap());
+                files.append(pFile);
+            }
+            emit listFolderContinueLoaded(files, reply->property("cursor").toString(), cursor, hasMore);
+        }
+        delete res;
     }
 
     reply->deleteLater();

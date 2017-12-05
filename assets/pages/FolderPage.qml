@@ -16,6 +16,9 @@ Page {
     
     property int bytesInGB: 1073741824
     
+    actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
+    actionBarVisibility: ChromeVisibility.Overlay
+    
     titleBar: TitleBar {
         kind: TitleBarKind.FreeForm
         kindProperties: FreeFormTitleBarKindProperties {
@@ -115,12 +118,23 @@ Page {
                 }
                 
                 layout: {
-                    var view = _app.prop("files_view", "grid");
+                    var view = _app.prop("files_view", "stack");
                     if (view === "grid") {
                         return gridListLayout;
                     }
                     return stackListLayout;
                 }
+                
+                attachedObjects: [
+                    ListScrollStateHandler {
+                        onScrollingChanged: {
+                           if (atEnd && !spinner.running && root.hasMore) {
+                              spinner.start();
+                              _qdropbox.listFolderContinue(root.cursor);
+                           }
+                        }
+                    }
+                ]
                 
                 function itemType(data, indexPath) {
                     if (layout.objectName === "stackListLayout") {
@@ -173,7 +187,23 @@ Page {
                 ]
             }
         }
+        
+        ActivityIndicator {
+            id: spinner
+            minWidth: ui.du(20)
+            verticalAlignment: VerticalAlignment.Center
+            horizontalAlignment: HorizontalAlignment.Center
+        }
     }
+    
+    actions: [
+        ActionItem {
+            id: createFolder
+            title: qsTr("Create folder") + Retranslate.onLocaleOrLanguageChanged
+            imageSource: "asset:///images/ic_add_folder.png"
+            ActionBar.placement: ActionBarPlacement.Signature
+        }
+    ]
     
     attachedObjects: [
         GridListLayout {
@@ -203,7 +233,17 @@ Page {
     }
     
     function listFolderLoaded(path, files, cursor, hasMore) {
+        spinner.stop();
         if (root.path === path) {
+            root.cursor = cursor;
+            root.hasMore = hasMore;
+            dataModel.append(files);
+        }
+    }
+    
+    function listFolderContinueLoaded(files, prevCursor, cursor, hasMore) {
+        spinner.stop();
+        if (root.cursor === prevCursor) {
             root.cursor = cursor;
             root.hasMore = hasMore;
             dataModel.append(files);
@@ -213,13 +253,16 @@ Page {
     function cleanUp() {
         _qdropbox.popPath();
         _qdropbox.listFolderLoaded.disconnect(root.listFolderLoaded);
+        _qdropbox.listFolderContinueLoaded.disconnect(root.listFolderContinueLoaded);
     }
     
     onCreationCompleted: {
         _qdropbox.listFolderLoaded.connect(root.listFolderLoaded);
+        _qdropbox.listFolderContinueLoaded.connect(root.listFolderContinueLoaded);
     }
     
     onPathChanged: {
+        spinner.start();
         _qdropbox.listFolder(root.path, root.limit);
     }
 }

@@ -14,6 +14,8 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, QObject* parent) : QO
 
     bool res = QObject::connect(m_pQDropbox, SIGNAL(listFolderLoaded(const QString&, QList<QDropboxFile*>&, const QString&, const bool&)), this, SLOT(onListFolderLoaded(const QString&, QList<QDropboxFile*>&, const QString&, const bool&)));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(listFolderContinueLoaded(QList<QDropboxFile*>&, const QString&, const QString&, const bool&)), this, SLOT(onListFolderContinueLoaded(QList<QDropboxFile*>&, const QString&, const QString&, const bool&)));
+    Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(currentAccountLoaded(Account*)), this, SIGNAL(currentAccountLoaded(Account*)));
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(spaceUsageLoaded(QDropboxSpaceUsage*)), this, SLOT(onSpaceUsageLoaded(QDropboxSpaceUsage*)));
@@ -23,6 +25,8 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, QObject* parent) : QO
 
 QDropboxController::~QDropboxController() {
     bool res = QObject::disconnect(m_pQDropbox, SIGNAL(listFolderLoaded(const QString&, QList<QDropboxFile*>&, const QString&, const bool&)), this, SLOT(onListFolderLoaded(const QString&, QList<QDropboxFile*>&, const QString&, const bool&)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(listFolderContinueLoaded(QList<QDropboxFile*>&, const QString&, const QString&, const bool&)), this, SLOT(onListFolderContinueLoaded(QList<QDropboxFile*>&, const QString&, const QString&, const bool&)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(currentAccountLoaded(Account*)), this, SIGNAL(currentAccountLoaded(Account*)));
     Q_ASSERT(res);
@@ -60,6 +64,19 @@ void QDropboxController::onListFolderLoaded(const QString& path, QList<QDropboxF
         }
         emit listFolderLoaded(path, list, cursor, hasMore);
     }
+    clear(files);
+}
+
+void QDropboxController::listFolderContinue(const QString& cursor) {
+    m_pQDropbox->listFolderContinue(cursor);
+}
+
+void QDropboxController::onListFolderContinueLoaded(QList<QDropboxFile*>& files, const QString& prevCursor, const QString& cursor, const bool& hasMore) {
+    QVariantList list;
+    foreach(QDropboxFile* f, files) {
+        list.append(f->toMap());
+    }
+    emit listFolderContinueLoaded(list, prevCursor, cursor, hasMore);
     clear(files);
 }
 

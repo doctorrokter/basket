@@ -53,6 +53,7 @@ public:
     void listFolder(const QString& path = "", const bool& includeMediaInfo = false, const bool& recursive = false,
                     const bool& includeDeleted = false, const bool& includeHasExplicitSharedMembers = false, const bool& includeMountedFolders = true,
                     const int& limit = 0, SharedLink sharedLink = SharedLink());
+    void listFolderContinue(const QString& cursor);
 
     // users
     void getAccount(const QString& accountId);
@@ -64,6 +65,7 @@ Q_SIGNALS:
 
     // files signals
     void listFolderLoaded(const QString& path, QList<QDropboxFile*>& files, const QString& cursor, const bool& hasMore);
+    void listFolderContinueLoaded(QList<QDropboxFile*>& files, const QString& prevCursor, const QString& cursor, const bool& hasMore);
 
     // users signals
     void accountLoaded(Account* account);
@@ -75,6 +77,7 @@ private slots:
 
     // files slots
     void onListFolderLoaded();
+    void onListFolderContinueLoaded();
 
     // users slots
     void onAccountLoaded();
