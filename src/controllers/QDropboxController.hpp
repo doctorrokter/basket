@@ -30,6 +30,7 @@ public:
     Q_INVOKABLE void listFolderContinue(const QString& cursor);
     Q_INVOKABLE void createFolder(const QString& path);
     Q_INVOKABLE void deleteFile(const QString& path);
+    Q_INVOKABLE void move(const QString& fromPath, const QString& toPath);
     Q_INVOKABLE void getCurrentAccount();
     Q_INVOKABLE void getSpaceUsage();
 
@@ -38,6 +39,7 @@ public:
         void listFolderContinueLoaded(const QVariantList& files, const QString& prevCursor, const QString& cursor, const bool& hasMore);
         void folderCreated(const QVariantMap& folder);
         void fileDeleted(const QVariantMap& file);
+        void moved(const QVariantMap& file);
         void currentAccountLoaded(Account* account);
         void spaceUsageLoaded(const QVariantMap& spaceUsage);
 
@@ -46,6 +48,7 @@ private slots:
     void onListFolderContinueLoaded(QList<QDropboxFile*>& files, const QString& prevCursor, const QString& cursor, const bool& hasMore);
     void onFolderCreated(QDropboxFile* folder);
     void onFileDeleted(QDropboxFile* file);
+    void onMoved(QDropboxFile* file);
     void onSpaceUsageLoaded(QDropboxSpaceUsage* spaceUsage);
 
 private:

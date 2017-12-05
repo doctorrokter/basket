@@ -170,19 +170,6 @@ CustomListItem {
     attachedObjects: [
         DisplayInfo {
             id: displayInfo
-        },
-        
-        SystemPrompt {
-            id: renamePrompt
-            
-            title: qsTr("Enter new name") + Retranslate.onLocaleOrLanguageChanged
-            dismissAutomatically: true
-            
-            onFinished: {
-                if (value === 2) {
-                    var newName = renamePrompt.inputFieldTextEntry();
-                }
-            }    
         }
     ]
     
@@ -193,32 +180,10 @@ CustomListItem {
                     pathDisplay: root.pathDisplay    
                 },
                 
-                ActionItem {
-                    id: renameAction
-                    title: qsTr("Rename") + Retranslate.onLocaleOrLanguageChanged
-                    imageSource: "asset:///images/ic_rename.png"
-                    
-                    onTriggered: {
-                        if (!root.dir) {
-                            var ext = "." + root.ext.toLowerCase();
-                            var regEx = new RegExp(ext, "ig");
-                            var name = root.name.replace(regEx, "");
-                            renamePrompt.inputField.defaultText = name;
-                        } else {
-                            renamePrompt.inputField.defaultText = root.name;
-                        }
-                        renamePrompt.show();
-                    }
-                    
-                    shortcuts: [
-                        SystemShortcut {
-                            type: SystemShortcuts.Edit
-                            
-                            onTriggered: {
-                                renameAction.triggered();
-                            }
-                        }
-                    ]
+                RenameFileAction {
+                    name: root.name
+                    path: root.pathDisplay
+                    isDir: root.isDir()
                 },
                 
                 ActionItem {

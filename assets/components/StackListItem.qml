@@ -23,21 +23,6 @@ CustomListItem {
     
     opacity: root.ListItem.selected ? 0.5 : 1.0
     
-    attachedObjects: [
-        SystemPrompt {
-            id: renamePrompt
-            
-            title: qsTr("Enter new name") + Retranslate.onLocaleOrLanguageChanged
-            dismissAutomatically: true
-            
-            onFinished: {
-                if (value === 2) {
-                    var newName = renamePrompt.inputFieldTextEntry();
-                }
-            }    
-        }
-    ]
-    
     contextActions: [
         ActionSet {
             
@@ -46,32 +31,10 @@ CustomListItem {
                     pathDisplay: root.pathDisplay    
                 },
                 
-                ActionItem {
-                    id: renameAction
-                    title: qsTr("Rename") + Retranslate.onLocaleOrLanguageChanged
-                    imageSource: "asset:///images/ic_rename.png"
-                    
-                    onTriggered: {
-                        if (!root.isDir()) {
-                            var ext = "." + _file.extension(root.name).toLowerCase();
-                            var regEx = new RegExp(ext, "ig");
-                            var name = root.name.replace(regEx, "");
-                            renamePrompt.inputField.defaultText = name;
-                        } else {
-                            renamePrompt.inputField.defaultText = root.name;
-                        }
-                        renamePrompt.show();
-                    }
-                    
-                    shortcuts: [
-                        SystemShortcut {
-                            type: SystemShortcuts.Edit
-                            
-                            onTriggered: {
-                                renameAction.triggered();
-                            }
-                        }
-                    ]
+                RenameFileAction {
+                    name: root.name
+                    path: root.pathDisplay
+                    isDir: root.isDir()
                 },
                 
                 ActionItem {

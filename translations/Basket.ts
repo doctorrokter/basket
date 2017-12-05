@@ -172,37 +172,27 @@
 <context>
     <name>GridListItem</name>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="178"/>
-        <source>Enter new name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/components/GridListItem.qml" line="212"/>
-        <source>Rename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/components/GridListItem.qml" line="240"/>
+        <location filename="../assets/components/GridListItem.qml" line="191"/>
         <source>Move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="256"/>
+        <location filename="../assets/components/GridListItem.qml" line="207"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="274"/>
+        <location filename="../assets/components/GridListItem.qml" line="225"/>
         <source>Unpublish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="276"/>
+        <location filename="../assets/components/GridListItem.qml" line="227"/>
         <source>Publish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="293"/>
+        <location filename="../assets/components/GridListItem.qml" line="244"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
@@ -240,6 +230,19 @@
     <message>
         <location filename="../src/qjson/parserrunnable.cpp" line="64"/>
         <source>An error occurred while parsing json: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RenameFileAction</name>
+    <message>
+        <location filename="../assets/actions/RenameFileAction.qml" line="11"/>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/actions/RenameFileAction.qml" line="43"/>
+        <source>Enter new name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -289,42 +292,32 @@
 <context>
     <name>StackListItem</name>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="30"/>
-        <source>Enter new name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/components/StackListItem.qml" line="69"/>
-        <source>Rename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/components/StackListItem.qml" line="97"/>
+        <location filename="../assets/components/StackListItem.qml" line="42"/>
         <source>Move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="113"/>
+        <location filename="../assets/components/StackListItem.qml" line="58"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="133"/>
+        <location filename="../assets/components/StackListItem.qml" line="78"/>
         <source>Unpublish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="135"/>
+        <location filename="../assets/components/StackListItem.qml" line="80"/>
         <source>Publish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="152"/>
+        <location filename="../assets/components/StackListItem.qml" line="97"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="300"/>
+        <location filename="../assets/components/StackListItem.qml" line="245"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>

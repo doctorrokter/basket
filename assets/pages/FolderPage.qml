@@ -308,6 +308,17 @@ Page {
         }
     }
     
+    function moved(file) {
+        var p = file.path_lower;
+        if (root.isInRoot(p) || p.indexOf(root.path) !== -1) {
+            for (var i = 0; i < dataModel.size(); i++) {
+                if (dataModel.value(i).id === file.id) {
+                    dataModel.replace(i, file);
+                }
+            }
+        }
+    }
+    
     function isInRoot(path) {
         return root.path === "" && path.split("/").length === 2;
     }
@@ -318,6 +329,7 @@ Page {
         _qdropbox.listFolderContinueLoaded.disconnect(root.listFolderContinueLoaded);
         _qdropbox.folderCreated.disconnect(root.folderCreated);
         _qdropbox.fileDeleted.disconnect(root.fileDeleted);
+        _qdropbox.moved.disconnect(root.moved);
     }
     
     onCreationCompleted: {
@@ -325,6 +337,7 @@ Page {
         _qdropbox.listFolderContinueLoaded.connect(root.listFolderContinueLoaded);
         _qdropbox.folderCreated.connect(root.folderCreated);
         _qdropbox.fileDeleted.connect(root.fileDeleted);
+        _qdropbox.moved.connect(root.moved);
     }
     
     onPathChanged: {
