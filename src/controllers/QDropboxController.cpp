@@ -22,6 +22,8 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, QObject* parent) : QO
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(moved(QDropboxFile*)), this, SLOT(onMoved(QDropboxFile*)));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(renamed(QDropboxFile*)), this, SLOT(onRenamed(QDropboxFile*)));
+    Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(currentAccountLoaded(Account*)), this, SIGNAL(currentAccountLoaded(Account*)));
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(spaceUsageLoaded(QDropboxSpaceUsage*)), this, SLOT(onSpaceUsageLoaded(QDropboxSpaceUsage*)));
@@ -39,6 +41,8 @@ QDropboxController::~QDropboxController() {
     res = QObject::disconnect(m_pQDropbox, SIGNAL(fileDeleted(QDropboxFile*)), this, SLOT(onFileDeleted(QDropboxFile*)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(moved(QDropboxFile*)), this, SLOT(onMoved(QDropboxFile*)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(renamed(QDropboxFile*)), this, SLOT(onRenamed(QDropboxFile*)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(currentAccountLoaded(Account*)), this, SIGNAL(currentAccountLoaded(Account*)));
     Q_ASSERT(res);
@@ -111,13 +115,22 @@ void QDropboxController::onFileDeleted(QDropboxFile* file) {
 }
 
 void QDropboxController::move(const QString& fromPath, const QString& toPath) {
-    logger.debug("from path: " + fromPath);
-    logger.debug("to path: " + toPath);
     m_pQDropbox->move(fromPath, toPath);
+}
+
+void QDropboxController::rename(const QString& fromPath, const QString& toPath) {
+    m_pQDropbox->rename(fromPath, toPath);
 }
 
 void QDropboxController::onMoved(QDropboxFile* file) {
     emit moved(file->toMap());
+    m_selected.clear();
+    emit selectedChanged(m_selected);
+    file->deleteLater();
+}
+
+void QDropboxController::onRenamed(QDropboxFile* file) {
+    emit renamed(file->toMap());
     file->deleteLater();
 }
 
@@ -132,6 +145,25 @@ void QDropboxController::getSpaceUsage() {
 void QDropboxController::onSpaceUsageLoaded(QDropboxSpaceUsage* spaceUsage) {
     emit spaceUsageLoaded(spaceUsage->toMap());
     spaceUsage->deleteLater();
+}
+
+const QVariantList& QDropboxController::getSelected() const {
+    return m_selected;
+}
+
+void QDropboxController::setSelected(const QVariantList& selected) {
+    m_selected = selected;
+    emit selectedChanged(m_selected);
+}
+
+void QDropboxController::select(const QVariantMap& file) {
+    m_selected.append(file);
+    emit selectedChanged(m_selected);
+}
+
+void QDropboxController::unselectAll() {
+    m_selected.clear();
+    emit selectedChanged(m_selected);
 }
 
 void QDropboxController::clear(QList<QDropboxFile*>& files) {

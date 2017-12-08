@@ -5,6 +5,7 @@ Container {
     
     property string path: ""
     
+    visible: _qdropbox.selected.length > 0    
     horizontalAlignment: HorizontalAlignment.Fill
     
     layout: DockLayout {}
@@ -16,12 +17,16 @@ Container {
         margin.leftOffset: ui.du(2)
         margin.topOffset: ui.du(2)
         margin.bottomOffset: ui.du(2)
+        
+        onClicked: {
+            _qdropbox.unselectAll();
+        }
     }
     
     Label {
         horizontalAlignment: HorizontalAlignment.Center
         verticalAlignment: VerticalAlignment.Center
-        text: qsTr("Selected") + Retranslate.onLocaleOrLanguageChanged + " " + 0
+        text: qsTr("Selected") + Retranslate.onLocaleOrLanguageChanged + " " + _qdropbox.selected.length
     }
     
     Button {
@@ -31,6 +36,12 @@ Container {
         margin.topOffset: ui.du(2)
         margin.rightOffset: ui.du(2)
         margin.bottomOffset: ui.du(2)
+        
+        onClicked: {
+            _qdropbox.selected.forEach(function(file) {
+                _qdropbox.move(file.path_display, root.path + "/" + file.name);
+            });
+        }
     }
     
     Divider {

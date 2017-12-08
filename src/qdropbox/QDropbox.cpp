@@ -244,16 +244,7 @@ void QDropbox::onFileDeleted() {
 }
 
 void QDropbox::move(const QString& fromPath, const QString& toPath, const bool& allowSharedFolder, const bool& autorename, const bool& allowOwnershipTransfer) {
-    QNetworkRequest req = prepareRequest("/files/move_v2");
-    QVariantMap map;
-    map["from_path"] = fromPath;
-    map["to_path"] = toPath;
-    map["allow_shared_folder"] = allowSharedFolder;
-    map["autorename"] = autorename;
-    map["allow_ownership_transfer"] = allowOwnershipTransfer;
-
-    QJson::Serializer serializer;
-    QNetworkReply* reply = m_network.post(req, serializer.serialize(map));
+    QNetworkReply* reply = moveFile(fromPath, toPath, allowSharedFolder, autorename, allowOwnershipTransfer);
     bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onMoved()));
     Q_ASSERT(res);
     res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
@@ -272,6 +263,33 @@ void QDropbox::onMoved() {
             QDropboxFile* pFile = new QDropboxFile(this);
             pFile->fromMap(data.toMap().value("metadata").toMap());
             emit moved(pFile);
+        }
+        delete res;
+    }
+
+    reply->deleteLater();
+}
+
+void QDropbox::rename(const QString& fromPath, const QString& toPath, const bool& allowSharedFolder, const bool& autorename, const bool& allowOwnershipTransfer) {
+    QNetworkReply* reply = moveFile(fromPath, toPath, allowSharedFolder, autorename, allowOwnershipTransfer);
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onRenamed()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void QDropbox::onRenamed() {
+    QNetworkReply* reply = getReply();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        QJson::Parser parser;
+        bool* res = new bool(false);
+        QVariant data = parser.parse(reply->readAll(), res);
+        if (*res) {
+            QDropboxFile* pFile = new QDropboxFile(this);
+            pFile->fromMap(data.toMap().value("metadata").toMap());
+            emit renamed(pFile);
         }
         delete res;
     }
@@ -407,4 +425,17 @@ QNetworkRequest QDropbox::prepareRequest(const QString& apiMethod) {
 
 QNetworkReply* QDropbox::getReply() {
     return qobject_cast<QNetworkReply*>(QObject::sender());
+}
+
+QNetworkReply* QDropbox::moveFile(const QString& fromPath, const QString& toPath, const bool& allowSharedFolder, const bool& autorename, const bool& allowOwnershipTransfer) {
+    QNetworkRequest req = prepareRequest("/files/move_v2");
+    QVariantMap map;
+    map["from_path"] = fromPath;
+    map["to_path"] = toPath;
+    map["allow_shared_folder"] = allowSharedFolder;
+    map["autorename"] = autorename;
+    map["allow_ownership_transfer"] = allowOwnershipTransfer;
+
+    QJson::Serializer serializer;
+    return m_network.post(req, serializer.serialize(map));
 }

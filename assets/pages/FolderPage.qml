@@ -16,6 +16,8 @@ Page {
     
     property int bytesInGB: 1073741824
     
+    signal listFolder(string path, string name)
+    
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     actionBarVisibility: ChromeVisibility.Overlay
     
@@ -36,9 +38,9 @@ Page {
                 title: path
             }
             
-//            FilesMover {
-//                path: root.path
-//            }
+            FilesMover {
+                path: root.path
+            }
 //            
 //            FilesUploader {
 //                path: root.path
@@ -87,6 +89,23 @@ Page {
                         return "listItem";
                     } else {
                         return "gridItem";
+                    }
+                }
+                
+                function removeFile(file) {
+                    for (var i = 0; i < dataModel.size(); i++) {
+                        var data = dataModel.value(i);
+                        if (data.id === file.id) {
+                            dataModel.removeAt(i);
+                            return;
+                        }
+                    }
+                }
+                
+                onTriggered: {
+                    var file = dataModel.data(indexPath);
+                    if (file[".tag"] === "folder") {
+                        root.listFolder(file.path_display, file.name);
                     }
                 }
                 
@@ -298,7 +317,7 @@ Page {
     }
     
     function fileDeleted(file) {
-        var p = file.path_lower;
+        var p = file.path_display;
         if (root.isInRoot(p) || p.indexOf(root.path) !== -1) {
             for (var i = 0; i < dataModel.size(); i++) {
                 if (dataModel.value(i).id === file.id) {
@@ -308,8 +327,30 @@ Page {
         }
     }
     
+    function isDir(file) {
+        return file[".tag"] === "folder";
+    }
+    
     function moved(file) {
-        var p = file.path_lower;
+        var i = root.isExists(file);
+        if (i !== -1) {
+            dataModel.removeAt(i);
+        } else {
+            var p = file.path_display.replace('/' + file.name, '');
+            if (p === root.path) {
+                if (isDir(file)) {
+                    dataModel.insert(0, file);
+                    listView.scrollToPosition(ScrollPosition.Beginning, ScrollAnimation.Smooth);
+                } else {
+                    dataModel.append(file);
+                    listView.scrollToPosition(ScrollPosition.End, ScrollAnimation.Smooth);
+                }
+            }
+        }
+    }
+    
+    function renamed(file) {
+        var p = file.path_display;
         if (root.isInRoot(p) || p.indexOf(root.path) !== -1) {
             for (var i = 0; i < dataModel.size(); i++) {
                 if (dataModel.value(i).id === file.id) {
@@ -317,6 +358,15 @@ Page {
                 }
             }
         }
+    }
+    
+    function isExists(file) {
+        for (var i = 0; i < dataModel.size(); i++) {
+            if (dataModel.value(i).id === file.id) {
+                return i;
+            }
+        }
+        return -1;
     }
     
     function isInRoot(path) {
@@ -330,6 +380,7 @@ Page {
         _qdropbox.folderCreated.disconnect(root.folderCreated);
         _qdropbox.fileDeleted.disconnect(root.fileDeleted);
         _qdropbox.moved.disconnect(root.moved);
+        _qdropbox.renamed.disconnect(root.renamed);
     }
     
     onCreationCompleted: {
@@ -338,6 +389,7 @@ Page {
         _qdropbox.folderCreated.connect(root.folderCreated);
         _qdropbox.fileDeleted.connect(root.fileDeleted);
         _qdropbox.moved.connect(root.moved);
+        _qdropbox.renamed.connect(root.renamed);
     }
     
     onPathChanged: {

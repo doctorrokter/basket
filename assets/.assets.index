@@ -1,5 +1,5 @@
 1
-44
+45
 sheets/FilePickersSheet.qml
 main.qml
 components/GridListItem.qml
@@ -15,6 +15,7 @@ pages/SettingsPage.qml
 pages/DirPage.qml
 pages/FolderPage.qml
 actions/RenameFileAction.qml
+actions/MoveActionItem.qml
 actions/DeleteFileAction.qml
 images/ic_rename.png
 images/ic_doctype_pdf.png

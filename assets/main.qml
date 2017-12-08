@@ -107,7 +107,14 @@ NavigationPane {
         
         ComponentDefinition {
             id: folderPage
-            FolderPage {}
+            FolderPage {
+                onListFolder: {
+                    var fp = folderPage.createObject();
+                    fp.path = path;
+                    fp.name = name;
+                    navPane.push(fp);
+                }
+            }
         },
         
         Invocation {

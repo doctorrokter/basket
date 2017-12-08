@@ -37,20 +37,8 @@ CustomListItem {
                     isDir: root.isDir()
                 },
                 
-                ActionItem {
-                    id: moveAction
-                    title: qsTr("Move") + Retranslate.onLocaleOrLanguageChanged
-                    imageSource: "asset:///images/ic_forward.png"
-                    
-                    shortcuts: [
-                        Shortcut {
-                            key: "m"
-                            
-                            onTriggered: {
-                                moveAction.triggered();
-                            }
-                        }
-                    ]
+                MoveActionItem {
+                    listView: root.ListItem.view
                 },
                 
                 ActionItem {

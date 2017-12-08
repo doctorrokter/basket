@@ -46,7 +46,7 @@ ActionItem {
             onFinished: {
                 if (value === 2) {
                     var newName = renamePrompt.inputFieldTextEntry() + extenstion;
-                    _qdropbox.move(renameAction.path, renameAction.path.replace(renameAction.name, newName));
+                    _qdropbox.rename(renameAction.path, renameAction.path.replace(renameAction.name, newName));
                 }
             }    
         }

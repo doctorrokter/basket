@@ -19,6 +19,7 @@
 
 class QDropboxController: public QObject {
     Q_OBJECT
+    Q_PROPERTY(QVariantList selected READ getSelected WRITE setSelected NOTIFY selectedChanged)
 public:
     QDropboxController(QDropbox* qdropbox, QObject* parent = 0);
     virtual ~QDropboxController();
@@ -31,8 +32,14 @@ public:
     Q_INVOKABLE void createFolder(const QString& path);
     Q_INVOKABLE void deleteFile(const QString& path);
     Q_INVOKABLE void move(const QString& fromPath, const QString& toPath);
+    Q_INVOKABLE void rename(const QString& fromPath, const QString& toPath);
     Q_INVOKABLE void getCurrentAccount();
     Q_INVOKABLE void getSpaceUsage();
+
+    Q_INVOKABLE const QVariantList& getSelected() const;
+    Q_INVOKABLE void setSelected(const QVariantList& selected);
+    Q_INVOKABLE void select(const QVariantMap& file);
+    Q_INVOKABLE void unselectAll();
 
     Q_SIGNALS:
         void listFolderLoaded(const QString& path, const QVariantList& files, const QString& cursor, const bool& hasMore);
@@ -40,8 +47,11 @@ public:
         void folderCreated(const QVariantMap& folder);
         void fileDeleted(const QVariantMap& file);
         void moved(const QVariantMap& file);
+        void renamed(const QVariantMap& file);
         void currentAccountLoaded(Account* account);
         void spaceUsageLoaded(const QVariantMap& spaceUsage);
+
+        void selectedChanged(const QVariantList& selected);
 
 private slots:
     void onListFolderLoaded(const QString& path, QList<QDropboxFile*>& files, const QString& cursor, const bool& hasMore);
@@ -49,6 +59,7 @@ private slots:
     void onFolderCreated(QDropboxFile* folder);
     void onFileDeleted(QDropboxFile* file);
     void onMoved(QDropboxFile* file);
+    void onRenamed(QDropboxFile* file);
     void onSpaceUsageLoaded(QDropboxSpaceUsage* spaceUsage);
 
 private:
@@ -56,6 +67,7 @@ private:
 
     QDropbox* m_pQDropbox;
     QStringList m_pathsList;
+    QVariantList m_selected;
 
     void clear(QList<QDropboxFile*>& files);
 };
