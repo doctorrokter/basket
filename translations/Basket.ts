@@ -172,22 +172,22 @@
 <context>
     <name>GridListItem</name>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="195"/>
+        <location filename="../assets/components/GridListItem.qml" line="208"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="213"/>
+        <location filename="../assets/components/GridListItem.qml" line="226"/>
         <source>Unpublish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="215"/>
+        <location filename="../assets/components/GridListItem.qml" line="228"/>
         <source>Publish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="232"/>
+        <location filename="../assets/components/GridListItem.qml" line="245"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
@@ -315,7 +315,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="233"/>
+        <location filename="../assets/components/StackListItem.qml" line="246"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>

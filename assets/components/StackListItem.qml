@@ -157,6 +157,19 @@ CustomListItem {
             }
             
             ImageView {
+                id: sharedFolder
+                imageSource: "asset:///images/ic_groups_white.png"
+                maxWidth: ui.du(5)
+                maxHeight: ui.du(5)
+                horizontalAlignment: HorizontalAlignment.Center
+                verticalAlignment: VerticalAlignment.Bottom
+                margin.bottomOffset: ui.du(2)
+                opacity: 0.5
+                filterColor: ui.palette.primary;
+                visible: false
+            }
+            
+            ImageView {
                 visible: !root.isDir()
                 imageSource: "asset:///images/opac_bg.png"
                 
@@ -235,5 +248,9 @@ CustomListItem {
                 textStyle.fontWeight: FontWeight.W100
             }
         }
+    }
+    
+    onSharedFolderIdChanged: {
+        sharedFolder.visible = sharedFolderId !== "";
     }
 }

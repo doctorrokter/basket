@@ -6,7 +6,7 @@ import "../actions"
 CustomListItem {
     id: root
     
-    property string tag: ""
+    property string tag: "folder"
     property string name: ""
     property string pathLower: ""
     property string pathDisplay: ""
@@ -107,6 +107,19 @@ CustomListItem {
                 }
             }
             horizontalAlignment: root.isDir() ? HorizontalAlignment.Fill : HorizontalAlignment.Center
+        }
+        
+        ImageView {
+            id: sharedFolder
+            imageSource: "asset:///images/ic_groups_white.png"
+            opacity: 0.5
+            filterColor: ui.palette.primary;
+            horizontalAlignment: HorizontalAlignment.Center
+            verticalAlignment: VerticalAlignment.Bottom
+            margin.bottomOffset: ui.du(8)
+            maxWidth: ui.du(7)
+            maxHeight: ui.du(7)
+            visible: false
         }
         
         ImageView {
@@ -236,4 +249,8 @@ CustomListItem {
             ]
         }
     ]
+    
+    onSharedFolderIdChanged: {
+        sharedFolder.visible = sharedFolderId !== "";
+    }
 }

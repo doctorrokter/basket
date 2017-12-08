@@ -1,5 +1,5 @@
 1
-45
+46
 sheets/FilePickersSheet.qml
 main.qml
 components/GridListItem.qml
@@ -38,6 +38,7 @@ images/ic_uploads.png
 images/ic_add_folder.png
 images/ic_unshare.png
 images/d_logo.png
+images/ic_groups_white.png
 images/ic_doctype_generic.png
 images/ic_doctype_music.png
 images/ic_doctype_doc.png

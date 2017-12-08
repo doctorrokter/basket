@@ -66,7 +66,7 @@ Page {
                 }
                 
                 layout: {
-                    var view = _app.prop("files_view", "stack");
+                    var view = _app.prop("files_view", "grid");
                     if (view === "grid") {
                         return gridListLayout;
                     }
@@ -118,7 +118,7 @@ Page {
                             pathLower: ListItemData.path_lower
                             pathDisplay: ListItemData.path_display
                             fileId: ListItemData.id
-                            sharedFolderId: ListItemData.shared_folder_id
+                            sharedFolderId: ListItemData.shared_folder_id || ""
                             sharingInfo: ListItemData.sharing_info
                             size: ListItemData.size || 0
                             rev: ListItemData.rev || ""
@@ -138,7 +138,7 @@ Page {
                             pathLower: ListItemData.path_lower
                             pathDisplay: ListItemData.path_display
                             fileId: ListItemData.id
-                            sharedFolderId: ListItemData.shared_folder_id
+                            sharedFolderId: ListItemData.shared_folder_id || ""
                             sharingInfo: ListItemData.sharing_info
                             size: ListItemData.size || 0
                             rev: ListItemData.rev || ""
