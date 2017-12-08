@@ -158,13 +158,13 @@
 <context>
     <name>FolderPage</name>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="167"/>
+        <location filename="../assets/pages/FolderPage.qml" line="169"/>
         <source>Create folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="287"/>
-        <location filename="../assets/pages/FolderPage.qml" line="288"/>
+        <location filename="../assets/pages/FolderPage.qml" line="289"/>
+        <location filename="../assets/pages/FolderPage.qml" line="290"/>
         <source>GB</source>
         <translation type="unfinished"></translation>
     </message>
@@ -172,22 +172,22 @@
 <context>
     <name>GridListItem</name>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="208"/>
+        <location filename="../assets/components/GridListItem.qml" line="200"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="226"/>
+        <location filename="../assets/components/GridListItem.qml" line="218"/>
         <source>Unpublish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="228"/>
+        <location filename="../assets/components/GridListItem.qml" line="220"/>
         <source>Publish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="245"/>
+        <location filename="../assets/components/GridListItem.qml" line="237"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
@@ -295,27 +295,27 @@
 <context>
     <name>StackListItem</name>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="46"/>
+        <location filename="../assets/components/StackListItem.qml" line="48"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="66"/>
+        <location filename="../assets/components/StackListItem.qml" line="68"/>
         <source>Unpublish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="68"/>
+        <location filename="../assets/components/StackListItem.qml" line="70"/>
         <source>Publish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="85"/>
+        <location filename="../assets/components/StackListItem.qml" line="87"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="246"/>
+        <location filename="../assets/components/StackListItem.qml" line="252"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>

@@ -19,6 +19,8 @@ CustomListItem {
     property string serverModified: ""
     property variant mediaInfo: undefined
     
+    property string thumbnail: ""
+    
     property string currentPath: "/"
     
     opacity: root.ListItem.selected ? 0.5 : 1.0
@@ -98,9 +100,7 @@ CustomListItem {
         if (!root.isDir()) {
             var ext = _file.extension(root.name).toLowerCase();
             if (_file.isImage(ext)) {
-//                if (root.previewPath !== undefined) {
-//                    return root.previewPath;
-//                }
+                _qdropbox.getThumbnail(root.pathDisplay, "w128h128");
                 return "asset:///images/ic_doctype_picture.png";
             } else if (_file.isVideo(ext)) {
                 return "asset:///images/ic_doctype_video.png";
@@ -123,11 +123,7 @@ CustomListItem {
     
     function filterColor() {
         if (!root.isDir()) {
-//            if (root.previewPath === undefined) {
-                return ui.palette.textOnPlain;
-//            } else {
-//                return 0;
-//            }
+            return ui.palette.textOnPlain;
         }
         return ui.palette.primary;
     }
@@ -148,10 +144,19 @@ CustomListItem {
             }
             
             ImageView {
+                id: defaultImage
                 imageSource: root.getImage();
                 filterColor: root.filterColor();
                 
                 opacity: root.isDir() ? 0.25 : 1.0
+                preferredWidth: ui.du(11)
+                preferredHeight: ui.du(11)
+            }
+            
+            ImageView {
+                id: mainImage
+                visible: false
+                scalingMethod: ScalingMethod.AspectFill
                 preferredWidth: ui.du(11)
                 preferredHeight: ui.du(11)
             }
@@ -170,6 +175,7 @@ CustomListItem {
             }
             
             ImageView {
+                id: bgImage
                 visible: !root.isDir()
                 imageSource: "asset:///images/opac_bg.png"
                 
@@ -252,5 +258,14 @@ CustomListItem {
     
     onSharedFolderIdChanged: {
         sharedFolder.visible = sharedFolderId !== "";
+    }
+    
+    onThumbnailChanged: {
+        if (thumbnail !== "") {
+            defaultImage.visible = false;
+            bgImage.visible = false;
+            mainImage.imageSource = "file://" + thumbnail;
+            mainImage.visible = true;
+        }
     }
 }

@@ -14,6 +14,7 @@
 #include <QNetworkReply>
 #include <QList>
 #include <QVariantMap>
+#include <QtGui/QImage>
 
 #include "SharedLink.hpp"
 #include "QDropboxFile.hpp"
@@ -58,6 +59,7 @@ public:
     void deleteFile(const QString& path);
     void move(const QString& fromPath, const QString& toPath, const bool& allowSharedFolder = false, const bool& autorename = false, const bool& allowOwnershipTransfer = false);
     void rename(const QString& fromPath, const QString& toPath, const bool& allowSharedFolder = false, const bool& autorename = false, const bool& allowOwnershipTransfer = false);
+    void getThumbnail(const QString& path, const QString& size = "w128h128");
 
     // users
     void getAccount(const QString& accountId);
@@ -74,6 +76,8 @@ Q_SIGNALS:
     void fileDeleted(QDropboxFile* folder);
     void moved(QDropboxFile* file);
     void renamed(QDropboxFile* file);
+    void thumbnailLoaded(const QString& path, QImage* thumbnail);
+
 
     // users signals
     void accountLoaded(Account* account);
@@ -90,6 +94,7 @@ private slots:
     void onFileDeleted();
     void onMoved();
     void onRenamed();
+    void onThumbnailLoaded();
 
     // users slots
     void onAccountLoaded();
@@ -103,6 +108,7 @@ private:
 
     QString m_authUrl;
     QString m_url;
+    QString m_contentUrl;
     int m_version;
 
     QString m_accessToken;
@@ -111,11 +117,14 @@ private:
     QString m_redirectUri;
 
     QString m_fullUrl;
+    QString m_fullContentUrl;
 
     void init();
     void generateFullUrl();
+    void generateFullContentUrl();
 
     QNetworkRequest prepareRequest(const QString& apiMethod);
+    QNetworkRequest prepareContentRequest(const QString& apiMethod);
     QNetworkReply* getReply();
 
     QNetworkReply* moveFile(const QString& fromPath, const QString& toPath, const bool& allowSharedFolder = false, const bool& autorename = false, const bool& allowOwnershipTransfer = false);

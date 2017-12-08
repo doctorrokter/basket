@@ -297,6 +297,46 @@ void QDropbox::onRenamed() {
     reply->deleteLater();
 }
 
+void QDropbox::getThumbnail(const QString& path, const QString& size) {
+    if (!path.trimmed().isEmpty()) {
+        QNetworkRequest req = prepareContentRequest("/files/get_thumbnail");
+
+        QVariantMap map;
+
+        QVariantMap sizeMap;
+        sizeMap[".tag"] = size;
+        map["size"] = sizeMap;
+        map["path"] = path;
+
+        QJson::Serializer serializer;
+        QByteArray data = serializer.serialize(map);
+        req.setRawHeader("Dropbox-API-Arg", data);
+
+        logger.debug("Dropbox-API-Arg: " + data);
+
+        QNetworkReply* reply = m_network.post(req, "");
+        reply->setProperty("path", path);
+        bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onThumbnailLoaded()));
+        Q_ASSERT(res);
+        res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+        Q_ASSERT(res);
+        Q_UNUSED(res);
+    }
+
+}
+
+void QDropbox::onThumbnailLoaded() {
+    QNetworkReply* reply = getReply();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        QImage* thumbnail = new QImage();
+        thumbnail->loadFromData(reply->readAll());
+        emit thumbnailLoaded(reply->property("path").toString(), thumbnail);
+    }
+
+    reply->deleteLater();
+}
+
 void QDropbox::getAccount(const QString& accountId) {
     QNetworkRequest req = prepareRequest("/users/get_account");
     QVariantMap map;
@@ -398,16 +438,22 @@ void QDropbox::onError(QNetworkReply::NetworkError e) {
 void QDropbox::init() {
     m_authUrl = "https://dropbox.com/oauth2";
     m_url = "https://api.dropboxapi.com";
+    m_contentUrl = "https://content.dropboxapi.com";
     m_version = 2;
     m_redirectUri = "";
     m_appKey = "";
     m_appSecret = "";
     m_accessToken = "";
     generateFullUrl();
+    generateFullContentUrl();
 }
 
 void QDropbox::generateFullUrl() {
     m_fullUrl = QString(m_url).append("/").append(QString::number(m_version));
+}
+
+void QDropbox::generateFullContentUrl() {
+    m_fullContentUrl = QString(m_contentUrl).append("/").append(QString::number(m_version));
 }
 
 QNetworkRequest QDropbox::prepareRequest(const QString& apiMethod) {
@@ -417,6 +463,19 @@ QNetworkRequest QDropbox::prepareRequest(const QString& apiMethod) {
     req.setUrl(url);
     req.setRawHeader("Authorization", QString("Bearer ").append(m_accessToken).toUtf8());
     req.setRawHeader("Content-Type", "application/json");
+
+    logger.debug(url);
+
+    return req;
+}
+
+QNetworkRequest QDropbox::prepareContentRequest(const QString& apiMethod) {
+    QUrl url(m_fullContentUrl + apiMethod);
+
+    QNetworkRequest req;
+    req.setUrl(url);
+    req.setRawHeader("Authorization", QString("Bearer ").append(m_accessToken).toUtf8());
+    req.setRawHeader("Content-Type", "application/octet-stream");
 
     logger.debug(url);
 

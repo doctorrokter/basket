@@ -11,6 +11,7 @@
 #include <QObject>
 #include <QStringList>
 #include <QVariantList>
+#include <QtGui/QImage>
 #include "../qdropbox/QDropbox.hpp"
 #include "../qdropbox/QDropboxFile.hpp"
 #include "../qdropbox/Account.hpp"
@@ -35,6 +36,7 @@ public:
     Q_INVOKABLE void rename(const QString& fromPath, const QString& toPath);
     Q_INVOKABLE void getCurrentAccount();
     Q_INVOKABLE void getSpaceUsage();
+    Q_INVOKABLE void getThumbnail(const QString& path, const QString& size = "w128h128");
 
     Q_INVOKABLE const QVariantList& getSelected() const;
     Q_INVOKABLE void setSelected(const QVariantList& selected);
@@ -50,6 +52,7 @@ public:
         void renamed(const QVariantMap& file);
         void currentAccountLoaded(Account* account);
         void spaceUsageLoaded(const QVariantMap& spaceUsage);
+        void thumbnailLoaded(const QString& path, const QString& localPath);
 
         void selectedChanged(const QVariantList& selected);
 
@@ -61,6 +64,7 @@ private slots:
     void onMoved(QDropboxFile* file);
     void onRenamed(QDropboxFile* file);
     void onSpaceUsageLoaded(QDropboxSpaceUsage* spaceUsage);
+    void onThumbnailLoaded(const QString& path, QImage* thumbnail);
 
 private:
     static Logger logger;

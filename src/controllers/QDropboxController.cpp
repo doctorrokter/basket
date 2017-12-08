@@ -5,6 +5,8 @@
  *      Author: doctorrokter
  */
 
+#include <QFile>
+#include <QDir>
 #include "QDropboxController.hpp"
 
 Logger QDropboxController::logger = Logger::getLogger("QDropboxController");
@@ -23,6 +25,8 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, QObject* parent) : QO
     res = QObject::connect(m_pQDropbox, SIGNAL(moved(QDropboxFile*)), this, SLOT(onMoved(QDropboxFile*)));
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(renamed(QDropboxFile*)), this, SLOT(onRenamed(QDropboxFile*)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(thumbnailLoaded(const QString&, QImage*)), this, SLOT(onThumbnailLoaded(const QString&, QImage*)));
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(currentAccountLoaded(Account*)), this, SIGNAL(currentAccountLoaded(Account*)));
     Q_ASSERT(res);
@@ -43,6 +47,8 @@ QDropboxController::~QDropboxController() {
     res = QObject::disconnect(m_pQDropbox, SIGNAL(moved(QDropboxFile*)), this, SLOT(onMoved(QDropboxFile*)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(renamed(QDropboxFile*)), this, SLOT(onRenamed(QDropboxFile*)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(thumbnailLoaded(const QString&, QImage*)), this, SLOT(onThumbnailLoaded(const QString&, QImage*)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(currentAccountLoaded(Account*)), this, SIGNAL(currentAccountLoaded(Account*)));
     Q_ASSERT(res);
@@ -140,6 +146,43 @@ void QDropboxController::getCurrentAccount() {
 
 void QDropboxController::getSpaceUsage() {
     m_pQDropbox->getSpaceUsage();
+}
+
+void QDropboxController::getThumbnail(const QString& path, const QString& size) {
+//    QString thumbs = QDir::currentPath() + "/data/thumbnails";
+//    QDir dir(thumbs);
+//    if (!dir.exists()) {
+//        m_pQDropbox->getThumbnail(path, "w128h128");
+//    } else {
+//        QString localPath = thumbs + "/" + path.split("/").last();
+//        if (QFile::exists(localPath)) {
+//            emit thumbnailLoaded(path, localPath);
+//        } else {
+            m_pQDropbox->getThumbnail(path, size);
+//        }
+//    }
+}
+
+void QDropboxController::onThumbnailLoaded(const QString& path, QImage* thumbnail) {
+
+    logger.debug(QString("path: ").append(path).append(", thumbnail bytes: ").append(QString::number(thumbnail->byteCount())));
+
+    QString thumbs = QDir::currentPath() + "/data/thumbnails";
+    QDir dir(thumbs);
+    if (!dir.exists()) {
+        dir.mkpath(thumbs);
+    }
+
+    QString localPath = thumbs + "/" + path.split("/").last();
+    QFile file(localPath);
+    file.open(QIODevice::WriteOnly);
+
+    thumbnail->save(&file);
+
+    delete thumbnail;
+    thumbnail = 0;
+
+    emit thumbnailLoaded(path, localPath);
 }
 
 void QDropboxController::onSpaceUsageLoaded(QDropboxSpaceUsage* spaceUsage) {

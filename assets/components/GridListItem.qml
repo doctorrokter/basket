@@ -6,7 +6,7 @@ import "../actions"
 CustomListItem {
     id: root
     
-    property string tag: "folder"
+    property string tag: ""
     property string name: ""
     property string pathLower: ""
     property string pathDisplay: ""
@@ -20,7 +20,7 @@ CustomListItem {
     property string serverModified: ""
     property variant mediaInfo: undefined
     
-    property string previewPath: undefined
+    property string thumbnail: ""
     property string currentPath: ""
     
     opacity: root.ListItem.selected ? 0.5 : 1.0
@@ -40,9 +40,7 @@ CustomListItem {
         if (!root.isDir()) {
             var ext = _file.extension(root.name).toLowerCase();
             if (_file.isImage(ext)) {
-//                if (root.previewPath) {
-//                    return root.previewPath;
-//                }
+                _qdropbox.getThumbnail(root.pathDisplay, "w640h480");
                 return "asset:///images/ic_doctype_picture.png";
             } else if (_file.isVideo(ext)) {
                 return "asset:///images/ic_doctype_video.png";
@@ -64,13 +62,10 @@ CustomListItem {
     }
     
     function filterColor() {
-        if (!root.previewPath) {
-            if (!root.isDir()) {
-                return ui.palette.textOnPlain;
-            }
-            return ui.palette.primary;
+        if (!root.isDir()) {
+            return ui.palette.textOnPlain;
         }
-        return 0;
+        return ui.palette.primary;
     }
     
     Container {
@@ -87,12 +82,10 @@ CustomListItem {
             filterColor: root.filterColor();
             
             opacity: root.isDir() ? 0.25 : 1.0
-            preferredWidth: root.isDir() || (root.previewPath !== undefined) ? listItemLUH.layoutFrame.width : ui.du(20)
+            preferredWidth: root.isDir()  ? listItemLUH.layoutFrame.width : ui.du(20)
             preferredHeight: {
                 if (root.dir) {
                     return listItemLUH.layoutFrame.height - ui.du(2);
-                } else if (root.previewPath !== undefined) {
-                    return listItemLUH.layoutFrame.height;
                 } else {
                     return ui.du(20);
                 } 
@@ -100,8 +93,6 @@ CustomListItem {
             verticalAlignment: {
                 if (root.isDir()) {
                     return VerticalAlignment.Bottom;
-                } else if (root.previewPath !== undefined) {
-                    return VerticalAlignment.Fill;
                 } else {
                     return VerticalAlignment.Center;
                 }
@@ -110,35 +101,36 @@ CustomListItem {
         }
         
         ImageView {
+            id: mainImage
+            visible: false
+            scalingMethod: ScalingMethod.AspectFill
+            preferredWidth: listItemLUH.layoutFrame.width
+            preferredHeight: listItemLUH.layoutFrame.height
+        }
+        
+        ImageView {
             id: sharedFolder
             imageSource: "asset:///images/ic_groups_white.png"
             opacity: 0.5
             filterColor: ui.palette.primary;
-            horizontalAlignment: HorizontalAlignment.Center
+            horizontalAlignment: HorizontalAlignment.Left
             verticalAlignment: VerticalAlignment.Bottom
             margin.bottomOffset: ui.du(8)
+            margin.leftOffset: ui.du(1);
             maxWidth: ui.du(7)
             maxHeight: ui.du(7)
             visible: false
         }
         
         ImageView {
-            visible: !root.isDir() && root.previewPath === undefined
+            id: bgImage
+            visible: !root.isDir()
             imageSource: "asset:///images/opac_bg.png"
             horizontalAlignment: HorizontalAlignment.Fill
-            verticalAlignment: VerticalAlignment.Fill
-            opacity: 0.5
-        }
-        
-        Container {
-            visible: !root.isDir() && root.previewPath !== undefined
-            horizontalAlignment: HorizontalAlignment.Fill
             verticalAlignment: VerticalAlignment.Bottom
-            
-            background: Color.Black
-            preferredHeight: ui.du(8)
-            
-            opacity: 0.5
+            filterColor: Color.Black
+            opacity: 0.8
+            maxHeight: listItemLUH.layoutFrame.height / 2
         }
         
         Label {
@@ -252,5 +244,13 @@ CustomListItem {
     
     onSharedFolderIdChanged: {
         sharedFolder.visible = sharedFolderId !== "";
+    }
+    
+    onThumbnailChanged: {
+        if (thumbnail !== "") {
+            preview.visible = false;
+            mainImage.imageSource = "file://" + thumbnail;
+            mainImage.visible = true;
+        }
     }
 }
