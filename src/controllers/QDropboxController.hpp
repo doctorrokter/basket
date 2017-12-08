@@ -64,7 +64,7 @@ private slots:
     void onMoved(QDropboxFile* file);
     void onRenamed(QDropboxFile* file);
     void onSpaceUsageLoaded(QDropboxSpaceUsage* spaceUsage);
-    void onThumbnailLoaded(const QString& path, QImage* thumbnail);
+    void onThumbnailLoaded(const QString& path, const QString& size, QImage* thumbnail);
 
 private:
     static Logger logger;

@@ -76,7 +76,7 @@ Q_SIGNALS:
     void fileDeleted(QDropboxFile* folder);
     void moved(QDropboxFile* file);
     void renamed(QDropboxFile* file);
-    void thumbnailLoaded(const QString& path, QImage* thumbnail);
+    void thumbnailLoaded(const QString& path, const QString& size, QImage* thumbnail);
 
 
     // users signals

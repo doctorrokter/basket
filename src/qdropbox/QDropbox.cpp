@@ -316,6 +316,7 @@ void QDropbox::getThumbnail(const QString& path, const QString& size) {
 
         QNetworkReply* reply = m_network.post(req, "");
         reply->setProperty("path", path);
+        reply->setProperty("size", size);
         bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onThumbnailLoaded()));
         Q_ASSERT(res);
         res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
@@ -331,7 +332,7 @@ void QDropbox::onThumbnailLoaded() {
     if (reply->error() == QNetworkReply::NoError) {
         QImage* thumbnail = new QImage();
         thumbnail->loadFromData(reply->readAll());
-        emit thumbnailLoaded(reply->property("path").toString(), thumbnail);
+        emit thumbnailLoaded(reply->property("path").toString(), reply->property("size").toString(), thumbnail);
     }
 
     reply->deleteLater();
