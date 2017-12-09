@@ -59,6 +59,7 @@ public:
 
     Q_SIGNALS:
         void currentAccountLoaded(const QVariantMap& accountMap);
+        void propChanged(const QString& key, const QVariant& val);
 
 private slots:
     void onSystemLanguageChanged();

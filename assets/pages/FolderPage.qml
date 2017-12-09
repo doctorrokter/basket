@@ -15,6 +15,12 @@ Page {
     property variant spaceUsage: undefined
     
     property int bytesInGB: 1073741824
+    property string files_view_key: "files_view"
+    property variant files_view_types: {
+        GRID: "grid",
+        LIST: "list"
+    }
+    property string default_files_view: files_view_types.LIST 
     
     signal listFolder(string path, string name)
     signal showProps(variant file)
@@ -67,8 +73,8 @@ Page {
                 }
                 
                 layout: {
-                    var view = _app.prop("files_view", "grid");
-                    if (view === "grid") {
+                    var view = _app.prop(files_view_key, default_files_view);
+                    if (view === files_view_types.GRID) {
                         return gridListLayout;
                     }
                     return stackListLayout;
@@ -186,6 +192,34 @@ Page {
             onTriggered: {
                 root.titleBar = inputTitleBar;
                 root.titleBar.focus();
+            }
+        },
+        
+        ActionItem {
+            id: viewActionItem
+            imageSource: {
+                var view = _app.prop(files_view_key, default_files_view);
+                if (view === files_view_types.GRID) {
+                    return "asset:///images/ic_view_list.png";
+                }
+                return "asset:///images/ic_view_grid.png";
+            }
+            title: {
+                var view = _app.prop(files_view_key, default_files_view);
+                if (view === files_view_types.GRID) {
+                    return qsTr("List") + Retranslate.onLocaleOrLanguageChanged;
+                }
+                return qsTr("Grid") + Retranslate.onLocaleOrLanguageChanged;
+            }
+            ActionBar.placement: ActionBarPlacement.OnBar
+            
+            onTriggered: {
+                var view = _app.prop(files_view_key, default_files_view);
+                if (view === files_view_types.GRID) {
+                    _app.setProp(files_view_key, files_view_types.LIST);
+                } else {
+                    _app.setProp(files_view_key, files_view_types.GRID);
+                }
             }
         }
     ]
@@ -391,6 +425,40 @@ Page {
         }
     }
     
+    function reload() {
+        dataModel.clear();
+        _qdropbox.listFolder(root.path, root.limit);
+    }
+    
+    function refresh() {
+        var files = [];
+        for (var i = 0; i < dataModel.size(); i++) {
+            files.push(dataModel.value(i));
+        }
+        dataModel.clear();
+        dataModel.append(files);
+    }
+    
+    function propChanged(key, val) {
+        if (key === files_view_key) {
+            if (val === files_view_types.GRID) {
+                if (listView.layout !== gridListLayout) {
+                    listView.layout = gridListLayout;
+                    viewActionItem.imageSource = "asset:///images/ic_view_list.png";
+                    viewActionItem.title = qsTr("List") + Retranslate.onLocaleOrLanguageChanged;
+                    root.refresh();
+                }
+            } else {
+                if (listView.layout !== stackListLayout) {
+                    listView.layout = stackListLayout;
+                    viewActionItem.imageSource = "asset:///images/ic_view_grid.png";
+                    viewActionItem.title = qsTr("Grid") + Retranslate.onLocaleOrLanguageChanged;
+                    root.refresh();
+                }
+            }
+        }
+    }
+    
     function cleanUp() {
         _qdropbox.popPath();
         _qdropbox.listFolderLoaded.disconnect(root.listFolderLoaded);
@@ -400,6 +468,7 @@ Page {
         _qdropbox.moved.disconnect(root.moved);
         _qdropbox.renamed.disconnect(root.renamed);
         _qdropbox.thumbnailLoaded.disconnect(root.thumbnailLoaded);
+        _app.propChanged.disconnect(root.propChanged);
     }
     
     onCreationCompleted: {
@@ -410,6 +479,7 @@ Page {
         _qdropbox.moved.connect(root.moved);
         _qdropbox.renamed.connect(root.renamed);
         _qdropbox.thumbnailLoaded.connect(root.thumbnailLoaded);
+        _app.propChanged.connect(root.propChanged);
     }
     
     onPathChanged: {

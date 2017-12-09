@@ -158,13 +158,25 @@
 <context>
     <name>FolderPage</name>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="174"/>
+        <location filename="../assets/pages/FolderPage.qml" line="180"/>
         <source>Create folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="294"/>
-        <location filename="../assets/pages/FolderPage.qml" line="295"/>
+        <location filename="../assets/pages/FolderPage.qml" line="210"/>
+        <location filename="../assets/pages/FolderPage.qml" line="448"/>
+        <source>List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="212"/>
+        <location filename="../assets/pages/FolderPage.qml" line="455"/>
+        <source>Grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="328"/>
+        <location filename="../assets/pages/FolderPage.qml" line="329"/>
         <source>GB</source>
         <translation type="unfinished"></translation>
     </message>

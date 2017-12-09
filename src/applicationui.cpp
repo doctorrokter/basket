@@ -91,6 +91,7 @@ QVariant ApplicationUI::prop(const QString& key, const QVariant& defaultValue) {
 
 void ApplicationUI::setProp(const QString& key, const QVariant& val) {
     m_settings.setValue(key, val);
+    emit propChanged(key, val);
 }
 
 void ApplicationUI::resendNotification() {
