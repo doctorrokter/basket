@@ -60,6 +60,7 @@ public:
         void downloadsChanged(const QVariantList& downloads);
         void downloaded(const QString& path, const QString& localPath);
         void downloadProgress(const QString& path, qint64 loaded, qint64 total);
+        void downloadStarted(const QString& path);
 
         void selectedChanged(const QVariantList& selected);
 

@@ -1,5 +1,4 @@
 import bb.cascades 1.4
-import chachkouski.type 1.0
 
 Page {
     id: root
@@ -52,55 +51,58 @@ Page {
         }
     }
     
-    function addToQueue(queue) {
-        downloadsDadaModel.append(queue);
-    }
-    
-    function removeFromQueue(filename, path) {
-        for (var i = 0; i < downloadsDadaModel.size(); i++) {
-            var data = downloadsDadaModel.value(i);
-            if (data.path === path) {
-                downloadsDadaModel.removeAt(i);
-            }
-        }
-    }
-    
-    function updateProgress(path, received, total) {
-        for (var i = 0; i < downloadsDadaModel.size(); i++) {
-            var data = downloadsDadaModel.value(i);
-            if (data.path === path) {
-                var newData = {
-                    filename: data.filename, path: data.path, received: received, total: total
-                };
-                downloadsDadaModel.replace(i, newData);
-            }
-        }
-    }
-    
     function refresh() {
         downloadsDadaModel.clear();
-        downloadsDadaModel.append(_qdropbox.downloads);
+        var downloads = _qdropbox.downloads.map(function(path) {
+            return createDownload(path);    
+        });
+        downloadsDadaModel.append(downloads);
     }
     
     function cleanUp() {
-        _qdropbox.downloadsChanged.disconnect(root.downloadsChanged);
+        _qdropbox.downloadStarted.disconnect(root.downloadStarted);
         _qdropbox.downloaded.disconnect(root.downloaded);
         _qdropbox.downloadProgress.disconnect(root.downloadProgress);
     }
     
-    function downloadsChanged(downloads) {
-        
+    function downloadStarted(path) {
+        downloadsDadaModel.append(createDownload(path));      
     }
     
     function downloaded(path, localPath) {
+        for (var i = 0; i < downloadsDadaModel.size(); i++) {
+            if (downloadsDadaModel.value(i).path === path) {
+                downloadsDadaModel.removeAt(i);
+                return;
+            }
+        }
     }
     
     function downloadProgress(path, received, total) {
-        
+        for (var i = 0; i < downloadsDadaModel.size(); i++) {
+            var d = downloadsDadaModel.value(i);
+            if (d.path === path) {
+                d.received = received;
+                if (d.total === 0) {
+                    d.total = total;
+                }
+                downloadsDadaModel.replace(i, d);
+                return;
+            }
+        }
+    }
+    
+    function createDownload(path) {
+        return {
+            filename: _file.filename(path),
+            path: path, 
+            received: 0, 
+            total: 0
+        };
     }
     
     onCreationCompleted: {
-        _qdropbox.downloadsChanged.connect(root.downloadsChanged);
+        _qdropbox.downloadStarted.connect(root.downloadStarted);
         _qdropbox.downloaded.connect(root.downloaded);
         _qdropbox.downloadProgress.connect(root.downloadProgress);
         refresh();

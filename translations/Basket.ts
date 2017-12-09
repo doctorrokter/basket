@@ -89,7 +89,7 @@
 <context>
     <name>DownloadsPage</name>
     <message>
-        <location filename="../assets/pages/DownloadsPage.qml" line="8"/>
+        <location filename="../assets/pages/DownloadsPage.qml" line="7"/>
         <source>Downloads</source>
         <translation type="unfinished"></translation>
     </message>
@@ -174,25 +174,30 @@
 <context>
     <name>FolderPage</name>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="180"/>
+        <location filename="../assets/pages/FolderPage.qml" line="181"/>
         <source>Create folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="210"/>
-        <location filename="../assets/pages/FolderPage.qml" line="448"/>
+        <location filename="../assets/pages/FolderPage.qml" line="211"/>
+        <location filename="../assets/pages/FolderPage.qml" line="459"/>
         <source>List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="212"/>
-        <location filename="../assets/pages/FolderPage.qml" line="455"/>
+        <location filename="../assets/pages/FolderPage.qml" line="213"/>
+        <location filename="../assets/pages/FolderPage.qml" line="466"/>
         <source>Grid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="328"/>
-        <location filename="../assets/pages/FolderPage.qml" line="329"/>
+        <location filename="../assets/pages/FolderPage.qml" line="229"/>
+        <source>Downloads</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="339"/>
+        <location filename="../assets/pages/FolderPage.qml" line="340"/>
         <source>GB</source>
         <translation type="unfinished"></translation>
     </message>

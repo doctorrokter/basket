@@ -111,6 +111,11 @@ NavigationPane {
         },
         
         ComponentDefinition {
+            id: downloadsPage
+            DownloadsPage {}    
+        },
+        
+        ComponentDefinition {
             id: folderPage
             FolderPage {
                 onListFolder: {
@@ -136,6 +141,11 @@ NavigationPane {
                     pp.serverModified = file.server_modified || "";
                     pp.mediaInfo = file.media_info;
                     navPane.push(pp);
+                }
+                
+                onShowDownloads: {
+                    var dp = downloadsPage.createObject();
+                    navPane.push(dp);
                 }
             }
         },

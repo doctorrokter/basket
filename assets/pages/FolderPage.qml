@@ -24,6 +24,7 @@ Page {
     
     signal listFolder(string path, string name)
     signal showProps(variant file)
+    signal showDownloads()
     
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     actionBarVisibility: ChromeVisibility.Overlay
@@ -220,6 +221,16 @@ Page {
                 } else {
                     _app.setProp(files_view_key, files_view_types.GRID);
                 }
+            }
+        },
+        
+        ActionItem {
+            id: downloads
+            title: qsTr("Downloads") + Retranslate.onLocaleOrLanguageChanged
+            imageSource: "asset:///images/ic_download.png"
+            
+            onTriggered: {
+                root.showDownloads();
             }
         }
     ]

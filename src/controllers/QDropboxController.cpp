@@ -243,5 +243,6 @@ void QDropboxController::onDownloaded(const QString& path, const QString& localP
 void QDropboxController::onDownloadStarted(const QString& path) {
     m_downloads.append(path);
     emit downloadsChanged(m_downloads);
+    emit downloadStarted(path);
 }
 

@@ -387,12 +387,10 @@ void QDropbox::read() {
     file.write(reply->readAll());
     file.flush();
     file.close();
-    logger.debug("Read some bytes...");
 }
 
 void QDropbox::onDownloadProgress(qint64 loaded, qint64 total) {
     QNetworkReply* reply = getReply();
-    logger.debug("Progress: " + reply->property("path").toString() + ", loaded " + QString::number(loaded) + ", total " + QString::number(total));
     emit downloadProgress(reply->property("path").toString(), loaded, total);
 }
 
@@ -519,7 +517,7 @@ void QDropbox::init() {
     m_appSecret = "";
     m_accessToken = "";
     m_downloadsFolder = QDir::currentPath() + "/downloads";
-    m_readBufferSize = 8192;
+    m_readBufferSize = 5242880; // 5MB
     generateFullUrl();
     generateFullContentUrl();
 }
