@@ -59,7 +59,7 @@ public:
     void deleteFile(const QString& path);
     void move(const QString& fromPath, const QString& toPath, const bool& allowSharedFolder = false, const bool& autorename = false, const bool& allowOwnershipTransfer = false);
     void rename(const QString& fromPath, const QString& toPath, const bool& allowSharedFolder = false, const bool& autorename = false, const bool& allowOwnershipTransfer = false);
-    void getThumbnail(const QString& path, const QString& size = "w128h128");
+    void getThumbnail(const QString& path, const QString& size = "w128h128", const QString& format = "jpeg");
 
     // users
     void getAccount(const QString& accountId);

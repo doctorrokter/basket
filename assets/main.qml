@@ -106,6 +106,11 @@ NavigationPane {
         },
         
         ComponentDefinition {
+            id: propsPage
+            PropertiesPage {}
+        },
+        
+        ComponentDefinition {
             id: folderPage
             FolderPage {
                 onListFolder: {
@@ -113,6 +118,24 @@ NavigationPane {
                     fp.path = path;
                     fp.name = name;
                     navPane.push(fp);
+                }
+                
+                onShowProps: {
+                    var pp = propsPage.createObject();
+                    pp.tag = file[".tag"];
+                    pp.name = file.name;
+                    pp.pathLower = file.path_lower;
+                    pp.pathDisplay = file.path_display;
+                    pp.fileId = file.id;
+                    pp.sharedFolderId = file.shared_folder_id || "";
+                    pp.sharingInfo = file.sharing_info;
+                    pp.size = file.size || 0;
+                    pp.rev = file.rev || "";
+                    pp.contentHash = file.content_hash || "";
+                    pp.clientModified = file.client_modified || "";
+                    pp.serverModified = file.server_modified || "";
+                    pp.mediaInfo = file.media_info;
+                    navPane.push(pp);
                 }
             }
         },

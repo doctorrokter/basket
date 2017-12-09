@@ -43,20 +43,8 @@ CustomListItem {
                     listView: root.ListItem.view
                 },
                 
-                ActionItem {
-                    id: propsAction
-                    title: qsTr("Properties") + Retranslate.onLocaleOrLanguageChanged
-                    imageSource: "asset:///images/ic_properties.png"
-                    
-                    shortcuts: [
-                        Shortcut {
-                            key: "p"
-                            
-                            onTriggered: {
-                                propsAction.triggered();
-                            }
-                        }
-                    ]
+                PropsAction {
+                    listView: root.ListItem.view
                 },
                 
                 ActionItem {

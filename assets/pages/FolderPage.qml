@@ -17,6 +17,7 @@ Page {
     property int bytesInGB: 1073741824
     
     signal listFolder(string path, string name)
+    signal showProps(variant file)
     
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     actionBarVisibility: ChromeVisibility.Overlay
@@ -100,6 +101,10 @@ Page {
                             return;
                         }
                     }
+                }
+                
+                function requestPropsPage(file) {
+                    root.showProps(file);
                 }
                 
                 onTriggered: {
@@ -286,8 +291,8 @@ Page {
     
     onSpaceUsageChanged: {
         if (spaceUsage !== undefined) {
-            bytesLabel.text = (Number(spaceUsage.used / root.bytesInGB).toFixed(1) + qsTr("GB") + Retranslate.onLocaleOrLanguageChanged) + 
-            "/" + (Number(spaceUsage.allocation.allocated / root.bytesInGB).toFixed(1) + qsTr("GB") + Retranslate.onLocaleOrLanguageChanged);
+            bytesLabel.text = (Number(spaceUsage.used / root.bytesInGB).toFixed(2) + qsTr("GB") + Retranslate.onLocaleOrLanguageChanged) + 
+            "/" + (Number(spaceUsage.allocation.allocated / root.bytesInGB).toFixed(2) + qsTr("GB") + Retranslate.onLocaleOrLanguageChanged);
         }
     }
     

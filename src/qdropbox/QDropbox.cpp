@@ -297,7 +297,7 @@ void QDropbox::onRenamed() {
     reply->deleteLater();
 }
 
-void QDropbox::getThumbnail(const QString& path, const QString& size) {
+void QDropbox::getThumbnail(const QString& path, const QString& size, const QString& format) {
     if (!path.trimmed().isEmpty()) {
         QNetworkRequest req = prepareContentRequest("/files/get_thumbnail");
 
@@ -307,6 +307,7 @@ void QDropbox::getThumbnail(const QString& path, const QString& size) {
         sizeMap[".tag"] = size;
         map["size"] = sizeMap;
         map["path"] = path;
+        map["format"] = format;
 
         QJson::Serializer serializer;
         QByteArray data = serializer.serialize(map);

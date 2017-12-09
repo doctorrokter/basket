@@ -158,13 +158,13 @@
 <context>
     <name>FolderPage</name>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="169"/>
+        <location filename="../assets/pages/FolderPage.qml" line="174"/>
         <source>Create folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="289"/>
-        <location filename="../assets/pages/FolderPage.qml" line="290"/>
+        <location filename="../assets/pages/FolderPage.qml" line="294"/>
+        <location filename="../assets/pages/FolderPage.qml" line="295"/>
         <source>GB</source>
         <translation type="unfinished"></translation>
     </message>
@@ -172,22 +172,17 @@
 <context>
     <name>GridListItem</name>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="200"/>
-        <source>Properties</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/components/GridListItem.qml" line="218"/>
+        <location filename="../assets/components/GridListItem.qml" line="206"/>
         <source>Unpublish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="220"/>
+        <location filename="../assets/components/GridListItem.qml" line="208"/>
         <source>Publish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/GridListItem.qml" line="237"/>
+        <location filename="../assets/components/GridListItem.qml" line="225"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
@@ -225,6 +220,62 @@
     <message>
         <location filename="../assets/actions/MoveActionItem.qml" line="8"/>
         <source>Move</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PropertiesPage</name>
+    <message>
+        <location filename="../assets/pages/PropertiesPage.qml" line="25"/>
+        <source>Properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/PropertiesPage.qml" line="132"/>
+        <source>Folder properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/PropertiesPage.qml" line="134"/>
+        <source>File properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/PropertiesPage.qml" line="139"/>
+        <source>Filename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/PropertiesPage.qml" line="145"/>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/PropertiesPage.qml" line="151"/>
+        <source>Last modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/PropertiesPage.qml" line="157"/>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/PropertiesPage.qml" line="158"/>
+        <source>MB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/PropertiesPage.qml" line="162"/>
+        <source>Placement</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PropsAction</name>
+    <message>
+        <location filename="../assets/actions/PropsAction.qml" line="8"/>
+        <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -295,27 +346,22 @@
 <context>
     <name>StackListItem</name>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="48"/>
-        <source>Properties</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/components/StackListItem.qml" line="68"/>
+        <location filename="../assets/components/StackListItem.qml" line="56"/>
         <source>Unpublish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="70"/>
+        <location filename="../assets/components/StackListItem.qml" line="58"/>
         <source>Publish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="87"/>
+        <location filename="../assets/components/StackListItem.qml" line="75"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="252"/>
+        <location filename="../assets/components/StackListItem.qml" line="240"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>

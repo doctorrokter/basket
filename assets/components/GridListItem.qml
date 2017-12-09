@@ -115,10 +115,10 @@ CustomListItem {
             filterColor: ui.palette.primary;
             horizontalAlignment: HorizontalAlignment.Left
             verticalAlignment: VerticalAlignment.Bottom
-            margin.bottomOffset: ui.du(8)
+            margin.bottomOffset: ui.du(10)
             margin.leftOffset: ui.du(1);
-            maxWidth: ui.du(7)
-            maxHeight: ui.du(7)
+            maxWidth: ui.du(5)
+            maxHeight: ui.du(5)
             visible: false
         }
         
@@ -195,20 +195,8 @@ CustomListItem {
                     listView: root.ListItem.view
                 },
                 
-                ActionItem {
-                    id: propsAction
-                    title: qsTr("Properties") + Retranslate.onLocaleOrLanguageChanged
-                    imageSource: "asset:///images/ic_properties.png"
-                    
-                    shortcuts: [
-                        Shortcut {
-                            key: "p"
-                            
-                            onTriggered: {
-                                propsAction.triggered();
-                            }
-                        }
-                    ]
+                PropsAction {
+                    listView: root.ListItem.view
                 },
                 
                 ActionItem {
