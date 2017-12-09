@@ -9,6 +9,7 @@
 #include <QUrl>
 #include <QDebug>
 #include <QList>
+#include <QDir>
 #include "../qjson/serializer.h"
 #include "../qjson/parser.h"
 #include "QDropboxFile.hpp"
@@ -71,6 +72,17 @@ QDropbox& QDropbox::setAccessToken(const QString& accessToken) {
         m_accessToken = accessToken;
         emit accessTokenChanged(m_accessToken);
     }
+    return *this;
+}
+
+const QString& QDropbox::getDownloadsFolder() const { return m_downloadsFolder; }
+QDropbox& QDropbox::setDownloadsFolder(const QString& downloadsFolder) {
+    m_downloadsFolder = downloadsFolder;
+    return *this;
+}
+
+QDropbox& QDropbox::setReadBufferSize(qint64 readBufferSize) {
+    m_readBufferSize = readBufferSize;
     return *this;
 }
 
@@ -339,6 +351,66 @@ void QDropbox::onThumbnailLoaded() {
     reply->deleteLater();
 }
 
+void QDropbox::download(const QString& path, const QString& rev) {
+    QNetworkRequest req = prepareContentRequest("/files/download");
+
+    QVariantMap map;
+    map["path"] = path;
+    if (!rev.isEmpty()) {
+        map["rev"] = rev;
+    }
+
+    req.setRawHeader("Dropbox-API-Arg", QJson::Serializer().serialize(map));
+
+    QNetworkReply* reply = m_network.post(req, "");
+    reply->setReadBufferSize(m_readBufferSize);
+    reply->setProperty("path", path);
+    m_downloadsQueue.append(reply);
+
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onDownloaded()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(readyRead()), this, SLOT(read()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+    emit downloadStarted(path);
+}
+
+void QDropbox::read() {
+    QNetworkReply* reply = getReply();
+    QString path = reply->property("path").toString();
+    QFile file(m_downloadsFolder + "/" + getFilename(path));
+    file.open(QIODevice::WriteOnly);
+    file.write(reply->readAll());
+    file.flush();
+    file.close();
+    logger.debug("Read some bytes...");
+}
+
+void QDropbox::onDownloadProgress(qint64 loaded, qint64 total) {
+    QNetworkReply* reply = getReply();
+    logger.debug("Progress: " + reply->property("path").toString() + ", loaded " + QString::number(loaded) + ", total " + QString::number(total));
+    emit downloadProgress(reply->property("path").toString(), loaded, total);
+}
+
+void QDropbox::onDownloaded() {
+    QNetworkReply* reply = getReply();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        QString path = reply->property("path").toString();
+        QString filename = getFilename(path);
+        QString localPath = m_downloadsFolder + "/" + filename;
+        logger.debug("File downloaded: " + localPath);
+        emit downloaded(path, localPath);
+    }
+
+    m_downloadsQueue.removeAll(reply);
+    reply->deleteLater();
+}
+
 void QDropbox::getAccount(const QString& accountId) {
     QNetworkRequest req = prepareRequest("/users/get_account");
     QVariantMap map;
@@ -446,6 +518,8 @@ void QDropbox::init() {
     m_appKey = "";
     m_appSecret = "";
     m_accessToken = "";
+    m_downloadsFolder = QDir::currentPath() + "/downloads";
+    m_readBufferSize = 8192;
     generateFullUrl();
     generateFullContentUrl();
 }
@@ -456,6 +530,10 @@ void QDropbox::generateFullUrl() {
 
 void QDropbox::generateFullContentUrl() {
     m_fullContentUrl = QString(m_contentUrl).append("/").append(QString::number(m_version));
+}
+
+QString QDropbox::getFilename(const QString& path) {
+    return path.split("/").last();
 }
 
 QNetworkRequest QDropbox::prepareRequest(const QString& apiMethod) {

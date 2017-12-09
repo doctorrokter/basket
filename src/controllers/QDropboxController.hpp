@@ -21,6 +21,7 @@
 class QDropboxController: public QObject {
     Q_OBJECT
     Q_PROPERTY(QVariantList selected READ getSelected WRITE setSelected NOTIFY selectedChanged)
+    Q_PROPERTY(QVariantList downloads READ getDownloads NOTIFY downloadsChanged)
 public:
     QDropboxController(QDropbox* qdropbox, QObject* parent = 0);
     virtual ~QDropboxController();
@@ -37,11 +38,14 @@ public:
     Q_INVOKABLE void getCurrentAccount();
     Q_INVOKABLE void getSpaceUsage();
     Q_INVOKABLE void getThumbnail(const QString& path, const QString& size = "w128h128");
+    Q_INVOKABLE void download(const QString& path);
 
     Q_INVOKABLE const QVariantList& getSelected() const;
     Q_INVOKABLE void setSelected(const QVariantList& selected);
     Q_INVOKABLE void select(const QVariantMap& file);
     Q_INVOKABLE void unselectAll();
+
+    Q_INVOKABLE const QVariantList& getDownloads() const;
 
     Q_SIGNALS:
         void listFolderLoaded(const QString& path, const QVariantList& files, const QString& cursor, const bool& hasMore);
@@ -53,6 +57,9 @@ public:
         void currentAccountLoaded(Account* account);
         void spaceUsageLoaded(const QVariantMap& spaceUsage);
         void thumbnailLoaded(const QString& path, const QString& localPath);
+        void downloadsChanged(const QVariantList& downloads);
+        void downloaded(const QString& path, const QString& localPath);
+        void downloadProgress(const QString& path, qint64 loaded, qint64 total);
 
         void selectedChanged(const QVariantList& selected);
 
@@ -65,6 +72,8 @@ private slots:
     void onRenamed(QDropboxFile* file);
     void onSpaceUsageLoaded(QDropboxSpaceUsage* spaceUsage);
     void onThumbnailLoaded(const QString& path, const QString& size, QImage* thumbnail);
+    void onDownloaded(const QString& path, const QString& localPath);
+    void onDownloadStarted(const QString& path);
 
 private:
     static Logger logger;
@@ -72,6 +81,7 @@ private:
     QDropbox* m_pQDropbox;
     QStringList m_pathsList;
     QVariantList m_selected;
+    QVariantList m_downloads;
 
     void clear(QList<QDropboxFile*>& files);
 };

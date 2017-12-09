@@ -21,6 +21,7 @@
 #include <bb/cascades/LocaleHandler>
 #include <bb/system/InvokeManager>
 #include <QSettings>
+#include <QDir>
 #include "Common.hpp"
 
 using namespace bb::system;
@@ -34,6 +35,8 @@ ApplicationUI::ApplicationUI() :
         m_invokeManager(new InvokeManager(this)),
         m_pAccount(0),
         m_pFileUtil(new FileUtil(this)) {
+
+    m_downloadsFolder = QDir::currentPath() + "/shared/downloads/basket";
 
     if (!QObject::connect(m_localeHandler, SIGNAL(systemLanguageChanged()),
             this, SLOT(onSystemLanguageChanged()))) {
@@ -55,6 +58,7 @@ ApplicationUI::ApplicationUI() :
         m_pQdropbox = new QDropbox(token, this);
         qml = QmlDocument::create("asset:///main.qml").parent(this);
     }
+    m_pQdropbox->setDownloadsFolder(m_downloadsFolder);
     m_pQdropboxController = new QDropboxController(m_pQdropbox, this);
     bool res = QObject::connect(m_pQdropboxController, SIGNAL(currentAccountLoaded(Account*)), this, SLOT(onCurrentAccountLoaded(Account*)));
     Q_ASSERT(res);
@@ -115,6 +119,7 @@ void ApplicationUI::logout() {
     settings.remove(ACCESS_TOKEN_KEY);
     m_pQdropbox->setAccessToken("");
     m_pQdropbox = new QDropbox("wqynh6pf0cu5506", "q2ficti4tr8zql8", "basket://auth", this);
+    m_pQdropbox->setDownloadsFolder(m_downloadsFolder);
 
     QmlDocument* qml = QmlDocument::create("asset:///pages/AuthPage.qml").parent(this);
     configureQml();

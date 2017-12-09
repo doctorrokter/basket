@@ -28,6 +28,12 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, QObject* parent) : QO
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(thumbnailLoaded(const QString&, const QString&, QImage*)), this, SLOT(onThumbnailLoaded(const QString&, const QString&, QImage*)));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(downloaded(const QString&, const QString&)), this, SLOT(onDownloaded(const QString&, const QString&)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(downloadProgress(const QString&, qint64, qint64)), this, SIGNAL(downloadProgress(const QString&, qint64, qint64)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(downloadStarted(const QString&)), this, SLOT(onDownloadStarted(const QString&)));
+    Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(currentAccountLoaded(Account*)), this, SIGNAL(currentAccountLoaded(Account*)));
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(spaceUsageLoaded(QDropboxSpaceUsage*)), this, SLOT(onSpaceUsageLoaded(QDropboxSpaceUsage*)));
@@ -49,6 +55,12 @@ QDropboxController::~QDropboxController() {
     res = QObject::disconnect(m_pQDropbox, SIGNAL(renamed(QDropboxFile*)), this, SLOT(onRenamed(QDropboxFile*)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(thumbnailLoaded(const QString&, const QString&, QImage*)), this, SLOT(onThumbnailLoaded(const QString&, const QString&, QImage*)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(downloaded(const QString&, const QString&)), this, SLOT(onDownloaded(const QString&, const QString&)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(downloadProgress(const QString&, qint64, qint64)), this, SIGNAL(downloadProgress(const QString&, qint64, qint64)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(downloadStarted(const QString&)), this, SLOT(onDownloadStarted(const QString&)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(currentAccountLoaded(Account*)), this, SIGNAL(currentAccountLoaded(Account*)));
     Q_ASSERT(res);
@@ -183,6 +195,14 @@ void QDropboxController::onThumbnailLoaded(const QString& path, const QString& s
     emit thumbnailLoaded(path, localPath);
 }
 
+const QVariantList& QDropboxController::getDownloads() const {
+    return m_downloads;
+}
+
+void QDropboxController::download(const QString& path) {
+    m_pQDropbox->download(path);
+}
+
 void QDropboxController::onSpaceUsageLoaded(QDropboxSpaceUsage* spaceUsage) {
     emit spaceUsageLoaded(spaceUsage->toMap());
     spaceUsage->deleteLater();
@@ -212,5 +232,16 @@ void QDropboxController::clear(QList<QDropboxFile*>& files) {
         f->deleteLater();
     }
     files.clear();
+}
+
+void QDropboxController::onDownloaded(const QString& path, const QString& localPath) {
+    m_downloads.removeAll(path);
+    emit downloadsChanged(m_downloads);
+    emit downloaded(path, localPath);
+}
+
+void QDropboxController::onDownloadStarted(const QString& path) {
+    m_downloads.append(path);
+    emit downloadsChanged(m_downloads);
 }
 

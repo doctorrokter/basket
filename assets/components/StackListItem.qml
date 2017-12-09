@@ -70,10 +70,8 @@ CustomListItem {
                     ]
                 },
                 
-                ActionItem {
-                    id: downloadAction
-                    title: qsTr("Download") + Retranslate.onLocaleOrLanguageChanged
-                    imageSource: "asset:///images/ic_download.png"
+                DownloadAction {
+                    listView: root.ListItem.view
                     enabled: !root.isDir()
                 }
             ]

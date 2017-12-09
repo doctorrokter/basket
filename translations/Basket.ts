@@ -79,6 +79,22 @@
     </message>
 </context>
 <context>
+    <name>DownloadAction</name>
+    <message>
+        <location filename="../assets/actions/DownloadAction.qml" line="8"/>
+        <source>Download</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DownloadsPage</name>
+    <message>
+        <location filename="../assets/pages/DownloadsPage.qml" line="8"/>
+        <source>Downloads</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FilePickersSheet</name>
     <message>
         <location filename="../assets/sheets/FilePickersSheet.qml" line="15"/>
@@ -191,11 +207,6 @@
     <message>
         <location filename="../assets/components/GridListItem.qml" line="208"/>
         <source>Publish</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/components/GridListItem.qml" line="225"/>
-        <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -368,12 +379,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="75"/>
-        <source>Download</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/components/StackListItem.qml" line="240"/>
+        <location filename="../assets/components/StackListItem.qml" line="238"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>

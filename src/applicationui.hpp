@@ -79,6 +79,8 @@ private:
     FileUtil* m_pFileUtil;
     DateUtil* m_pDateUtil;
 
+    QString m_downloadsFolder;
+
     void configureQml();
 };
 

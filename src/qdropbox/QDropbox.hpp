@@ -14,6 +14,7 @@
 #include <QNetworkReply>
 #include <QList>
 #include <QVariantMap>
+#include <QList>
 #include <QtGui/QImage>
 
 #include "SharedLink.hpp"
@@ -48,6 +49,11 @@ public:
     const QString& getAccessToken() const;
     QDropbox& setAccessToken(const QString& accessToken);
 
+    const QString& getDownloadsFolder() const;
+    QDropbox& setDownloadsFolder(const QString& downloadsFolder);
+
+    QDropbox& setReadBufferSize(qint64 readBufferSize);
+
     QString authUrl() const;
 
     // files
@@ -60,6 +66,7 @@ public:
     void move(const QString& fromPath, const QString& toPath, const bool& allowSharedFolder = false, const bool& autorename = false, const bool& allowOwnershipTransfer = false);
     void rename(const QString& fromPath, const QString& toPath, const bool& allowSharedFolder = false, const bool& autorename = false, const bool& allowOwnershipTransfer = false);
     void getThumbnail(const QString& path, const QString& size = "w128h128", const QString& format = "jpeg");
+    void download(const QString& path, const QString& rev = "");
 
     // users
     void getAccount(const QString& accountId);
@@ -77,7 +84,9 @@ Q_SIGNALS:
     void moved(QDropboxFile* file);
     void renamed(QDropboxFile* file);
     void thumbnailLoaded(const QString& path, const QString& size, QImage* thumbnail);
-
+    void downloadStarted(const QString& path);
+    void downloaded(const QString& path, const QString& localPath);
+    void downloadProgress(const QString& path, qint64 loaded, qint64 total);
 
     // users signals
     void accountLoaded(Account* account);
@@ -95,6 +104,9 @@ private slots:
     void onMoved();
     void onRenamed();
     void onThumbnailLoaded();
+    void onDownloaded();
+    void onDownloadProgress(qint64 loaded, qint64 total);
+    void read();
 
     // users slots
     void onAccountLoaded();
@@ -116,12 +128,18 @@ private:
     QString m_appKey;
     QString m_redirectUri;
 
+    qint64 m_readBufferSize;
+    QList<QNetworkReply*> m_downloadsQueue;
+    QString m_downloadsFolder;
+
     QString m_fullUrl;
     QString m_fullContentUrl;
 
     void init();
     void generateFullUrl();
     void generateFullContentUrl();
+
+    QString getFilename(const QString& path);
 
     QNetworkRequest prepareRequest(const QString& apiMethod);
     QNetworkRequest prepareContentRequest(const QString& apiMethod);
