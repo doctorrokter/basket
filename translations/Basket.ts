@@ -85,6 +85,11 @@
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../assets/actions/DownloadAction.qml" line="14"/>
+        <source>Download started: </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DownloadsPage</name>
@@ -304,6 +309,14 @@
     <message>
         <location filename="../assets/actions/PropsAction.qml" line="8"/>
         <source>Properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QDropboxController</name>
+    <message>
+        <location filename="../src/controllers/QDropboxController.cpp" line="242"/>
+        <source>File downloaded: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>

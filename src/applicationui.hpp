@@ -26,6 +26,7 @@
 #include "controllers/QDropboxController.hpp"
 #include "util/DateUtil.hpp"
 #include "util/FileUtil.hpp"
+#include <bb/system/SystemToast>
 
 namespace bb {
     namespace cascades {
@@ -37,6 +38,7 @@ namespace bb {
 }
 
 using namespace bb::cascades;
+using namespace bb::system;
 
 class QTranslator;
 
@@ -56,6 +58,7 @@ public:
     Q_INVOKABLE void resendNotification();
     Q_INVOKABLE void authorize();
     Q_INVOKABLE void logout();
+    Q_INVOKABLE void toast(const QString& message);
 
     Q_SIGNALS:
         void currentAccountLoaded(const QVariantMap& accountMap);
@@ -80,6 +83,7 @@ private:
     DateUtil* m_pDateUtil;
 
     QString m_downloadsFolder;
+    SystemToast m_toast;
 
     void configureQml();
 };

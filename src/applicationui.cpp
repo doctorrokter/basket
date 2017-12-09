@@ -20,11 +20,10 @@
 #include <bb/cascades/AbstractPane>
 #include <bb/cascades/LocaleHandler>
 #include <bb/system/InvokeManager>
+#include <bb/system/SystemUiPosition.hpp>
 #include <QSettings>
 #include <QDir>
 #include "Common.hpp"
-
-using namespace bb::system;
 
 #define ACCESS_TOKEN_KEY "dropbox.access_token"
 
@@ -59,7 +58,7 @@ ApplicationUI::ApplicationUI() :
         qml = QmlDocument::create("asset:///main.qml").parent(this);
     }
     m_pQdropbox->setDownloadsFolder(m_downloadsFolder);
-    m_pQdropboxController = new QDropboxController(m_pQdropbox, this);
+    m_pQdropboxController = new QDropboxController(m_pQdropbox, m_pFileUtil, this);
     bool res = QObject::connect(m_pQdropboxController, SIGNAL(currentAccountLoaded(Account*)), this, SLOT(onCurrentAccountLoaded(Account*)));
     Q_ASSERT(res);
     Q_UNUSED(res);
@@ -125,6 +124,12 @@ void ApplicationUI::logout() {
     configureQml();
     AbstractPane *root = qml->createRootObject<AbstractPane>();
     Application::instance()->setScene(root);
+}
+
+void ApplicationUI::toast(const QString& message) {
+    m_toast.setBody(message);
+    m_toast.setPosition(SystemUiPosition::MiddleCenter);
+    m_toast.show();
 }
 
 void ApplicationUI::onAccessTokenObtained(const QString& accessToken) {

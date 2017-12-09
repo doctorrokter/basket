@@ -11,5 +11,6 @@ ActionItem {
     onTriggered: {
         var file = listView.dataModel.data(listView.selected());
         _qdropbox.download(file.path_display);
+        _app.toast((qsTr("Download started: ") + Retranslate.onLocaleOrLanguageChanged) + _file.filename(file.path_display));
     }
 }

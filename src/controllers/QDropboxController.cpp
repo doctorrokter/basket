@@ -11,8 +11,9 @@
 
 Logger QDropboxController::logger = Logger::getLogger("QDropboxController");
 
-QDropboxController::QDropboxController(QDropbox* qdropbox, QObject* parent) : QObject(parent) {
+QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, QObject* parent) : QObject(parent) {
     m_pQDropbox = qdropbox;
+    m_pFileUtil = fileUtil;
 
     bool res = QObject::connect(m_pQDropbox, SIGNAL(listFolderLoaded(const QString&, QList<QDropboxFile*>&, const QString&, const bool&)), this, SLOT(onListFolderLoaded(const QString&, QList<QDropboxFile*>&, const QString&, const bool&)));
     Q_ASSERT(res);
@@ -238,6 +239,8 @@ void QDropboxController::onDownloaded(const QString& path, const QString& localP
     m_downloads.removeAll(path);
     emit downloadsChanged(m_downloads);
     emit downloaded(path, localPath);
+    m_toast.setBody(tr("Download finished: ") + "/downloads/basket/" + m_pFileUtil->filename(localPath));
+    m_toast.show();
 }
 
 void QDropboxController::onDownloadStarted(const QString& path) {

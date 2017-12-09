@@ -17,13 +17,17 @@
 #include "../qdropbox/Account.hpp"
 #include "../qdropbox/QDropboxSpaceUsage.hpp"
 #include "../Logger.hpp"
+#include <bb/system/SystemToast>
+#include "../util/FileUtil.hpp"
+
+using namespace bb::system;
 
 class QDropboxController: public QObject {
     Q_OBJECT
     Q_PROPERTY(QVariantList selected READ getSelected WRITE setSelected NOTIFY selectedChanged)
     Q_PROPERTY(QVariantList downloads READ getDownloads NOTIFY downloadsChanged)
 public:
-    QDropboxController(QDropbox* qdropbox, QObject* parent = 0);
+    QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, QObject* parent = 0);
     virtual ~QDropboxController();
 
     Q_INVOKABLE QString fullPath() const;
@@ -80,9 +84,13 @@ private:
     static Logger logger;
 
     QDropbox* m_pQDropbox;
+    FileUtil* m_pFileUtil;
+
     QStringList m_pathsList;
     QVariantList m_selected;
     QVariantList m_downloads;
+
+    SystemToast m_toast;
 
     void clear(QList<QDropboxFile*>& files);
 };
