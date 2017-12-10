@@ -130,13 +130,13 @@ Sheet {
         function startUpload(selectedFiles) {
             sheet.uploadStarted();
             selectedFiles.forEach(function(f) {
-                _fileController.upload(f, targetPath);
+                _qdropbox.upload(f, targetPath);
             });
         }
     }
     
     onTargetPathChanged: {
-        console.debug("taget path: ", targetPath);
+        console.debug("target path: ", targetPath);
     }
     
     onClosed: {

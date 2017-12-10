@@ -6,9 +6,7 @@
  */
 
 #include "QDropboxFile.hpp"
-
-#define FOLDER_TAG "folder"
-#define FILE_TAG "file"
+#include "QDropboxCommon.hpp"
 
 QDropboxFile::QDropboxFile(QObject* parent) : QObject(parent), m_tag(""), m_name(""), m_pathLower(""), m_pathDisplay(""), m_id(""), m_sharedFolderId(""),
 m_sharingInfo(0), m_clientModified(""), m_serverModified(""), m_rev(""), m_size(0), m_contentHash(""), m_mediaInfo(0) {}

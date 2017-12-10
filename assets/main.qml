@@ -116,6 +116,11 @@ NavigationPane {
         },
         
         ComponentDefinition {
+            id: uploadsPage
+            UploadsPage {}    
+        },
+        
+        ComponentDefinition {
             id: folderPage
             FolderPage {
                 onListFolder: {
@@ -146,6 +151,11 @@ NavigationPane {
                 onShowDownloads: {
                     var dp = downloadsPage.createObject();
                     navPane.push(dp);
+                }
+                
+                onUpload: {
+                    pickersSheet.targetPath = path;
+                    pickersSheet.open();
                 }
             }
         },

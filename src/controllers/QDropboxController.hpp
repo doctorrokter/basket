@@ -26,6 +26,7 @@ class QDropboxController: public QObject {
     Q_OBJECT
     Q_PROPERTY(QVariantList selected READ getSelected WRITE setSelected NOTIFY selectedChanged)
     Q_PROPERTY(QVariantList downloads READ getDownloads NOTIFY downloadsChanged)
+    Q_PROPERTY(QVariantList uploads READ getUploads NOTIFY uploadsChanged)
 public:
     QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, QObject* parent = 0);
     virtual ~QDropboxController();
@@ -43,6 +44,7 @@ public:
     Q_INVOKABLE void getSpaceUsage();
     Q_INVOKABLE void getThumbnail(const QString& path, const QString& size = "w128h128");
     Q_INVOKABLE void download(const QString& path);
+    Q_INVOKABLE void upload(const QString& localPath, const QString& remotePath);
 
     Q_INVOKABLE const QVariantList& getSelected() const;
     Q_INVOKABLE void setSelected(const QVariantList& selected);
@@ -50,6 +52,7 @@ public:
     Q_INVOKABLE void unselectAll();
 
     Q_INVOKABLE const QVariantList& getDownloads() const;
+    Q_INVOKABLE const QVariantList& getUploads() const;
 
     Q_SIGNALS:
         void listFolderLoaded(const QString& path, const QVariantList& files, const QString& cursor, const bool& hasMore);
@@ -65,6 +68,10 @@ public:
         void downloaded(const QString& path, const QString& localPath);
         void downloadProgress(const QString& path, qint64 loaded, qint64 total);
         void downloadStarted(const QString& path);
+        void uploadsChanged(const QVariantList& uploads);
+        void uploadStarted(const QString& remotePath);
+        void uploaded(const QVariantMap& file);
+        void uploadProgress(const QString& remotePath, qint64 loaded, qint64 total);
 
         void selectedChanged(const QVariantList& selected);
 
@@ -79,6 +86,8 @@ private slots:
     void onThumbnailLoaded(const QString& path, const QString& size, QImage* thumbnail);
     void onDownloaded(const QString& path, const QString& localPath);
     void onDownloadStarted(const QString& path);
+    void onUploaded(QDropboxFile* file);
+    void onUploadStarted(const QString& remotePath);
 
 private:
     static Logger logger;
@@ -89,6 +98,7 @@ private:
     QStringList m_pathsList;
     QVariantList m_selected;
     QVariantList m_downloads;
+    QVariantList m_uploads;
 
     SystemToast m_toast;
 

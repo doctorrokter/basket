@@ -13,6 +13,7 @@
 #include "../qjson/serializer.h"
 #include "../qjson/parser.h"
 #include "QDropboxFile.hpp"
+#include "QDropboxCommon.hpp"
 
 Logger QDropbox::logger = Logger::getLogger("QDropbox");
 
@@ -407,6 +408,66 @@ void QDropbox::onDownloaded() {
 
     m_downloadsQueue.removeAll(reply);
     reply->deleteLater();
+}
+
+void QDropbox::upload(QFile* file, const QString& remotePath, const QString& mode, const bool& autorename, const bool& mute) {
+    if (file->exists()) {
+        QNetworkRequest req = prepareContentRequest("/files/upload");
+
+        QVariantMap map;
+        map["path"] = remotePath;
+        map["mode"] = mode;
+        map["autorename"] = autorename;
+        map["mute"] = mute;
+
+        QByteArray data = QJson::Serializer().serialize(map);
+        logger.debug(data);
+        req.setRawHeader("Dropbox-API-Arg", data);
+
+        file->open(QIODevice::ReadOnly);
+        QNetworkReply* reply = m_network.post(req, file);
+        reply->setProperty("path", remotePath);
+        file->setParent(reply);
+        m_uploadsQueue.append(reply);
+
+        bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onUploaded()));
+        Q_ASSERT(res);
+        res = QObject::connect(reply, SIGNAL(uploadProgress(qint64,qint64)), this, SLOT(onUploadProgress(qint64,qint64)));
+        Q_ASSERT(res);
+        res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+        Q_ASSERT(res);
+        Q_UNUSED(res);
+        emit uploadStarted(remotePath);
+    } else {
+        logger.error("File " + file->fileName() + " does not exists");
+    }
+}
+
+void QDropbox::onUploaded() {
+    QNetworkReply* reply = getReply();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        QJson::Parser parser;
+        bool* res = new bool(false);
+        QVariant data = parser.parse(reply->readAll(), res);
+        if (*res) {
+            QVariantMap map = data.toMap();
+            map[".tag"] = FILE_TAG;
+            QDropboxFile* file = new QDropboxFile(this);
+            file->fromMap(map);
+            logger.debug("File uploaded: " + file->getPathDisplay());
+            emit uploaded(file);
+        }
+        delete res;
+    }
+
+    m_uploadsQueue.removeAll(reply);
+    reply->deleteLater();
+}
+
+void QDropbox::onUploadProgress(qint64 loaded, qint64 total) {
+    QNetworkReply* reply = getReply();
+    emit uploadProgress(reply->property("path").toString(), loaded, total);
 }
 
 void QDropbox::getAccount(const QString& accountId) {

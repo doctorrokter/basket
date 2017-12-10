@@ -16,6 +16,7 @@
 #include <QVariantMap>
 #include <QList>
 #include <QtGui/QImage>
+#include <QFile>
 
 #include "SharedLink.hpp"
 #include "QDropboxFile.hpp"
@@ -67,6 +68,7 @@ public:
     void rename(const QString& fromPath, const QString& toPath, const bool& allowSharedFolder = false, const bool& autorename = false, const bool& allowOwnershipTransfer = false);
     void getThumbnail(const QString& path, const QString& size = "w128h128", const QString& format = "jpeg");
     void download(const QString& path, const QString& rev = "");
+    void upload(QFile* file, const QString& remotePath, const QString& mode = "add", const bool& autorename = true, const bool& mute = false);
 
     // users
     void getAccount(const QString& accountId);
@@ -87,6 +89,9 @@ Q_SIGNALS:
     void downloadStarted(const QString& path);
     void downloaded(const QString& path, const QString& localPath);
     void downloadProgress(const QString& path, qint64 loaded, qint64 total);
+    void uploadStarted(const QString& remotePath);
+    void uploaded(QDropboxFile* file);
+    void uploadProgress(const QString& remotePath, qint64 loaded, qint64 total);
 
     // users signals
     void accountLoaded(Account* account);
@@ -106,6 +111,8 @@ private slots:
     void onThumbnailLoaded();
     void onDownloaded();
     void onDownloadProgress(qint64 loaded, qint64 total);
+    void onUploaded();
+    void onUploadProgress(qint64 loaded, qint64 total);
     void read();
 
     // users slots
@@ -129,6 +136,7 @@ private:
     QString m_redirectUri;
 
     qint64 m_readBufferSize;
+    QList<QNetworkReply*> m_uploadsQueue;
     QList<QNetworkReply*> m_downloadsQueue;
     QString m_downloadsFolder;
 

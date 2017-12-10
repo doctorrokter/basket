@@ -4,6 +4,6 @@ CONFIG += qt warn_on cascades10
 
 include(config.pri)
 
-LIBS += -lbb -lbbsystem -lbbnetwork -lbbdata -lbbmultimedia
+LIBS += -lbb -lbbsystem -lbbnetwork -lbbdata -lbbmultimedia -lbbcascadespickers
 
 QT += network core gui

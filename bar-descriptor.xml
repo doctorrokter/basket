@@ -25,7 +25,7 @@
     <!-- A universally unique application identifier. Must be unique across
         all BlackBerry 10 applications. Using a reverse DNS-style name as the id
         is recommended. (Eg. com.example.ExampleApplication.) Required. -->
-    <id>com.example.Basket</id>
+    <id>chachkouski.Basket</id>
 
     <!-- The name that is displayed in the BlackBerry 10 application installer.
         May have multiple values for each language. See samples or xsd schema file.
@@ -39,10 +39,10 @@
         than the previous version. Required. -->
     <versionNumber>1.0.0</versionNumber>
     <platformVersion>10.2.0</platformVersion>
+    <authorId>gYAAgJBERbiwoSHtjskM8WvopKU</authorId>
 
     <!-- Fourth digit segment of the package version. First three segments are
         taken from the <versionNumber> element. Must be an integer from 0 to 2^16-1 -->
-    <buildId>1</buildId>
 
     <!-- A string value (such as "v1", "2.5", or "Alpha 1") that represents
         the version of the application, as it should be shown to users. Optional. -->
@@ -58,7 +58,8 @@
 
     <!-- Name of author which is used for signing. Must match the developer
         name of your development certificate. -->
-    <author>Example Inc.</author>
+    <author>Mikhail Chachkouski</author>
+    <buildIdFile>buildnum</buildIdFile>
     <configuration name="Device-Debug">
         <platformArchitecture>armle-v7</platformArchitecture>
         <entryPointType>Qnx/Elf</entryPointType>
@@ -164,6 +165,10 @@
 
     <!-- Request permission to post notification. -->
     <permission>post_notification</permission>
+    <permission>access_shared</permission>
+    <permission system="true">_sys_run_headless</permission>
+    <permission system="true">_sys_headless_nostop</permission>
+    <permission>run_when_backgrounded</permission>
     <env var="LD_LIBRARY_PATH" value="app/native/lib:/usr/lib/qt4/lib" />
 
 </qnx>

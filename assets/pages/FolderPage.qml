@@ -25,6 +25,7 @@ Page {
     signal listFolder(string path, string name)
     signal showProps(variant file)
     signal showDownloads()
+    signal upload(string path)
     
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     actionBarVisibility: ChromeVisibility.Overlay
@@ -194,6 +195,27 @@ Page {
                 root.titleBar = inputTitleBar;
                 root.titleBar.focus();
             }
+        },
+        
+        ActionItem {
+            id: uploadAction
+            title: qsTr("Upload") + Retranslate.onLocaleOrLanguageChanged
+            imageSource: "asset:///images/ic_upload.png"
+            ActionBar.placement: ActionBarPlacement.OnBar    
+            
+            onTriggered: {
+                upload(root.path);
+            }
+            
+            shortcuts: [
+                Shortcut {
+                    key: "u"
+                    
+                    onTriggered: {
+                        uploadAction.triggered();
+                    }
+                }
+            ]
         },
         
         ActionItem {
@@ -470,6 +492,14 @@ Page {
         }
     }
     
+    function uploaded(file) {
+        var p = file.path_display.replace("/" + file.name, "");
+        if (root.path === p) {
+            dataModel.append(file);
+            listView.scrollToPosition(ScrollPosition.End, ScrollAnimation.Smooth);
+        }
+    }
+    
     function cleanUp() {
         _qdropbox.popPath();
         _qdropbox.listFolderLoaded.disconnect(root.listFolderLoaded);
@@ -479,6 +509,7 @@ Page {
         _qdropbox.moved.disconnect(root.moved);
         _qdropbox.renamed.disconnect(root.renamed);
         _qdropbox.thumbnailLoaded.disconnect(root.thumbnailLoaded);
+        _qdropbox.uploaded.disconnect(root.uploaded);
         _app.propChanged.disconnect(root.propChanged);
     }
     
@@ -490,6 +521,7 @@ Page {
         _qdropbox.moved.connect(root.moved);
         _qdropbox.renamed.connect(root.renamed);
         _qdropbox.thumbnailLoaded.connect(root.thumbnailLoaded);
+        _qdropbox.uploaded.connect(root.uploaded);
         _app.propChanged.connect(root.propChanged);
     }
     
