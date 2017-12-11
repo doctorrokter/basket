@@ -18,6 +18,7 @@
 #include <QtGui/QImage>
 #include <QFile>
 
+#include "QDropboxMember.hpp"
 #include "SharedLink.hpp"
 #include "QDropboxFile.hpp"
 #include "Account.hpp"
@@ -31,6 +32,48 @@ public:
     QDropbox(const QString& accessToken, QObject* parent = 0);
     QDropbox(const QString& appSecret, const QString& appKey, const QString& redirectUri, QObject* parent = 0);
     virtual ~QDropbox();
+
+    enum AclUpdatePolicy {
+        OWNER_ACL_UPDATE_POLICY,
+        EDITORS_ACL_UPDATE_POLICY,
+        DEFAULT_ACL_UPDATE_POLICY
+    };
+
+    enum MemberPolicy {
+        TEAM_MEMBER_POLICY,
+        ANYONE_MEMBER_POLICY,
+        DEFAULT_MEMBER_POLICY
+    };
+
+    enum SharedLinkPolicy {
+        TEAM_SHARED_LINK_POLICY,
+        ANYONE_SHARED_LINK_POLICY,
+        MEMBERS_SHARED_LINK_POLICY,
+        DEFAULT_SHARED_LINK_POLICY
+    };
+
+    enum ViewerInfoPolicy {
+        ENABLED_VIEWER_INFO_POLICY,
+        DISABLED_VIEWER_INFO_POLICY,
+        DEFAULT_VIEWER_INFO_POLICY
+    };
+
+    enum FolderAction {
+        CHANGE_OPTIONS_FOLDER_ACTION,
+        DISABLE_VIEWER_INFO_FOLDER_ACTION,
+        EDIT_CONTENTS_FOLDER_ACTION,
+        ENABLE_VIEWER_INFO_FOLDER_ACTION,
+        INVITE_EDITOR_FOLDER_ACTION,
+        INVITE_VIEWER_FOLDER_ACTION,
+        INVITE_VIEWER_NO_COMMENT_FOLDER_ACTION,
+        RELINQUISH_MEMBERSHIP_FOLDER_ACTION,
+        UNMOUNT_FOLDER_ACTION,
+        UNSHARE_FOLDER_ACTION,
+        LEAVE_A_COPY,
+        SHARE_LINK_FOLDER_ACTION,
+        CREATE_LINK_FOLDER_ACTION,
+        DEFAULT_FOLDER_ACTION
+    };
 
     const QString& getUrl() const;
     QDropbox& setUrl(const QString& url);
@@ -70,6 +113,13 @@ public:
     void download(const QString& path, const QString& rev = "");
     void upload(QFile* file, const QString& remotePath, const QString& mode = "add", const bool& autorename = true, const bool& mute = false);
 
+    // sharing
+    void addFolderMember(const QString& sharedFolderId, const QList<QDropboxMember>& members, const bool& quiet = false, const QString& customMessage = "");
+    void shareFolder(const QString& path, const AclUpdatePolicy& aclUpdatePolicy = DEFAULT_ACL_UPDATE_POLICY,
+            const bool& forceAsync = false, const MemberPolicy& memberPolicy = DEFAULT_MEMBER_POLICY,
+            const SharedLinkPolicy& sharedLinkPolicy = DEFAULT_SHARED_LINK_POLICY, const ViewerInfoPolicy& viewerInfoPolicy = DEFAULT_VIEWER_INFO_POLICY,
+            const QList<FolderAction>& folderActions = QList<FolderAction>());
+
     // users
     void getAccount(const QString& accountId);
     void getCurrentAccount();
@@ -93,6 +143,9 @@ Q_SIGNALS:
     void uploaded(QDropboxFile* file);
     void uploadProgress(const QString& remotePath, qint64 loaded, qint64 total);
 
+    // sharing signals
+    void folderMemberAdded(const QString& sharedFolderId);
+
     // users signals
     void accountLoaded(Account* account);
     void currentAccountLoaded(Account* account);
@@ -114,6 +167,9 @@ private slots:
     void onUploaded();
     void onUploadProgress(qint64 loaded, qint64 total);
     void read();
+
+    // sharing slots
+    void onFolderMemberAdded();
 
     // users slots
     void onAccountLoaded();

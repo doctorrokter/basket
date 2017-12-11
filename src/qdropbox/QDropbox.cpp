@@ -470,6 +470,35 @@ void QDropbox::onUploadProgress(qint64 loaded, qint64 total) {
     emit uploadProgress(reply->property("path").toString(), loaded, total);
 }
 
+void QDropbox::addFolderMember(const QString& sharedFolderId, const QList<QDropboxMember>& members, const bool& quiet, const QString& customMessage) {
+    QNetworkRequest req = prepareRequest("/sharing/add_folder_member");
+    QVariantMap map;
+    map["shared_folder_id"] = sharedFolderId;
+    map["quiet"] = quiet;
+    if (!customMessage.isEmpty()) {
+        map["custom_message"] = customMessage;
+    }
+    QVariantList membersList;
+    foreach(QDropboxMember m, members) {
+        membersList.append(m.toMap());
+    }
+    map["members"] = membersList;
+
+    QNetworkReply* reply = m_network.post(req, QJson::Serializer().serialize(map));
+    reply->setProperty("shared_folder_id", sharedFolderId);
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onFolderMemberAdded()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void QDropbox::onFolderMemberAdded() {
+    QNetworkReply* reply = getReply();
+    emit folderMemberAdded(reply->property("shared_folder_id").toString());
+    reply->deleteLater();
+}
+
 void QDropbox::getAccount(const QString& accountId) {
     QNetworkRequest req = prepareRequest("/users/get_account");
     QVariantMap map;
