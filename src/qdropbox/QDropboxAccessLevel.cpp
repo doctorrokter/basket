@@ -7,7 +7,19 @@
 
 #include "QDropboxAccessLevel.hpp"
 
-QDropboxAccessLevel::QDropboxAccessLevel(QObject* parent) : QObject(parent) {}
+#define OWNER_STR "owner"
+#define EDITOR_STR "editor"
+#define VIEWER_STR "viewer"
+#define VIEWER_NO_COMMENT_STR "viewer_no_comment"
+
+QDropboxAccessLevel::QDropboxAccessLevel(QObject* parent) : QObject(parent) {
+    m_accessLevel = NONE;
+
+    map[OWNER_STR] = OWNER;
+    map[EDITOR_STR] = EDITOR;
+    map[VIEWER_STR] = VIEWER;
+    map[VIEWER_NO_COMMENT_STR] = VIEWER_NO_COMMENT;
+}
 
 QDropboxAccessLevel::~QDropboxAccessLevel() {}
 
@@ -17,25 +29,16 @@ QDropboxAccessLevel& QDropboxAccessLevel::operator=(const QDropboxAccessLevel& a
 }
 
 QString QDropboxAccessLevel::name() const {
-    switch(m_accessLevel) {
-        case OWNER: return "owner";
-        case EDITOR: return "editor";
-        case VIEWER: return "viewer";
-        case VIEWER_NO_COMMENT: return "viewer_no_comment";
-        default: return "";
+    foreach(QString k, map.keys()) {
+        if (map.value(k) == m_accessLevel) {
+            return k;
+        }
     }
+    return "";
 }
 
 void QDropboxAccessLevel::fromStr(const QString& str) {
-    if (str.compare("owner") == 0) {
-        m_accessLevel = OWNER;
-    } else if (str.compare("editor") == 0) {
-        m_accessLevel = EDITOR;
-    } else if (str.compare("viewer") == 0) {
-        m_accessLevel = VIEWER;
-    } else if (str.compare("viewer_no_comment") == 0) {
-        m_accessLevel = VIEWER_NO_COMMENT;
-    }
+    m_accessLevel = map.value(str);
 }
 
 const QDropboxAccessLevel::AccessLevel& QDropboxAccessLevel::value() const { return m_accessLevel; }

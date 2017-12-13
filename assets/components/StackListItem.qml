@@ -47,27 +47,8 @@ CustomListItem {
                     listView: root.ListItem.view
                 },
                 
-                ActionItem {
-                    id: publishAction
-                    title: {
-                        
-                        // TODO: fix this!!!
-                        if (true) {
-                            return qsTr("Unpublish") + Retranslate.onLocaleOrLanguageChanged;
-                        }
-                        return qsTr("Publish") + Retranslate.onLocaleOrLanguageChanged;
-                    }
-                    imageSource: "asset:///images/ic_share.png"
-                    
-                    shortcuts: [
-                        Shortcut {
-                            key: "s"
-                            
-                            onTriggered: {
-                                publishAction.triggered();
-                            }
-                        }
-                    ]
+                ShareAction {
+                    listView: root.ListItem.view
                 },
                 
                 DownloadAction {

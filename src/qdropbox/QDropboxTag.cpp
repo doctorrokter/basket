@@ -7,7 +7,15 @@
 
 #include "QDropboxTag.hpp"
 
-QDropboxTag::QDropboxTag(QObject* parent) : QObject(parent) {}
+#define EMAIL_STR "email"
+#define DROPBOX_ID_STR "dropbox_id"
+
+QDropboxTag::QDropboxTag(QObject* parent) : QObject(parent) {
+    m_tag = NONE;
+
+    map[EMAIL_STR] = EMAIL;
+    map[DROPBOX_ID_STR] = DROPBOX_ID;
+}
 
 QDropboxTag::~QDropboxTag() {}
 
@@ -17,19 +25,16 @@ QDropboxTag& QDropboxTag::operator=(const QDropboxTag& tag) {
 }
 
 QString QDropboxTag::name() const {
-    switch(m_tag) {
-        case EMAIL: return "email";
-        case DROPBOX_ID: return "dropbox_id";
-        default: return "";
+    foreach(QString k, map.keys()) {
+        if (map.value(k) == m_tag) {
+            return k;
+        }
     }
+    return "";
 }
 
 void QDropboxTag::fromStr(const QString& str) {
-    if (str.compare("email") == 0) {
-        m_tag = EMAIL;
-    } else if (str.compare("dropbox_id") == 0) {
-        m_tag = DROPBOX_ID;
-    }
+    m_tag = map.value(str);
 }
 
 const QDropboxTag::Tag& QDropboxTag::value() const { return m_tag; }

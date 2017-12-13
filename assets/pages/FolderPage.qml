@@ -26,6 +26,7 @@ Page {
     signal showProps(variant file)
     signal showDownloads()
     signal upload(string path)
+    signal shareFolder(string path)
     
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     actionBarVisibility: ChromeVisibility.Overlay
@@ -113,6 +114,10 @@ Page {
                 
                 function requestPropsPage(file) {
                     root.showProps(file);
+                }
+                
+                function shareFolder(path) {
+                    root.shareFolder(path);
                 }
                 
                 onTriggered: {
@@ -500,6 +505,19 @@ Page {
         }
     }
     
+    function sharedFolder(path, sharedFolderId) {
+        if (root.path !== path) {
+            for (var i = 0; i < dataModel.size(); i++) {
+                var file = dataModel.value(i);
+                if (file.path_display === path) {
+                    file.shared_folder_id = sharedFolderId;
+                    dataModel.replace(i, file);
+                    return;
+                }
+            }
+        }
+    }
+    
     function cleanUp() {
         _qdropbox.popPath();
         _qdropbox.listFolderLoaded.disconnect(root.listFolderLoaded);
@@ -510,6 +528,7 @@ Page {
         _qdropbox.renamed.disconnect(root.renamed);
         _qdropbox.thumbnailLoaded.disconnect(root.thumbnailLoaded);
         _qdropbox.uploaded.disconnect(root.uploaded);
+        _qdropbox.sharedFolder.disconnect(root.sharedFolder);
         _app.propChanged.disconnect(root.propChanged);
     }
     
@@ -522,6 +541,7 @@ Page {
         _qdropbox.renamed.connect(root.renamed);
         _qdropbox.thumbnailLoaded.connect(root.thumbnailLoaded);
         _qdropbox.uploaded.connect(root.uploaded);
+        _qdropbox.sharedFolder.connect(root.sharedFolder);
         _app.propChanged.connect(root.propChanged);
     }
     

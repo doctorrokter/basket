@@ -15,6 +15,11 @@ QDropboxMember::QDropboxMember(const QDropboxMember& member) : QObject(member.pa
 
 QDropboxMember::~QDropboxMember() {}
 
+QDropboxMember& QDropboxMember::operator=(const QDropboxMember& member) {
+    swap(member);
+    return *this;
+}
+
 const QDropboxTag& QDropboxMember::getTag() const { return m_tag; }
 
 const QString& QDropboxMember::getEmail() const { return m_email; }

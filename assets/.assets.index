@@ -1,6 +1,7 @@
 1
-51
+53
 sheets/FilePickersSheet.qml
+sheets/ShareFolderSheet.qml
 main.qml
 components/GridListItem.qml
 components/PropListItem.qml
@@ -18,6 +19,7 @@ pages/PropertiesPage.qml
 pages/DirPage.qml
 pages/FolderPage.qml
 actions/RenameFileAction.qml
+actions/ShareAction.qml
 actions/MoveActionItem.qml
 actions/DeleteFileAction.qml
 actions/PropsAction.qml

@@ -179,49 +179,36 @@
 <context>
     <name>FolderPage</name>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="182"/>
+        <location filename="../assets/pages/FolderPage.qml" line="187"/>
         <source>Create folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="202"/>
+        <location filename="../assets/pages/FolderPage.qml" line="207"/>
         <source>Upload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="233"/>
-        <location filename="../assets/pages/FolderPage.qml" line="481"/>
+        <location filename="../assets/pages/FolderPage.qml" line="238"/>
+        <location filename="../assets/pages/FolderPage.qml" line="486"/>
         <source>List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="235"/>
-        <location filename="../assets/pages/FolderPage.qml" line="488"/>
+        <location filename="../assets/pages/FolderPage.qml" line="240"/>
+        <location filename="../assets/pages/FolderPage.qml" line="493"/>
         <source>Grid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="251"/>
+        <location filename="../assets/pages/FolderPage.qml" line="256"/>
         <source>Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="361"/>
-        <location filename="../assets/pages/FolderPage.qml" line="362"/>
+        <location filename="../assets/pages/FolderPage.qml" line="366"/>
+        <location filename="../assets/pages/FolderPage.qml" line="367"/>
         <source>GB</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>GridListItem</name>
-    <message>
-        <location filename="../assets/components/GridListItem.qml" line="206"/>
-        <source>Unpublish</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/components/GridListItem.qml" line="208"/>
-        <source>Publish</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -320,12 +307,12 @@
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="235"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="248"/>
         <source>Upload finished: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="281"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="317"/>
         <source>Download finished: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -395,19 +382,70 @@
     </message>
 </context>
 <context>
+    <name>ShareAction</name>
+    <message>
+        <location filename="../assets/actions/ShareAction.qml" line="8"/>
+        <source>Share</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ShareFolderSheet</name>
+    <message>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="11"/>
+        <source>Share</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="15"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="25"/>
+        <source>Done</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="51"/>
+        <source>Resource to share:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="69"/>
+        <source>To (use space as delimeter):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="92"/>
+        <source>Access level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="97"/>
+        <source>Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="104"/>
+        <source>Viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="113"/>
+        <source>Users can modify, delete and comment a file and also add it into own Dropbox.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="121"/>
+        <source>Users can view, download and comment a file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>StackListItem</name>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="56"/>
-        <source>Unpublish</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/components/StackListItem.qml" line="58"/>
-        <source>Publish</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/components/StackListItem.qml" line="238"/>
+        <location filename="../assets/components/StackListItem.qml" line="219"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>

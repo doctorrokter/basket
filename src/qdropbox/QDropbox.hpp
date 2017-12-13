@@ -19,6 +19,11 @@
 #include <QFile>
 
 #include "QDropboxMember.hpp"
+#include "QDropboxFolderAction.hpp"
+#include "QDropboxAclUpdatePolicy.hpp"
+#include "QDropboxMemberPolicy.hpp"
+#include "QDropboxSharedLinkPolicy.hpp"
+#include "QDropboxViewerInfoPolicy.hpp"
 #include "SharedLink.hpp"
 #include "QDropboxFile.hpp"
 #include "Account.hpp"
@@ -32,48 +37,6 @@ public:
     QDropbox(const QString& accessToken, QObject* parent = 0);
     QDropbox(const QString& appSecret, const QString& appKey, const QString& redirectUri, QObject* parent = 0);
     virtual ~QDropbox();
-
-    enum AclUpdatePolicy {
-        OWNER_ACL_UPDATE_POLICY,
-        EDITORS_ACL_UPDATE_POLICY,
-        DEFAULT_ACL_UPDATE_POLICY
-    };
-
-    enum MemberPolicy {
-        TEAM_MEMBER_POLICY,
-        ANYONE_MEMBER_POLICY,
-        DEFAULT_MEMBER_POLICY
-    };
-
-    enum SharedLinkPolicy {
-        TEAM_SHARED_LINK_POLICY,
-        ANYONE_SHARED_LINK_POLICY,
-        MEMBERS_SHARED_LINK_POLICY,
-        DEFAULT_SHARED_LINK_POLICY
-    };
-
-    enum ViewerInfoPolicy {
-        ENABLED_VIEWER_INFO_POLICY,
-        DISABLED_VIEWER_INFO_POLICY,
-        DEFAULT_VIEWER_INFO_POLICY
-    };
-
-    enum FolderAction {
-        CHANGE_OPTIONS_FOLDER_ACTION,
-        DISABLE_VIEWER_INFO_FOLDER_ACTION,
-        EDIT_CONTENTS_FOLDER_ACTION,
-        ENABLE_VIEWER_INFO_FOLDER_ACTION,
-        INVITE_EDITOR_FOLDER_ACTION,
-        INVITE_VIEWER_FOLDER_ACTION,
-        INVITE_VIEWER_NO_COMMENT_FOLDER_ACTION,
-        RELINQUISH_MEMBERSHIP_FOLDER_ACTION,
-        UNMOUNT_FOLDER_ACTION,
-        UNSHARE_FOLDER_ACTION,
-        LEAVE_A_COPY,
-        SHARE_LINK_FOLDER_ACTION,
-        CREATE_LINK_FOLDER_ACTION,
-        DEFAULT_FOLDER_ACTION
-    };
 
     const QString& getUrl() const;
     QDropbox& setUrl(const QString& url);
@@ -115,10 +78,10 @@ public:
 
     // sharing
     void addFolderMember(const QString& sharedFolderId, const QList<QDropboxMember>& members, const bool& quiet = false, const QString& customMessage = "");
-    void shareFolder(const QString& path, const AclUpdatePolicy& aclUpdatePolicy = DEFAULT_ACL_UPDATE_POLICY,
-            const bool& forceAsync = false, const MemberPolicy& memberPolicy = DEFAULT_MEMBER_POLICY,
-            const SharedLinkPolicy& sharedLinkPolicy = DEFAULT_SHARED_LINK_POLICY, const ViewerInfoPolicy& viewerInfoPolicy = DEFAULT_VIEWER_INFO_POLICY,
-            const QList<FolderAction>& folderActions = QList<FolderAction>());
+    void shareFolder(const QString& path, const bool& forceAsync = false, const QDropboxAclUpdatePolicy& aclUpdatePolicy = QDropboxAclUpdatePolicy(),
+            const QDropboxMemberPolicy& memberPolicy = QDropboxMemberPolicy(),
+            const QDropboxSharedLinkPolicy& sharedLinkPolicy = QDropboxSharedLinkPolicy(), const QDropboxViewerInfoPolicy& viewerInfoPolicy = QDropboxViewerInfoPolicy(),
+            const QList<QDropboxFolderAction>& folderActions = QList<QDropboxFolderAction>()); // TODO: add LinkSettings!
 
     // users
     void getAccount(const QString& accountId);
@@ -145,11 +108,14 @@ Q_SIGNALS:
 
     // sharing signals
     void folderMemberAdded(const QString& sharedFolderId);
+    void folderShared(const QString& path, const QString& sharedFolderId);
 
     // users signals
     void accountLoaded(Account* account);
     void currentAccountLoaded(Account* account);
     void spaceUsageLoaded(QDropboxSpaceUsage* spaceUsage);
+
+    void error(QNetworkReply::NetworkError e, const QString& errorString);
 
 private slots:
     void onError(QNetworkReply::NetworkError e);
@@ -170,6 +136,7 @@ private slots:
 
     // sharing slots
     void onFolderMemberAdded();
+    void onFolderShared();
 
     // users slots
     void onAccountLoaded();

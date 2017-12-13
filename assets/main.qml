@@ -120,6 +120,10 @@ NavigationPane {
             UploadsPage {}    
         },
         
+        ShareFolderSheet {
+            id: shareFolderSheet    
+        },
+        
         ComponentDefinition {
             id: folderPage
             FolderPage {
@@ -156,6 +160,11 @@ NavigationPane {
                 onUpload: {
                     pickersSheet.targetPath = path;
                     pickersSheet.open();
+                }
+                
+                onShareFolder: {
+                    shareFolderSheet.path = path;
+                    shareFolderSheet.open();
                 }
             }
         },

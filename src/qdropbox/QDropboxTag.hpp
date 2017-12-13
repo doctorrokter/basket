@@ -9,6 +9,7 @@
 #define QDROPBOXTAG_HPP_
 
 #include <QObject>
+#include <QMap>
 
 class QDropboxTag: public QObject {
     Q_OBJECT
@@ -20,7 +21,8 @@ public:
 
     enum Tag {
         EMAIL,
-        DROPBOX_ID
+        DROPBOX_ID,
+        NONE
     };
 
     QString name() const;
@@ -31,6 +33,7 @@ public:
 
 private:
     Tag m_tag;
+    QMap<QString, Tag> map;
 };
 
 #endif /* QDROPBOXTAG_HPP_ */

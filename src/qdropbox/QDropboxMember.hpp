@@ -20,6 +20,8 @@ public:
     QDropboxMember(const QDropboxMember& member);
     virtual ~QDropboxMember();
 
+    QDropboxMember& operator=(const QDropboxMember& member);
+
     const QDropboxTag& getTag() const;
 
     const QString& getEmail() const;

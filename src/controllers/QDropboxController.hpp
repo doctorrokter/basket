@@ -10,15 +10,18 @@
 
 #include <QObject>
 #include <QStringList>
+#include <QList>
 #include <QVariantList>
 #include <QtGui/QImage>
 #include "../qdropbox/QDropbox.hpp"
 #include "../qdropbox/QDropboxFile.hpp"
+#include "../qdropbox/QDropboxMember.hpp"
 #include "../qdropbox/Account.hpp"
 #include "../qdropbox/QDropboxSpaceUsage.hpp"
 #include "../Logger.hpp"
 #include <bb/system/SystemToast>
 #include "../util/FileUtil.hpp"
+#include <QNetworkReply>
 
 using namespace bb::system;
 
@@ -45,6 +48,8 @@ public:
     Q_INVOKABLE void getThumbnail(const QString& path, const QString& size = "w128h128");
     Q_INVOKABLE void download(const QString& path);
     Q_INVOKABLE void upload(const QString& localPath, const QString& remotePath);
+    Q_INVOKABLE void shareFolder(const QString& path);
+    Q_INVOKABLE void addFolderMember(const QString& sharedFolderId, const QVariantList& members, const int& accessLevel);
 
     Q_INVOKABLE const QVariantList& getSelected() const;
     Q_INVOKABLE void setSelected(const QVariantList& selected);
@@ -72,8 +77,11 @@ public:
         void uploadStarted(const QString& remotePath);
         void uploaded(const QVariantMap& file);
         void uploadProgress(const QString& remotePath, qint64 loaded, qint64 total);
+        void sharedFolder(const QString& path, const QString& sharedFolderId);
+        void folderMemberAdded(const QString& sharedFolderId);
 
         void selectedChanged(const QVariantList& selected);
+        void error(const QString& error);
 
 private slots:
     void onListFolderLoaded(const QString& path, QList<QDropboxFile*>& files, const QString& cursor, const bool& hasMore);
@@ -88,6 +96,9 @@ private slots:
     void onDownloadStarted(const QString& path);
     void onUploaded(QDropboxFile* file);
     void onUploadStarted(const QString& remotePath);
+    void onFolderShared(const QString& path, const QString& sharedFolderId);
+
+    void onError(QNetworkReply::NetworkError e, const QString& errorString);
 
 private:
     static Logger logger;

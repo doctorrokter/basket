@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QDir>
 #include "QDropboxController.hpp"
+#include "../qdropbox/QDropboxAccessLevel.hpp"
 
 Logger QDropboxController::logger = Logger::getLogger("QDropboxController");
 
@@ -45,6 +46,12 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, Q
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(spaceUsageLoaded(QDropboxSpaceUsage*)), this, SLOT(onSpaceUsageLoaded(QDropboxSpaceUsage*)));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(error(QNetworkReply::NetworkError, const QString&)), this, SLOT(onError(QNetworkReply::NetworkError, const QString&)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(folderShared(const QString&, const QString&)), this, SLOT(onFolderShared(const QString&, const QString&)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(folderMemberAdded(const QString&)), this, SIGNAL(folderMemberAdded(const QString&)));
+    Q_ASSERT(res);
     Q_UNUSED(res);
 }
 
@@ -78,6 +85,12 @@ QDropboxController::~QDropboxController() {
     res = QObject::disconnect(m_pQDropbox, SIGNAL(currentAccountLoaded(Account*)), this, SIGNAL(currentAccountLoaded(Account*)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(spaceUsageLoaded(QDropboxSpaceUsage*)), this, SLOT(onSpaceUsageLoaded(QDropboxSpaceUsage*)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(error(QNetworkReply::NetworkError, const QString&)), this, SLOT(onError(QNetworkReply::NetworkError, const QString&)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(folderShared(const QString&, const QString&)), this, SLOT(onFolderShared(const QString&, const QString&)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(folderMemberAdded(const QString&)), this, SIGNAL(folderMemberAdded(const QString&)));
     Q_ASSERT(res);
     Q_UNUSED(res);
 }
@@ -243,6 +256,29 @@ void QDropboxController::onUploadStarted(const QString& remotePath) {
     emit uploadStarted(remotePath);
 }
 
+void QDropboxController::shareFolder(const QString& path) {
+    m_pQDropbox->shareFolder(path);
+}
+
+void QDropboxController::onFolderShared(const QString& path, const QString& sharedFolderId) {
+    emit sharedFolder(path, sharedFolderId);
+}
+
+void QDropboxController::addFolderMember(const QString& sharedFolderId, const QVariantList& members, const int& accessLevel) {
+    QList<QDropboxMember> membersList;
+    foreach(QVariant v, members) {
+        QDropboxAccessLevel level;
+        level.value(accessLevel == 1 ? QDropboxAccessLevel::EDITOR : QDropboxAccessLevel::VIEWER);
+
+        QDropboxMember member;
+        member
+            .setEmail(v.toString())
+            .setAccessLevel(level);
+        membersList.append(member);
+    }
+    m_pQDropbox->addFolderMember(sharedFolderId, membersList);
+}
+
 void QDropboxController::onSpaceUsageLoaded(QDropboxSpaceUsage* spaceUsage) {
     emit spaceUsageLoaded(spaceUsage->toMap());
     spaceUsage->deleteLater();
@@ -286,5 +322,12 @@ void QDropboxController::onDownloadStarted(const QString& path) {
     m_downloads.append(path);
     emit downloadsChanged(m_downloads);
     emit downloadStarted(path);
+}
+
+void QDropboxController::onError(QNetworkReply::NetworkError e, const QString& errorString) {
+    Q_UNUSED(e);
+    m_toast.setBody(errorString);
+    m_toast.show();
+    emit error(errorString);
 }
 

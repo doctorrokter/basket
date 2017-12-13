@@ -484,7 +484,10 @@ void QDropbox::addFolderMember(const QString& sharedFolderId, const QList<QDropb
     }
     map["members"] = membersList;
 
-    QNetworkReply* reply = m_network.post(req, QJson::Serializer().serialize(map));
+    QByteArray data = QJson::Serializer().serialize(map);
+    logger.debug(data);
+
+    QNetworkReply* reply = m_network.post(req, data);
     reply->setProperty("shared_folder_id", sharedFolderId);
     bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onFolderMemberAdded()));
     Q_ASSERT(res);
@@ -496,6 +499,76 @@ void QDropbox::addFolderMember(const QString& sharedFolderId, const QList<QDropb
 void QDropbox::onFolderMemberAdded() {
     QNetworkReply* reply = getReply();
     emit folderMemberAdded(reply->property("shared_folder_id").toString());
+    reply->deleteLater();
+}
+
+void QDropbox::shareFolder(const QString& path, const bool& forceAsync, const QDropboxAclUpdatePolicy& aclUpdatePolicy,  const QDropboxMemberPolicy& memberPolicy,
+            const QDropboxSharedLinkPolicy& sharedLinkPolicy, const QDropboxViewerInfoPolicy& viewerInfoPolicy,
+            const QList<QDropboxFolderAction>& folderActions) {
+
+    QNetworkRequest req = prepareRequest("/sharing/share_folder");
+    QVariantMap map;
+    map["path"] = path;
+    map["force_async"] = forceAsync;
+    if (aclUpdatePolicy.value() != QDropboxAclUpdatePolicy::NONE) {
+        map["acl_update_policy"] = aclUpdatePolicy.name();
+    }
+
+    if (memberPolicy.value() != QDropboxMemberPolicy::NONE) {
+        map["member_policy"] = memberPolicy.name();
+    }
+
+    if (sharedLinkPolicy.value() != QDropboxSharedLinkPolicy::NONE) {
+        map["shared_link_policy"] = sharedLinkPolicy.name();
+    }
+
+    if (viewerInfoPolicy.value() != QDropboxViewerInfoPolicy::NONE) {
+        map["viewer_info_policy"] = viewerInfoPolicy.name();
+    }
+
+    if (folderActions.size() > 0) {
+        QVariantList actions;
+        foreach(QDropboxFolderAction a, folderActions) {
+            if (a.value() != QDropboxFolderAction::NONE) {
+                QVariantMap aMap;
+                aMap[".tag"] = a.name();
+                actions.append(aMap);
+            }
+        }
+        if (actions.size() > 0) {
+            map["actions"] = actions;
+        }
+    }
+
+    QByteArray data = QJson::Serializer().serialize(map);
+    logger.debug(data);
+
+    QNetworkReply* reply = m_network.post(req, data);
+    reply->setProperty("path", path);
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onFolderShared()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void QDropbox::onFolderShared() {
+    QNetworkReply* reply = getReply();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        QJson::Parser parser;
+        bool* res = new bool(false);
+        QVariant data = parser.parse(reply->readAll(), res);
+        if (*res) {
+
+            // TODO: process full data in the future
+
+            QVariantMap map = data.toMap();
+            emit folderShared(reply->property("path").toString(), map.value("shared_folder_id").toString());
+        }
+        delete res;
+    }
+
     reply->deleteLater();
 }
 
@@ -590,11 +663,13 @@ void QDropbox::onSpaceUsageLoaded() {
 
 void QDropbox::onError(QNetworkReply::NetworkError e) {
     QNetworkReply* reply = getReply();
-    logger.error(reply->errorString());
+    QString errorString = reply->errorString();
+    logger.error(errorString);
     logger.error(e);
     if (reply->bytesAvailable()) {
         logger.error(reply->readAll());
     }
+    emit error(e, errorString);
 }
 
 void QDropbox::init() {

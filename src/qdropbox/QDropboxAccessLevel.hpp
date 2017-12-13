@@ -8,6 +8,9 @@
 #ifndef QDROPBOXACCESSLEVEL_HPP_
 #define QDROPBOXACCESSLEVEL_HPP_
 
+#include <QObject>
+#include <QMap>
+
 class QDropboxAccessLevel: public QObject {
     Q_OBJECT
 public:
@@ -20,7 +23,8 @@ public:
         OWNER,
         EDITOR,
         VIEWER,
-        VIEWER_NO_COMMENT
+        VIEWER_NO_COMMENT,
+        NONE
     };
 
     QString name() const;
@@ -31,6 +35,7 @@ public:
 
 private:
     AccessLevel m_accessLevel;
+    QMap<QString, AccessLevel> map;
 };
 
 #endif /* QDROPBOXACCESSLEVEL_HPP_ */
