@@ -26,6 +26,7 @@
 #include "QDropboxViewerInfoPolicy.hpp"
 #include "SharedLink.hpp"
 #include "QDropboxFile.hpp"
+#include "QDropboxFolderMember.hpp"
 #include "Account.hpp"
 #include "QDropboxSpaceUsage.hpp"
 #include "../Logger.hpp"
@@ -78,6 +79,7 @@ public:
 
     // sharing
     void addFolderMember(const QString& sharedFolderId, const QList<QDropboxMember>& members, const bool& quiet = false, const QString& customMessage = "");
+    void listFolderMembers(const QString& sharedFolderId, const int& limit = 0);
     void shareFolder(const QString& path, const bool& forceAsync = false, const QDropboxAclUpdatePolicy& aclUpdatePolicy = QDropboxAclUpdatePolicy(),
             const QDropboxMemberPolicy& memberPolicy = QDropboxMemberPolicy(),
             const QDropboxSharedLinkPolicy& sharedLinkPolicy = QDropboxSharedLinkPolicy(), const QDropboxViewerInfoPolicy& viewerInfoPolicy = QDropboxViewerInfoPolicy(),
@@ -108,6 +110,7 @@ Q_SIGNALS:
 
     // sharing signals
     void folderMemberAdded(const QString& sharedFolderId);
+    void listFolderMembersLoaded(const QString& sharedFolderId, const QList<QDropboxFolderMember*>& members, const QString& cursor = "");
     void folderShared(const QString& path, const QString& sharedFolderId);
 
     // users signals
@@ -136,6 +139,7 @@ private slots:
 
     // sharing slots
     void onFolderMemberAdded();
+    void onListFolderMembers();
     void onFolderShared();
 
     // users slots

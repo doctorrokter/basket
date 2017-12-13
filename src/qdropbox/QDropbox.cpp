@@ -502,6 +502,49 @@ void QDropbox::onFolderMemberAdded() {
     reply->deleteLater();
 }
 
+void QDropbox::listFolderMembers(const QString& sharedFolderId, const int& limit) {
+    QNetworkRequest req = prepareRequest("/sharing/list_folder_members");
+    QVariantMap map;
+    map["shared_folder_id"] = sharedFolderId;
+    if (limit != 0) {
+        map["limit"] = limit;
+    }
+
+    QByteArray data = QJson::Serializer().serialize(map);
+    logger.debug(data);
+
+    QNetworkReply* reply = m_network.post(req, data);
+    reply->setProperty("shared_folder_id", sharedFolderId);
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onListFolderMembers()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void QDropbox::onListFolderMembers() {
+    QNetworkReply* reply = getReply();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        bool* res = new bool(false);
+        QVariant data = QJson::Parser().parse(reply->readAll(), res);
+        if (*res) {
+            QVariantMap map = data.toMap();
+            QList<QDropboxFolderMember*> members;
+            QVariantList users = map.value("users").toList();
+            foreach(QVariant v, users) {
+                QDropboxFolderMember* m = new QDropboxFolderMember(this);
+                m->fromMap(v.toMap());
+                members.append(m);
+            }
+            emit listFolderMembersLoaded(reply->property("shared_folder_id").toString(), members, map.value("cursor", "").toString());
+        }
+        delete res;
+    }
+
+    reply->deleteLater();
+}
+
 void QDropbox::shareFolder(const QString& path, const bool& forceAsync, const QDropboxAclUpdatePolicy& aclUpdatePolicy,  const QDropboxMemberPolicy& memberPolicy,
             const QDropboxSharedLinkPolicy& sharedLinkPolicy, const QDropboxViewerInfoPolicy& viewerInfoPolicy,
             const QList<QDropboxFolderAction>& folderActions) {

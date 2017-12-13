@@ -52,6 +52,8 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, Q
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(folderMemberAdded(const QString&)), this, SIGNAL(folderMemberAdded(const QString&)));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(listFolderMembersLoaded(const QString&, const QList<QDropboxFolderMember*>&, const QString&)), this, SLOT(onListFolderMembers(const QString&, const QList<QDropboxFolderMember*>&, const QString&)));
+    Q_ASSERT(res);
     Q_UNUSED(res);
 }
 
@@ -91,6 +93,8 @@ QDropboxController::~QDropboxController() {
     res = QObject::disconnect(m_pQDropbox, SIGNAL(folderShared(const QString&, const QString&)), this, SLOT(onFolderShared(const QString&, const QString&)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(folderMemberAdded(const QString&)), this, SIGNAL(folderMemberAdded(const QString&)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(listFolderMembersLoaded(const QString&, const QList<QDropboxFolderMember>&, const QString&)), this, SLOT(onListFolderMembers(const QString&, const QList<QDropboxFolderMember>&, const QString&)));
     Q_ASSERT(res);
     Q_UNUSED(res);
 }
@@ -277,6 +281,19 @@ void QDropboxController::addFolderMember(const QString& sharedFolderId, const QV
         membersList.append(member);
     }
     m_pQDropbox->addFolderMember(sharedFolderId, membersList);
+}
+
+void QDropboxController::listFolderMembers(const QString& sharedFolderId, const int& limit) {
+    m_pQDropbox->listFolderMembers(sharedFolderId, limit);
+}
+
+void QDropboxController::onListFolderMembers(const QString& sharedFolderId, const QList<QDropboxFolderMember*>& members, const QString& cursor) {
+    QVariantList membersList;
+    foreach(QDropboxFolderMember* m, members) {
+        membersList.append(m->toMap());
+        m->deleteLater();
+    }
+    emit listFolderMembersLoaded(sharedFolderId, membersList, cursor);
 }
 
 void QDropboxController::onSpaceUsageLoaded(QDropboxSpaceUsage* spaceUsage) {

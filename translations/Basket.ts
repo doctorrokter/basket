@@ -179,35 +179,35 @@
 <context>
     <name>FolderPage</name>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="187"/>
+        <location filename="../assets/pages/FolderPage.qml" line="191"/>
         <source>Create folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="207"/>
+        <location filename="../assets/pages/FolderPage.qml" line="211"/>
         <source>Upload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="238"/>
-        <location filename="../assets/pages/FolderPage.qml" line="486"/>
+        <location filename="../assets/pages/FolderPage.qml" line="242"/>
+        <location filename="../assets/pages/FolderPage.qml" line="501"/>
         <source>List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="240"/>
-        <location filename="../assets/pages/FolderPage.qml" line="493"/>
+        <location filename="../assets/pages/FolderPage.qml" line="244"/>
+        <location filename="../assets/pages/FolderPage.qml" line="508"/>
         <source>Grid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="256"/>
+        <location filename="../assets/pages/FolderPage.qml" line="260"/>
         <source>Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="366"/>
-        <location filename="../assets/pages/FolderPage.qml" line="367"/>
+        <location filename="../assets/pages/FolderPage.qml" line="370"/>
+        <location filename="../assets/pages/FolderPage.qml" line="371"/>
         <source>GB</source>
         <translation type="unfinished"></translation>
     </message>
@@ -307,12 +307,12 @@
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="248"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="252"/>
         <source>Upload finished: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="317"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="334"/>
         <source>Download finished: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -445,7 +445,7 @@
 <context>
     <name>StackListItem</name>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="219"/>
+        <location filename="../assets/components/StackListItem.qml" line="247"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>

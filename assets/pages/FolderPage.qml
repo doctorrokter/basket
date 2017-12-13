@@ -146,6 +146,8 @@ Page {
                             mediaInfo: ListItemData.media_info
                             currentPath: ListItem.view.currentPath
                             thumbnail: ListItemData.thumbnail || ""
+                            membersCount: ListItemData.members_count || 0
+                            membersCursor: ListItemData.members_cursor || ""
                         }
                     },
                     
@@ -167,6 +169,8 @@ Page {
                             mediaInfo: ListItemData.media_info
                             currentPath: ListItem.view.currentPath
                             thumbnail: ListItemData.thumbnail || ""
+                            membersCount: ListItemData.members_count || 0
+                            membersCursor: ListItemData.members_cursor || ""
                         }
                     }
                 ]
@@ -368,12 +372,22 @@ Page {
         }
     }
     
+    function append(files) {
+        files.forEach(function(f) {
+            if (f.shared_folder_id !== "") {
+                _qdropbox.listFolderMembers(f.shared_folder_id);
+            } 
+            dataModel.append(f);
+        });
+    }
+    
     function listFolderLoaded(path, files, cursor, hasMore) {
         spinner.stop();
         if (root.path === path) {
             root.cursor = cursor;
             root.hasMore = hasMore;
-            dataModel.append(files);
+//            dataModel.append(files);
+            root.append(files);
         }
     }
     
@@ -382,7 +396,8 @@ Page {
         if (root.cursor === prevCursor) {
             root.cursor = cursor;
             root.hasMore = hasMore;
-            dataModel.append(files);
+//            dataModel.append(files);
+            root.append(files);
         }
     }
     
@@ -518,6 +533,17 @@ Page {
         }
     }
     
+    function listFolderMembersLoaded(sharedFolderId, members, cursor) {
+        for (var i = 0; i < dataModel.size(); i++) {
+            var file = dataModel.value(i);
+            if (file.shared_folder_id === sharedFolderId) {
+                file.members_count = members.length;
+                file.members_cursor = cursor;
+                dataModel.replace(i, file);
+            }
+        }
+    }
+    
     function cleanUp() {
         _qdropbox.popPath();
         _qdropbox.listFolderLoaded.disconnect(root.listFolderLoaded);
@@ -529,6 +555,7 @@ Page {
         _qdropbox.thumbnailLoaded.disconnect(root.thumbnailLoaded);
         _qdropbox.uploaded.disconnect(root.uploaded);
         _qdropbox.sharedFolder.disconnect(root.sharedFolder);
+        _qdropbox.listFolderMembersLoaded.disconnect(root.listFolderMembersLoaded);
         _app.propChanged.disconnect(root.propChanged);
     }
     
@@ -542,6 +569,7 @@ Page {
         _qdropbox.thumbnailLoaded.connect(root.thumbnailLoaded);
         _qdropbox.uploaded.connect(root.uploaded);
         _qdropbox.sharedFolder.connect(root.sharedFolder);
+        _qdropbox.listFolderMembersLoaded.connect(root.listFolderMembersLoaded);
         _app.propChanged.connect(root.propChanged);
     }
     

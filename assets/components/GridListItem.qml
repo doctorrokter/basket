@@ -19,6 +19,8 @@ CustomListItem {
     property string clientModified: ""
     property string serverModified: ""
     property variant mediaInfo: undefined
+    property variant membersCount: 0
+    property string membersCursor: ""
     
     property string thumbnail: ""
     property string currentPath: ""
@@ -108,19 +110,38 @@ CustomListItem {
             preferredHeight: listItemLUH.layoutFrame.height
         }
         
-        ImageView {
-            id: sharedFolder
-            imageSource: "asset:///images/ic_groups_white.png"
-            opacity: 0.5
-            filterColor: ui.palette.primary;
+        Container {
             horizontalAlignment: HorizontalAlignment.Left
             verticalAlignment: VerticalAlignment.Bottom
-            margin.bottomOffset: ui.du(10)
-            margin.leftOffset: ui.du(1);
-            maxWidth: ui.du(5)
-            maxHeight: ui.du(5)
-            visible: false
+            
+            layout: StackLayout {
+                orientation: LayoutOrientation.LeftToRight
+            }
+            
+            Container {
+                visible: root.membersCount > 0
+                margin.leftOffset: ui.du(1);
+                Label {
+                    text: "+" + root.membersCount
+                    textStyle.color: ui.palette.primary;
+                    textStyle.fontWeight: FontWeight.W300
+                    textStyle.base: SystemDefaults.TextStyles.SubtitleText
+                    opacity: 0.7
+                }
+            }
+            
+            ImageView {
+                id: sharedFolder
+                imageSource: "asset:///images/ic_groups_white.png"
+                opacity: 0.5
+                filterColor: ui.palette.primary;
+                margin.bottomOffset: ui.du(10)
+                maxWidth: ui.du(5)
+                maxHeight: ui.du(5)
+                visible: false
+            }
         }
+        
         
         ImageView {
             id: bgImage

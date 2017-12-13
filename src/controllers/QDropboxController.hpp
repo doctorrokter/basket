@@ -16,6 +16,7 @@
 #include "../qdropbox/QDropbox.hpp"
 #include "../qdropbox/QDropboxFile.hpp"
 #include "../qdropbox/QDropboxMember.hpp"
+#include "../qdropbox/QDropboxFolderMember.hpp"
 #include "../qdropbox/Account.hpp"
 #include "../qdropbox/QDropboxSpaceUsage.hpp"
 #include "../Logger.hpp"
@@ -50,6 +51,7 @@ public:
     Q_INVOKABLE void upload(const QString& localPath, const QString& remotePath);
     Q_INVOKABLE void shareFolder(const QString& path);
     Q_INVOKABLE void addFolderMember(const QString& sharedFolderId, const QVariantList& members, const int& accessLevel);
+    Q_INVOKABLE void listFolderMembers(const QString& sharedFolderId, const int& limit = 0);
 
     Q_INVOKABLE const QVariantList& getSelected() const;
     Q_INVOKABLE void setSelected(const QVariantList& selected);
@@ -79,6 +81,7 @@ public:
         void uploadProgress(const QString& remotePath, qint64 loaded, qint64 total);
         void sharedFolder(const QString& path, const QString& sharedFolderId);
         void folderMemberAdded(const QString& sharedFolderId);
+        void listFolderMembersLoaded(const QString& sharedFolderId, const QVariantList& members, const QString& cursor);
 
         void selectedChanged(const QVariantList& selected);
         void error(const QString& error);
@@ -97,6 +100,7 @@ private slots:
     void onUploaded(QDropboxFile* file);
     void onUploadStarted(const QString& remotePath);
     void onFolderShared(const QString& path, const QString& sharedFolderId);
+    void onListFolderMembers(const QString& sharedFolderId, const QList<QDropboxFolderMember*>& members, const QString& cursor = "");
 
     void onError(QNetworkReply::NetworkError e, const QString& errorString);
 

@@ -18,6 +18,8 @@ CustomListItem {
     property string clientModified: ""
     property string serverModified: ""
     property variant mediaInfo: undefined
+    property int membersCount: 0
+    property string membersCursor: ""
     
     property string thumbnail: ""
     
@@ -182,6 +184,7 @@ CustomListItem {
             layout: DockLayout {}
             
             Container {
+                
                 layout: StackLayout {
                     orientation: LayoutOrientation.LeftToRight
                 }
@@ -192,6 +195,31 @@ CustomListItem {
                     
                     layoutProperties: StackLayoutProperties {
                         spaceQuota: 1
+                    }
+                }
+                
+                Container {
+                    verticalAlignment: VerticalAlignment.Center
+                    visible: root.membersCount !== 0
+                    
+                    layout: StackLayout {
+                        orientation: LayoutOrientation.LeftToRight
+                    }
+                    
+                    Container {
+                        Label {
+                            text: root.membersCount
+                            textStyle.color: ui.palette.secondaryTextOnPlain
+                            textStyle.base: SystemDefaults.TextStyles.SmallText
+                        }
+                    }
+                    
+                    ImageView {
+                        imageSource: "asset:///images/ic_groups_white.png"
+                        filterColor: ui.palette.secondaryTextOnPlain
+                        maxWidth: ui.du(3)
+                        maxHeight: ui.du(3)
+                        verticalAlignment: VerticalAlignment.Center
                     }
                 }
                 
