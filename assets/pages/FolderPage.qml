@@ -386,7 +386,6 @@ Page {
         if (root.path === path) {
             root.cursor = cursor;
             root.hasMore = hasMore;
-//            dataModel.append(files);
             root.append(files);
         }
     }
@@ -396,7 +395,6 @@ Page {
         if (root.cursor === prevCursor) {
             root.cursor = cursor;
             root.hasMore = hasMore;
-//            dataModel.append(files);
             root.append(files);
         }
     }
@@ -533,6 +531,10 @@ Page {
         }
     }
     
+    function folderMemberAdded(sharedFolderId) {
+        _qdropbox.listFolderMembers(sharedFolderId);
+    }
+    
     function listFolderMembersLoaded(sharedFolderId, members, cursor) {
         for (var i = 0; i < dataModel.size(); i++) {
             var file = dataModel.value(i);
@@ -555,6 +557,7 @@ Page {
         _qdropbox.thumbnailLoaded.disconnect(root.thumbnailLoaded);
         _qdropbox.uploaded.disconnect(root.uploaded);
         _qdropbox.sharedFolder.disconnect(root.sharedFolder);
+        _qdropbox.folderMemberAdded.disconnect(root.folderMemberAdded);
         _qdropbox.listFolderMembersLoaded.disconnect(root.listFolderMembersLoaded);
         _app.propChanged.disconnect(root.propChanged);
     }
@@ -569,6 +572,7 @@ Page {
         _qdropbox.thumbnailLoaded.connect(root.thumbnailLoaded);
         _qdropbox.uploaded.connect(root.uploaded);
         _qdropbox.sharedFolder.connect(root.sharedFolder);
+        _qdropbox.folderMemberAdded.connect(root.folderMemberAdded);
         _qdropbox.listFolderMembersLoaded.connect(root.listFolderMembersLoaded);
         _app.propChanged.connect(root.propChanged);
     }

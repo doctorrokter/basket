@@ -122,7 +122,7 @@ CustomListItem {
                 visible: root.membersCount > 0
                 margin.leftOffset: ui.du(1);
                 Label {
-                    text: "+" + root.membersCount
+                    text: root.membersCount
                     textStyle.color: ui.palette.primary;
                     textStyle.fontWeight: FontWeight.W300
                     textStyle.base: SystemDefaults.TextStyles.SubtitleText
@@ -136,8 +136,8 @@ CustomListItem {
                 opacity: 0.5
                 filterColor: ui.palette.primary;
                 margin.bottomOffset: ui.du(10)
-                maxWidth: ui.du(5)
-                maxHeight: ui.du(5)
+                maxWidth: ui.du(3.5)
+                maxHeight: ui.du(3.5)
                 visible: false
             }
         }

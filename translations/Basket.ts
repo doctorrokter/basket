@@ -190,13 +190,13 @@
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="242"/>
-        <location filename="../assets/pages/FolderPage.qml" line="501"/>
+        <location filename="../assets/pages/FolderPage.qml" line="499"/>
         <source>List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="244"/>
-        <location filename="../assets/pages/FolderPage.qml" line="508"/>
+        <location filename="../assets/pages/FolderPage.qml" line="506"/>
         <source>Grid</source>
         <translation type="unfinished"></translation>
     </message>
