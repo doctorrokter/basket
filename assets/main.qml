@@ -174,6 +174,7 @@ NavigationPane {
                     pp.serverModified = file.server_modified || "";
                     pp.mediaInfo = file.media_info;
                     pp.membersCount = file.members_count || 0;
+                    pp.isOwner = file.is_owner || false;
                     navPane.push(pp);
                 }
                 

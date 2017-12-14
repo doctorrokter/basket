@@ -20,6 +20,7 @@ CustomListItem {
     property variant mediaInfo: undefined
     property int membersCount: 0
     property string membersCursor: ""
+    property bool isOwner: false
     
     property string thumbnail: ""
     
@@ -50,6 +51,7 @@ CustomListItem {
                 },
                 
                 ShareAction {
+                    enabled: root.isOwner || root.sharedFolderId === ""
                     listView: root.ListItem.view
                 },
                 

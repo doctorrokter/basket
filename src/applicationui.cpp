@@ -172,3 +172,7 @@ QString ApplicationUI::getRandomColor() const {
     int i = qrand() % m_palette.size();
     return m_palette.at(i);
 }
+
+QString ApplicationUI::getAccountId() const {
+    return m_pAccount->getAccountId();
+}

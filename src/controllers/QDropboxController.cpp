@@ -297,6 +297,10 @@ void QDropboxController::onFolderShared(const QString& path, const QString& shar
     emit sharedFolder(path, sharedFolderId);
 }
 
+void QDropboxController::unshareFolder(const QString& sharedFolderId) {
+    m_pQDropbox->unshareFolder(sharedFolderId);
+}
+
 void QDropboxController::addFolderMember(const QString& sharedFolderId, const QVariantList& members, const int& accessLevel) {
     QList<QDropboxMember> membersList;
     foreach(QVariant v, members) {

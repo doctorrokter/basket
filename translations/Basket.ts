@@ -179,35 +179,35 @@
 <context>
     <name>FolderPage</name>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="191"/>
+        <location filename="../assets/pages/FolderPage.qml" line="193"/>
         <source>Create folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="211"/>
+        <location filename="../assets/pages/FolderPage.qml" line="213"/>
         <source>Upload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="242"/>
-        <location filename="../assets/pages/FolderPage.qml" line="499"/>
+        <location filename="../assets/pages/FolderPage.qml" line="244"/>
+        <location filename="../assets/pages/FolderPage.qml" line="501"/>
         <source>List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="244"/>
-        <location filename="../assets/pages/FolderPage.qml" line="506"/>
+        <location filename="../assets/pages/FolderPage.qml" line="246"/>
+        <location filename="../assets/pages/FolderPage.qml" line="508"/>
         <source>Grid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="260"/>
+        <location filename="../assets/pages/FolderPage.qml" line="262"/>
         <source>Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="370"/>
-        <location filename="../assets/pages/FolderPage.qml" line="371"/>
+        <location filename="../assets/pages/FolderPage.qml" line="372"/>
+        <location filename="../assets/pages/FolderPage.qml" line="373"/>
         <source>GB</source>
         <translation type="unfinished"></translation>
     </message>
@@ -259,53 +259,58 @@
 <context>
     <name>PropertiesPage</name>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="27"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="28"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="134"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="135"/>
         <source>Folder properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="136"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="137"/>
         <source>File properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="141"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="142"/>
         <source>Filename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="147"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="148"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="153"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="154"/>
         <source>Last modified</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="159"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="160"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="160"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="161"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="164"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="165"/>
         <source>Placement</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="169"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="170"/>
         <source>Members</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/PropertiesPage.qml" line="192"/>
+        <source>Unshare</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -320,12 +325,12 @@
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="277"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="281"/>
         <source>Upload finished: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="359"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="367"/>
         <source>Download finished: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -458,7 +463,7 @@
 <context>
     <name>StackListItem</name>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="247"/>
+        <location filename="../assets/components/StackListItem.qml" line="249"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>

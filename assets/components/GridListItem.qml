@@ -21,6 +21,7 @@ CustomListItem {
     property variant mediaInfo: undefined
     property variant membersCount: 0
     property string membersCursor: ""
+    property bool isOwner: false
     
     property string thumbnail: ""
     property string currentPath: ""
@@ -221,6 +222,7 @@ CustomListItem {
                 },
                 
                 ShareAction {
+                    enabled: root.isOwner || root.sharedFolderId === ""
                     listView: root.ListItem.view
                 },
                 

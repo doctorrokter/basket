@@ -61,6 +61,7 @@ public:
     Q_INVOKABLE void logout();
     Q_INVOKABLE void toast(const QString& message);
     Q_INVOKABLE QString getRandomColor() const;
+    Q_INVOKABLE QString getAccountId() const;
 
     Q_SIGNALS:
         void currentAccountLoaded(const QVariantMap& accountMap);

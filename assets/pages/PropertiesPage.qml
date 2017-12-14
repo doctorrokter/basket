@@ -19,6 +19,7 @@ Page {
     property string serverModified: ""
     property variant mediaInfo: undefined
     property int membersCount: 0
+    property bool isOwner: false
     
     signal propertiesDone()
     signal showMembers(string name, string path, string sharedFolderId)
@@ -176,6 +177,27 @@ Page {
                 }
             }
             
+            Container {
+                visible: root.membersCount > 0 && root.isOwner
+                
+                leftPadding: ui.du(1)
+                topPadding: ui.du(1)
+                rightPadding: ui.du(1)
+                bottomPadding: ui.du(1)
+                
+                horizontalAlignment: HorizontalAlignment.Fill
+                
+                Button {
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    text: qsTr("Unshare") + Retranslate.onLocaleOrLanguageChanged
+                    
+                    onClicked: {
+                        _qdropbox.unshareFolder(root.sharedFolderId);
+                    }
+                }
+            }
+            
+            
 //            PropListItem {
 //                visible: root.publicUrl !== ""
 //                name: qsTr("Public URL") + Retranslate.onLocaleOrLanguageChanged + ":"
@@ -209,6 +231,7 @@ Page {
     
     function cleanUp() {
         _qdropbox.thumbnailLoaded.disconnect(root.thumbnailLoaded);
+        _qdropbox.unsharedFolder.disconnect(root.unsharedFolder);
     }
     
     function isDir() {
@@ -224,8 +247,17 @@ Page {
         }
     }
     
+    function unsharedFolder(sharedFolderId) {
+        if (root.sharedFolderId === sharedFolderId) {
+            root.sharedFolderId = "";
+            root.membersCount = 0;
+            root.sharingInfo = undefined;
+        }
+    }
+    
     onCreationCompleted: {
         _qdropbox.thumbnailLoaded.connect(root.thumbnailLoaded);
+        _qdropbox.unsharedFolder.connect(root.unsharedFolder);
     }
     
     attachedObjects: [
