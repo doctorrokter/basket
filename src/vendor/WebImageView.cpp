@@ -15,9 +15,9 @@ QNetworkDiskCache* WebImageView::mNetworkDiskCache = new QNetworkDiskCache();
 
 WebImageView::WebImageView() {
     // Creates the folder if it doesn't exist
-    QFileInfo imageDir(QDir::homePath() + "/images/");
+    QFileInfo imageDir(QDir::currentPath() + "/data/images/");
     if (!imageDir.exists()) {
-        QDir().mkdir(imageDir.path());
+        QDir().mkpath(imageDir.path());
     }
 
     // Initialize network cache
@@ -43,7 +43,7 @@ void WebImageView::setUrl(QUrl url) {
     resetImage();
 
     QString fileName = url.toString().split("/").last();
-    QFileInfo imageFile(QDir::homePath() + "/images/" + fileName);
+    QFileInfo imageFile(QDir::currentPath() + "/data/images/" + fileName);
 
     // If image doesn' exists, download it, otherwise reuse the image saved
     if (!imageFile.exists()) {
@@ -91,7 +91,7 @@ void WebImageView::imageLoaded() {
         } else {
             QString fileName = reply->url().toString().split("/").last();
             QByteArray imageData = reply->readAll();
-            QFile imageFile(QDir::homePath() + "/images/" + fileName);
+            QFile imageFile(QDir::currentPath() + "/data/images/" + fileName);
             if (imageFile.open(QIODevice::WriteOnly)) {
                 imageFile.write(imageData);
                 imageFile.close();
@@ -100,6 +100,9 @@ void WebImageView::imageLoaded() {
                 releaseSomeCache(MAX_NUMBER_OF_IMAGES_SAVED);
             }
         }
+    } else {
+        qDebug() << reply->error() << endl;
+        qDebug() << reply->errorString() << endl;
     }
 
     // Memory management
@@ -122,7 +125,7 @@ void WebImageView::setURLToRedirectedUrl(QNetworkReply *reply) {
 void WebImageView::clearCache() {
     mNetworkDiskCache->clear();
 
-    QDir imageDir(QDir::homePath() + "/images");
+    QDir imageDir(QDir::currentPath() + "/data/images");
     imageDir.setFilter(QDir::NoDotAndDotDot | QDir::Files);
     foreach(const QString& file, imageDir.entryList()){
         imageDir.remove(file);
@@ -133,7 +136,7 @@ void WebImageView::releaseSomeCache(const int& maxNumberOfImagesSaved) {
     if (maxNumberOfImagesSaved < 0)
         return;
 
-    QDir imageDir(QDir::homePath() + "/images");
+    QDir imageDir(QDir::currentPath() + "/data/images");
     imageDir.setFilter(QDir::NoDotAndDotDot | QDir::Files);
     imageDir.setSorting(QDir::Time | QDir::Reversed);
 

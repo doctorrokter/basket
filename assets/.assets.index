@@ -1,5 +1,5 @@
 1
-53
+57
 sheets/FilePickersSheet.qml
 sheets/ShareFolderSheet.qml
 main.qml
@@ -16,6 +16,7 @@ pages/UploadsPage.qml
 pages/AuthPage.qml
 pages/SettingsPage.qml
 pages/PropertiesPage.qml
+pages/MembersPage.qml
 pages/DirPage.qml
 pages/FolderPage.qml
 actions/RenameFileAction.qml
@@ -41,6 +42,7 @@ images/ic_doctype_ppt.png
 images/ic_view_list.png
 images/ic_deselect_all.png
 images/ic_upload.png
+images/circle.png
 images/ic_uploads.png
 images/ic_add_folder.png
 images/ic_unshare.png
@@ -48,6 +50,8 @@ images/d_logo.png
 images/ic_groups_white.png
 images/ic_doctype_generic.png
 images/ic_doctype_music.png
+images/misha.jpeg
+images/transparent_circle.png
 images/ic_doctype_doc.png
 images/dropbox.jpeg
 images/ic_forward.png

@@ -27,6 +27,7 @@
 #include "util/DateUtil.hpp"
 #include "util/FileUtil.hpp"
 #include <bb/system/SystemToast>
+#include <QStringList>
 
 namespace bb {
     namespace cascades {
@@ -59,6 +60,7 @@ public:
     Q_INVOKABLE void authorize();
     Q_INVOKABLE void logout();
     Q_INVOKABLE void toast(const QString& message);
+    Q_INVOKABLE QString getRandomColor() const;
 
     Q_SIGNALS:
         void currentAccountLoaded(const QVariantMap& accountMap);
@@ -70,6 +72,7 @@ private slots:
     void onCurrentAccountLoaded(Account* account);
 private:
     QSettings m_settings;
+    QStringList m_palette;
 
     QTranslator* m_translator;
     bb::cascades::LocaleHandler* m_localeHandler;

@@ -648,6 +648,43 @@ void QDropbox::onAccountLoaded() {
     reply->deleteLater();
 }
 
+void QDropbox::getAccountBatch(const QStringList& accountIds) {
+    QNetworkRequest req = prepareRequest("/users/get_account_batch");
+    QVariantMap map;
+    map["account_ids"] = accountIds;
+
+    QByteArray data = QJson::Serializer().serialize(map);
+    logger.debug(data);
+
+    QNetworkReply* reply = m_network.post(req, data);
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onAccountBatchLoaded()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void QDropbox::onAccountBatchLoaded() {
+    QNetworkReply* reply = getReply();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        bool res = false;
+        QVariant data = QJson::Parser().parse(reply->readAll(), &res);
+        if (res) {
+            QList<Account*> accounts;
+            QVariantList list = data.toList();
+            foreach(QVariant v, list) {
+                Account* account = new Account(this);
+                account->fromMap(v.toMap());
+                accounts.append(account);
+            }
+            emit accountBatchLoaded(accounts);
+        }
+    }
+
+    reply->deleteLater();
+}
+
 void QDropbox::getCurrentAccount() {
     QNetworkRequest req = prepareRequest("/users/get_current_account");
     QNetworkReply* reply = m_network.post(req, "null");

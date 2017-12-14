@@ -54,6 +54,8 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, Q
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(listFolderMembersLoaded(const QString&, const QList<QDropboxFolderMember*>&, const QString&)), this, SLOT(onListFolderMembers(const QString&, const QList<QDropboxFolderMember*>&, const QString&)));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(accountBatchLoaded(const QList<Account*>)), this, SLOT(onAccountBatchLoaded(const QList<Account*>)));
+    Q_ASSERT(res);
     Q_UNUSED(res);
 }
 
@@ -95,6 +97,8 @@ QDropboxController::~QDropboxController() {
     res = QObject::disconnect(m_pQDropbox, SIGNAL(folderMemberAdded(const QString&)), this, SIGNAL(folderMemberAdded(const QString&)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(listFolderMembersLoaded(const QString&, const QList<QDropboxFolderMember>&, const QString&)), this, SLOT(onListFolderMembers(const QString&, const QList<QDropboxFolderMember>&, const QString&)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(accountBatchLoaded(const QList<Account*>)), this, SLOT(onAccountBatchLoaded(const QList<Account*>)));
     Q_ASSERT(res);
     Q_UNUSED(res);
 }
@@ -184,6 +188,23 @@ void QDropboxController::onRenamed(QDropboxFile* file) {
 
 void QDropboxController::getCurrentAccount() {
     m_pQDropbox->getCurrentAccount();
+}
+
+void QDropboxController::getAccountBatch(const QVariantList& accountIds) {
+    QStringList ids;
+    foreach(QVariant v, accountIds) {
+        ids.append(v.toString());
+    }
+    m_pQDropbox->getAccountBatch(ids);
+}
+
+void QDropboxController::onAccountBatchLoaded(const QList<Account*>& accounts) {
+    QVariantList list;
+    foreach(Account* account, accounts) {
+        list.append(account->toMap());
+        account->deleteLater();
+    }
+    emit accountBatchLoaded(list);
 }
 
 void QDropboxController::getSpaceUsage() {

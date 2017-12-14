@@ -17,6 +17,7 @@
 #include <QList>
 #include <QtGui/QImage>
 #include <QFile>
+#include <QStringList>
 
 #include "QDropboxMember.hpp"
 #include "QDropboxFolderAction.hpp"
@@ -87,6 +88,7 @@ public:
 
     // users
     void getAccount(const QString& accountId);
+    void getAccountBatch(const QStringList& accountIds);
     void getCurrentAccount();
     void getSpaceUsage();
 
@@ -115,6 +117,7 @@ Q_SIGNALS:
 
     // users signals
     void accountLoaded(Account* account);
+    void accountBatchLoaded(const QList<Account*> accounts);
     void currentAccountLoaded(Account* account);
     void spaceUsageLoaded(QDropboxSpaceUsage* spaceUsage);
 
@@ -144,6 +147,7 @@ private slots:
 
     // users slots
     void onAccountLoaded();
+    void onAccountBatchLoaded();
     void onCurrentAccountLoaded();
     void onSpaceUsageLoaded();
 

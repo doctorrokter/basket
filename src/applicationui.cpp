@@ -24,6 +24,7 @@
 #include <QSettings>
 #include <QDir>
 #include "Common.hpp"
+#include <QTime>
 
 #define ACCESS_TOKEN_KEY "dropbox.access_token"
 
@@ -34,6 +35,11 @@ ApplicationUI::ApplicationUI() :
         m_invokeManager(new InvokeManager(this)),
         m_pAccount(0),
         m_pFileUtil(new FileUtil(this)) {
+
+    QTime time = QTime::currentTime();
+    qsrand((uint)time.msec());
+
+    m_palette << "#323232" << "#0092CC" << "#FF3333" << "#DCD427" << "#779933" << "#282828" << "#087099" << "#CC3333" << "#B7B327" << "#5C7829";
 
     m_downloadsFolder = QDir::currentPath() + "/shared/downloads/basket";
 
@@ -160,4 +166,9 @@ void ApplicationUI::configureQml() {
     rootContext->setContextProperty("_qdropbox", m_pQdropboxController);
     rootContext->setContextProperty("_file", m_pFileUtil);
     rootContext->setContextProperty("_date", m_pDateUtil);
+}
+
+QString ApplicationUI::getRandomColor() const {
+    int i = qrand() % m_palette.size();
+    return m_palette.at(i);
 }

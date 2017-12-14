@@ -6,7 +6,7 @@ Page {
     id: root
     
     property string tag: ""
-    property string name: "fsdfsdf"
+    property string name: ""
     property string pathLower: ""
     property string pathDisplay: ""
     property string fileId: ""
@@ -18,8 +18,10 @@ Page {
     property string clientModified: ""
     property string serverModified: ""
     property variant mediaInfo: undefined
+    property int membersCount: 0
     
     signal propertiesDone()
+    signal showMembers(string name, string path, string sharedFolderId)
     
     titleBar: TitleBar {
         title: qsTr("Properties") + Retranslate.onLocaleOrLanguageChanged
@@ -161,6 +163,17 @@ Page {
             PropListItem {
                 name: qsTr("Placement") + Retranslate.onLocaleOrLanguageChanged + ":"
                 value: root.pathDisplay
+            }
+            
+            Header {
+                title: qsTr("Members") + Retranslate.onLocaleOrLanguageChanged
+                mode: HeaderMode.Interactive
+                subtitle: root.membersCount
+                visible: root.sharedFolderId !== ""
+                
+                onClicked: {
+                    root.showMembers(root.name, root.pathDisplay, root.sharedFolderId);
+                }
             }
             
 //            PropListItem {

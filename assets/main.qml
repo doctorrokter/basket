@@ -107,7 +107,15 @@ NavigationPane {
         
         ComponentDefinition {
             id: propsPage
-            PropertiesPage {}
+            PropertiesPage {
+                onShowMembers: {
+                    var mp = membersPage.createObject();
+                    mp.name = name;
+                    mp.path = path;
+                    mp.sharedFolderId = sharedFolderId;
+                    navPane.push(mp);
+                }
+            }
         },
         
         ComponentDefinition {
@@ -118,6 +126,11 @@ NavigationPane {
         ComponentDefinition {
             id: uploadsPage
             UploadsPage {}    
+        },
+        
+        ComponentDefinition {
+            id: membersPage
+            MembersPage {}    
         },
         
         ShareFolderSheet {
@@ -149,6 +162,7 @@ NavigationPane {
                     pp.clientModified = file.client_modified || "";
                     pp.serverModified = file.server_modified || "";
                     pp.mediaInfo = file.media_info;
+                    pp.membersCount = file.members_count || 0;
                     navPane.push(pp);
                 }
                 
