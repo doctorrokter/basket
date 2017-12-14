@@ -56,6 +56,10 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, Q
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(accountBatchLoaded(const QList<Account*>)), this, SLOT(onAccountBatchLoaded(const QList<Account*>)));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(accountLoaded(Account*)), this, SLOT(onAccountLoaded(Account*)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(folderUnshared(const QString&)), this, SIGNAL(unsharedFolder(const QString&)));
+    Q_ASSERT(res);
     Q_UNUSED(res);
 }
 
@@ -99,6 +103,10 @@ QDropboxController::~QDropboxController() {
     res = QObject::disconnect(m_pQDropbox, SIGNAL(listFolderMembersLoaded(const QString&, const QList<QDropboxFolderMember>&, const QString&)), this, SLOT(onListFolderMembers(const QString&, const QList<QDropboxFolderMember>&, const QString&)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(accountBatchLoaded(const QList<Account*>)), this, SLOT(onAccountBatchLoaded(const QList<Account*>)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(accountLoaded(Account*)), this, SLOT(onAccountLoaded(Account*)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(folderUnshared(const QString&)), this, SIGNAL(unsharedFolder(const QString&)));
     Q_ASSERT(res);
     Q_UNUSED(res);
 }
@@ -367,5 +375,14 @@ void QDropboxController::onError(QNetworkReply::NetworkError e, const QString& e
     m_toast.setBody(errorString);
     m_toast.show();
     emit error(errorString);
+}
+
+void QDropboxController::getAccount(const QString& accountId) {
+    m_pQDropbox->getAccount(accountId);
+}
+
+void QDropboxController::onAccountLoaded(Account* account) {
+    emit accountLoaded(account->toMap());
+    account->deleteLater();
 }
 

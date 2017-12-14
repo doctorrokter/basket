@@ -85,6 +85,7 @@ public:
             const QDropboxMemberPolicy& memberPolicy = QDropboxMemberPolicy(),
             const QDropboxSharedLinkPolicy& sharedLinkPolicy = QDropboxSharedLinkPolicy(), const QDropboxViewerInfoPolicy& viewerInfoPolicy = QDropboxViewerInfoPolicy(),
             const QList<QDropboxFolderAction>& folderActions = QList<QDropboxFolderAction>()); // TODO: add LinkSettings!
+    void unshareFolder(const QString& sharedFolderId, const bool& leaveACopy = false);
 
     // users
     void getAccount(const QString& accountId);
@@ -114,6 +115,7 @@ Q_SIGNALS:
     void folderMemberAdded(const QString& sharedFolderId);
     void listFolderMembersLoaded(const QString& sharedFolderId, const QList<QDropboxFolderMember*>& members, const QString& cursor = "");
     void folderShared(const QString& path, const QString& sharedFolderId);
+    void folderUnshared(const QString& sharedFolderId);
 
     // users signals
     void accountLoaded(Account* account);
@@ -144,6 +146,7 @@ private slots:
     void onFolderMemberAdded();
     void onListFolderMembers();
     void onFolderShared();
+    void onFolderUnshared();
 
     // users slots
     void onAccountLoaded();

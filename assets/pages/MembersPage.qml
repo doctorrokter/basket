@@ -1,5 +1,6 @@
 import bb.cascades 1.4
 import WebImageView 1.0
+import "../components"
 
 Page {
     id: root
@@ -8,6 +9,8 @@ Page {
     property string name: ""
     property string sharedFolderId: ""
     property variant members: []
+    
+    signal showAccount(variant account)
     
     titleBar: TitleBar {
         title: qsTr("Members") + Retranslate.onLocaleOrLanguageChanged
@@ -25,6 +28,10 @@ Page {
             
             dataModel: ArrayDataModel {
                 id: dataModel
+            }
+            
+            onTriggered: {
+                root.showAccount(dataModel.data(indexPath));
             }
             
             listItemComponents: [
@@ -46,52 +53,9 @@ Page {
                             rightPadding: ui.du(1)
                             bottomPadding: ui.du(1)
                             
-                            Container {
-                                layout: DockLayout {}
-                                WebImageView {
-                                    visible: accountItem.hasPhoto()
-                                    url: accountItem.hasPhoto() ? ListItemData.profile_photo_url.replace("%3A", ":") : ""
-                                    minWidth: ui.du(13)
-                                    minHeight: ui.du(13)
-                                    maxWidth: ui.du(13)
-                                    maxHeight: ui.du(13)
-                                }
-                                
-                                ImageView {
-                                    visible: accountItem.hasPhoto()
-                                    imageSource: "asset:///images/transparent_circle.png"
-                                    filterColor: ui.palette.background
-                                    minWidth: ui.du(13)
-                                    minHeight: ui.du(13)
-                                    maxWidth: ui.du(13)
-                                    maxHeight: ui.du(13)
-                                }
-                                
-                                Container {
-                                    visible: !accountItem.hasPhoto()
-                                    minWidth: ui.du(13)
-                                    minHeight: ui.du(13)
-                                    maxWidth: ui.du(13)
-                                    maxHeight: ui.du(13)
-                                    
-                                    layout: DockLayout {}
-                                    
-                                    ImageView {
-                                        id: circleImage
-                                        filterColor: Color.create(_app.getRandomColor())
-                                        imageSource: "asset:///images/circle.png"
-                                        horizontalAlignment: HorizontalAlignment.Fill
-                                        verticalAlignment: VerticalAlignment.Fill
-                                        opacity: 0.75
-                                    }
-                                    
-                                    Label {
-                                        text: ListItemData.name.abbreviated_name
-                                        horizontalAlignment: HorizontalAlignment.Center
-                                        verticalAlignment: VerticalAlignment.Center
-                                        textStyle.color: Color.White
-                                    }
-                                }
+                            Avatar {
+                                url: ListItemData.profile_photo_url
+                                abbreviatedName: ListItemData.name.abbreviated_name
                             }
                             
                             Container {

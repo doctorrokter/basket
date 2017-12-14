@@ -130,11 +130,22 @@ NavigationPane {
         
         ComponentDefinition {
             id: membersPage
-            MembersPage {}    
+            MembersPage {
+                onShowAccount: {
+                    var ap = accountPage.createObject();
+                    ap.account = account;
+                    navPane.push(ap);
+                }
+            }    
         },
         
         ShareFolderSheet {
             id: shareFolderSheet    
+        },
+        
+        ComponentDefinition {
+            id: accountPage
+            AccountPage {}
         },
         
         ComponentDefinition {

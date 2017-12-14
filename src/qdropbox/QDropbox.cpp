@@ -615,6 +615,34 @@ void QDropbox::onFolderShared() {
     reply->deleteLater();
 }
 
+void QDropbox::unshareFolder(const QString& sharedFolderId, const bool& leaveACopy) {
+    QNetworkRequest req = prepareRequest("/sharing/unshare_folder");
+    QVariantMap map;
+    map["shared_folder_id"] = sharedFolderId;
+    map["leave_a_copy"] = leaveACopy;
+
+    QByteArray data = QJson::Serializer().serialize(map);
+    logger.debug(data);
+
+    QNetworkReply* reply = m_network.post(req, data);
+    reply->setProperty("shared_folder_id", sharedFolderId);
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onFolderUnshared()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void QDropbox::onFolderUnshared() {
+    QNetworkReply* reply = getReply();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        emit folderUnshared(reply->property("shared_folder_id").toString());
+    }
+
+    reply->deleteLater();
+}
+
 void QDropbox::getAccount(const QString& accountId) {
     QNetworkRequest req = prepareRequest("/users/get_account");
     QVariantMap map;

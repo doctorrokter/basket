@@ -45,12 +45,14 @@ public:
     Q_INVOKABLE void move(const QString& fromPath, const QString& toPath);
     Q_INVOKABLE void rename(const QString& fromPath, const QString& toPath);
     Q_INVOKABLE void getCurrentAccount();
+    Q_INVOKABLE void getAccount(const QString& accountId);
     Q_INVOKABLE void getAccountBatch(const QVariantList& accountIds);
     Q_INVOKABLE void getSpaceUsage();
     Q_INVOKABLE void getThumbnail(const QString& path, const QString& size = "w128h128");
     Q_INVOKABLE void download(const QString& path);
     Q_INVOKABLE void upload(const QString& localPath, const QString& remotePath);
     Q_INVOKABLE void shareFolder(const QString& path);
+    Q_INVOKABLE void unshareFolder(const QString& sharedFolderId);
     Q_INVOKABLE void addFolderMember(const QString& sharedFolderId, const QVariantList& members, const int& accessLevel);
     Q_INVOKABLE void listFolderMembers(const QString& sharedFolderId, const int& limit = 0);
 
@@ -70,6 +72,7 @@ public:
         void moved(const QVariantMap& file);
         void renamed(const QVariantMap& file);
         void currentAccountLoaded(Account* account);
+        void accountLoaded(const QVariantMap& account);
         void accountBatchLoaded(const QVariantList& accounts);
         void spaceUsageLoaded(const QVariantMap& spaceUsage);
         void thumbnailLoaded(const QString& path, const QString& localPath);
@@ -82,6 +85,7 @@ public:
         void uploaded(const QVariantMap& file);
         void uploadProgress(const QString& remotePath, qint64 loaded, qint64 total);
         void sharedFolder(const QString& path, const QString& sharedFolderId);
+        void unsharedFolder(const QString& sharedFolderId);
         void folderMemberAdded(const QString& sharedFolderId);
         void listFolderMembersLoaded(const QString& sharedFolderId, const QVariantList& members, const QString& cursor);
 
@@ -104,6 +108,7 @@ private slots:
     void onFolderShared(const QString& path, const QString& sharedFolderId);
     void onListFolderMembers(const QString& sharedFolderId, const QList<QDropboxFolderMember*>& members, const QString& cursor = "");
     void onAccountBatchLoaded(const QList<Account*>& accounts);
+    void onAccountLoaded(Account* account);
 
     void onError(QNetworkReply::NetworkError e, const QString& errorString);
 

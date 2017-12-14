@@ -1,8 +1,9 @@
 1
-57
+59
 sheets/FilePickersSheet.qml
 sheets/ShareFolderSheet.qml
 main.qml
+components/Avatar.qml
 components/GridListItem.qml
 components/PropListItem.qml
 components/BackgroundContainer.qml
@@ -12,6 +13,7 @@ components/InputTitleBar.qml
 components/FilesUploader.qml
 pages/DownloadsPage.qml
 pages/HelpPage.qml
+pages/AccountPage.qml
 pages/UploadsPage.qml
 pages/AuthPage.qml
 pages/SettingsPage.qml
