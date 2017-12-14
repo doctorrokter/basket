@@ -313,6 +313,16 @@
         <source>Unshare</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../assets/pages/PropertiesPage.qml" line="195"/>
+        <source>Unsharing folder...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/PropertiesPage.qml" line="279"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PropsAction</name>

@@ -192,7 +192,9 @@ Page {
                     text: qsTr("Unshare") + Retranslate.onLocaleOrLanguageChanged
                     
                     onClicked: {
-                        _qdropbox.unshareFolder(root.sharedFolderId);
+                        undoToast.body = qsTr("Unsharing folder...") + Retranslate.onLocaleOrLanguageChanged
+                        undoToast.show();
+//                        _qdropbox.unshareFolder(root.sharedFolderId);
                     }
                 }
             }
@@ -269,6 +271,20 @@ Page {
         
         SystemToast {
             id: toast
+        },
+        
+        SystemToast {
+            id: undoToast
+            button.enabled: true
+            button.label: qsTr("Cancel") + Retranslate.onLocaleOrLanguageChanged
+            position: SystemUiPosition.BottomCenter
+            
+            onFinished: {
+                console.debug("toast: ", value);
+                if (value !== 1) {
+                    _qdropbox.unshareFolder(root.sharedFolderId);
+                }
+            }
         }
     ]
 }
