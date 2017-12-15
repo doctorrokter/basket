@@ -88,6 +88,7 @@ public:
             const QList<QDropboxFolderAction>& folderActions = QList<QDropboxFolderAction>()); // TODO: add LinkSettings!
     void unshareFolder(const QString& sharedFolderId, const bool& leaveACopy = false);
     void createSharedLink(const QString& path, const bool& shortUrl = false, const QDropboxPendingUpload& pendingUpload = QDropboxPendingUpload());
+    void getSharedLinks(const QString& path = "");
 
     // users
     void getAccount(const QString& accountId);
@@ -119,6 +120,7 @@ Q_SIGNALS:
     void folderShared(const QString& path, const QString& sharedFolderId);
     void folderUnshared(const QString& sharedFolderId);
     void sharedLinkCreated(SharedLink* link);
+    void sharedLinksLoaded(const QList<SharedLink*>& links);
 
     // users signals
     void accountLoaded(Account* account);
@@ -151,6 +153,7 @@ private slots:
     void onFolderShared();
     void onFolderUnshared();
     void onSharedLinkCreated();
+    void onSharedLinksLoaded();
 
     // users slots
     void onAccountLoaded();

@@ -28,6 +28,8 @@
 #include "util/FileUtil.hpp"
 #include <bb/system/SystemToast>
 #include <QStringList>
+#include <QList>
+#include "qdropbox/SharedLink.hpp"
 
 namespace bb {
     namespace cascades {
@@ -64,6 +66,7 @@ public:
     Q_INVOKABLE QString getAccountId() const;
     Q_INVOKABLE bool copyToClipboard(const QString& str);
     Q_INVOKABLE void shareText(const QString& str);
+    Q_INVOKABLE QVariantMap getSharedLink(const QString& path);
 
     Q_SIGNALS:
         void currentAccountLoaded(const QVariantMap& accountMap);
@@ -74,6 +77,8 @@ private slots:
     void onAccessTokenObtained(const QString& accessToken);
     void onCurrentAccountLoaded(Account* account);
     void onShared();
+    void onSharedLinksLoaded(const QList<SharedLink*>& links);
+    void onSharedLinkCreated(SharedLink* link);
 private:
     QSettings m_settings;
     QStringList m_palette;
@@ -91,6 +96,8 @@ private:
 
     QString m_downloadsFolder;
     SystemToast m_toast;
+
+    QList<SharedLink*> m_sharedLinks;
 
     void configureQml();
 };

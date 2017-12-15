@@ -22,6 +22,13 @@ SharedLink::~SharedLink() {
     }
 }
 
+bool SharedLink::operator==(const SharedLink& link) {
+    return m_url.compare(link.getUrl()) == 0 &&
+            m_path.compare(link.getPath()) == 0 &&
+            m_password.compare(link.getPassword()) == 0 &&
+            m_pVisibility == link.getVisibility();
+}
+
 const QString& SharedLink::getUrl() const { return m_url; }
 SharedLink& SharedLink::setUrl(const QString& url) {
     m_url = url;

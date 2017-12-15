@@ -380,7 +380,8 @@ Page {
         files.forEach(function(f) {
             if (f.shared_folder_id !== "") {
                 _qdropbox.listFolderMembers(f.shared_folder_id);
-            } 
+            }
+            f.url = _app.getSharedLink(f.path_display).url || ""; 
             dataModel.append(f);
         });
     }

@@ -57,6 +57,7 @@ public:
     Q_INVOKABLE void addFolderMember(const QString& sharedFolderId, const QVariantList& members, const int& accessLevel);
     Q_INVOKABLE void listFolderMembers(const QString& sharedFolderId, const int& limit = 0);
     Q_INVOKABLE void createSharedLink(const QString& path);
+    Q_INVOKABLE void getSharedLinks();
 
     Q_INVOKABLE const QVariantList& getSelected() const;
     Q_INVOKABLE void setSelected(const QVariantList& selected);

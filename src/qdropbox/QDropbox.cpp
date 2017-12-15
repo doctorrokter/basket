@@ -679,6 +679,43 @@ void QDropbox::onSharedLinkCreated() {
     reply->deleteLater();
 }
 
+void QDropbox::getSharedLinks(const QString& path) {
+    QNetworkRequest req = prepareRequest("/sharing/get_shared_links");
+    QVariantMap map;
+    map["path"] = path;
+
+    QByteArray data = QJson::Serializer().serialize(map);
+    logger.debug(data);
+
+    QNetworkReply* reply = m_network.post(req, data);
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onSharedLinksLoaded()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void QDropbox::onSharedLinksLoaded() {
+    QNetworkReply* reply = getReply();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        bool res = false;
+        QVariant data = QJson::Parser().parse(reply->readAll(), &res);
+        if (res) {
+            QVariantList list = data.toMap().value("links").toList();
+            QList<SharedLink*> links;
+            foreach(QVariant v, list) {
+                SharedLink* link = new SharedLink(this);
+                link->fromMap(v.toMap());
+                links.append(link);
+            }
+            emit sharedLinksLoaded(links);
+        }
+    }
+
+    reply->deleteLater();
+}
+
 void QDropbox::getAccount(const QString& accountId) {
     QNetworkRequest req = prepareRequest("/users/get_account");
     QVariantMap map;

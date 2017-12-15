@@ -339,7 +339,10 @@ void QDropboxController::createSharedLink(const QString& path) {
 
 void QDropboxController::onSharedLinkCreated(SharedLink* link) {
     emit sharedLinkCreated(link->toMap());
-    link->deleteLater();
+}
+
+void QDropboxController::getSharedLinks() {
+    m_pQDropbox->getSharedLinks();
 }
 
 void QDropboxController::onSpaceUsageLoaded(QDropboxSpaceUsage* spaceUsage) {

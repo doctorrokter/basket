@@ -57,7 +57,8 @@ CustomListItem {
                 },
                 
                 CreateSharedLinkAction {
-                    listView: root.ListItem.view     
+                    listView: root.ListItem.view  
+                    enabled: root.url === ""   
                 },
                 
                 DownloadAction {

@@ -14,6 +14,10 @@
 struct Visibility : public QObject {
     Visibility(QObject* parent = 0) : QObject(parent) {}
 
+    bool operator==(const Visibility& visibility) {
+        return tag.compare(visibility.tag) == 0;
+    }
+
     QString tag;
 
     QVariantMap toMap() {
@@ -33,6 +37,8 @@ public:
     SharedLink(QObject* parent = 0);
     SharedLink(const QString& url, const QString& password, QObject* parent = 0);
     virtual ~SharedLink();
+
+    bool operator==(const SharedLink& link);
 
     const QString& getUrl() const;
     SharedLink& setUrl(const QString& url);

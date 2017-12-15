@@ -70,6 +70,10 @@ ApplicationUI::ApplicationUI() :
     m_pQdropboxController = new QDropboxController(m_pQdropbox, m_pFileUtil, this);
     bool res = QObject::connect(m_pQdropboxController, SIGNAL(currentAccountLoaded(Account*)), this, SLOT(onCurrentAccountLoaded(Account*)));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQdropbox, SIGNAL(sharedLinksLoaded(const QList<SharedLink*>&)), this, SLOT(onSharedLinksLoaded(const QList<SharedLink*>&)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pQdropbox, SIGNAL(sharedLinkCreated(SharedLink*)), this, SLOT(onSharedLinkCreated(SharedLink*)));
+    Q_ASSERT(res);
     Q_UNUSED(res);
 
     configureQml();
@@ -85,6 +89,9 @@ ApplicationUI::~ApplicationUI() {
     m_pQdropboxController->deleteLater();
     if (m_pAccount != 0) {
         m_pAccount->deleteLater();
+    }
+    foreach(SharedLink* l, m_sharedLinks) {
+        l->deleteLater();
     }
 }
 
@@ -125,9 +132,22 @@ void ApplicationUI::authorize() {
 void ApplicationUI::logout() {
     QSettings settings;
     settings.remove(ACCESS_TOKEN_KEY);
+
     m_pQdropbox->setAccessToken("");
+    bool res = QObject::disconnect(m_pQdropbox, SIGNAL(sharedLinksLoaded(const QList<SharedLink*>&)), this, SLOT(onSharedLinksLoaded(const QList<SharedLink*>&)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQdropbox, SIGNAL(sharedLinkCreated(SharedLink*)), this, SLOT(onSharedLinkCreated(SharedLink*)));
+    Q_ASSERT(res);
+
+    delete m_pQdropbox;
+
     m_pQdropbox = new QDropbox("wqynh6pf0cu5506", "q2ficti4tr8zql8", "basket://auth", this);
     m_pQdropbox->setDownloadsFolder(m_downloadsFolder);
+    res = QObject::connect(m_pQdropbox, SIGNAL(sharedLinksLoaded(const QList<SharedLink*>&)), this, SLOT(onSharedLinksLoaded(const QList<SharedLink*>&)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pQdropbox, SIGNAL(sharedLinkCreated(SharedLink*)), this, SLOT(onSharedLinkCreated(SharedLink*)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
 
     QmlDocument* qml = QmlDocument::create("asset:///pages/AuthPage.qml").parent(this);
     configureQml();
@@ -202,4 +222,23 @@ void ApplicationUI::onShared() {
     InvokeQueryTargetsReply* reply = qobject_cast<InvokeQueryTargetsReply*>(QObject::sender());
     delete reply;
     reply = 0;
+}
+
+void ApplicationUI::onSharedLinksLoaded(const QList<SharedLink*>& links) {
+    qDebug() << "shared links loaded: " << links.size() << endl;
+    m_sharedLinks = links;
+}
+
+void ApplicationUI::onSharedLinkCreated(SharedLink* link) {
+    m_sharedLinks.append(link);
+    qDebug() << "shared link added: " << m_sharedLinks.size() << endl;
+}
+
+QVariantMap ApplicationUI::getSharedLink(const QString& path) {
+    foreach(SharedLink* l, m_sharedLinks) {
+        if (l->getPath().compare(path) == 0) {
+            return l->toMap();
+        }
+    }
+    return QVariantMap();
 }
