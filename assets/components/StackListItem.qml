@@ -61,6 +61,11 @@ CustomListItem {
                     enabled: root.url === ""   
                 },
                 
+                CopySharedLinkAction {
+                    listView: root.ListItem.view  
+                    enabled: root.url !== ""
+                },
+                
                 DownloadAction {
                     listView: root.ListItem.view
                     enabled: !root.isDir()

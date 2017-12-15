@@ -2,10 +2,26 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+    <name>ApplicationUI</name>
+    <message>
+        <location filename="../src/applicationui.cpp" line="207"/>
+        <source>Shared link copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AuthPage</name>
     <message>
         <location filename="../assets/pages/AuthPage.qml" line="28"/>
         <source>Sign in</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CopySharedLinkAction</name>
+    <message>
+        <location filename="../assets/actions/CopySharedLinkAction.qml" line="8"/>
+        <source>Copy shared link</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -332,17 +348,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="225"/>
-        <source>Copy link to clipboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="229"/>
-        <source>Copied to clipboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="297"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="267"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -496,7 +502,7 @@
 <context>
     <name>StackListItem</name>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="259"/>
+        <location filename="../assets/components/StackListItem.qml" line="264"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>

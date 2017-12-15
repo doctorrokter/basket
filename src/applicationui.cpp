@@ -204,6 +204,7 @@ bool ApplicationUI::copyToClipboard(const QString& str) {
     Clipboard clipboard;
     clipboard.clear();
     QByteArray data = str.toLatin1();
+    toast(tr("Shared link copied to clipboard"));
     return clipboard.insert("text/plain", data);
 }
 

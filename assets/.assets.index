@@ -1,5 +1,5 @@
 1
-61
+63
 sheets/FilePickersSheet.qml
 sheets/ShareFolderSheet.qml
 main.qml
@@ -28,6 +28,7 @@ actions/DeleteFileAction.qml
 actions/PropsAction.qml
 actions/CreateSharedLinkAction.qml
 actions/DownloadAction.qml
+actions/CopySharedLinkAction.qml
 images/ic_rename.png
 images/ic_doctype_pdf.png
 images/ic_share.png
@@ -56,6 +57,7 @@ images/ic_doctype_generic.png
 images/ic_doctype_music.png
 images/misha.jpeg
 images/transparent_circle.png
+images/ic_copy_link.png
 images/ic_doctype_doc.png
 images/dropbox.jpeg
 images/ic_forward.png
