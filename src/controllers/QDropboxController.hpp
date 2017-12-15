@@ -17,6 +17,7 @@
 #include "../qdropbox/QDropboxFile.hpp"
 #include "../qdropbox/QDropboxMember.hpp"
 #include "../qdropbox/QDropboxFolderMember.hpp"
+#include "../qdropbox/QDropboxTempLink.hpp"
 #include "../qdropbox/Account.hpp"
 #include "../qdropbox/QDropboxSpaceUsage.hpp"
 #include "../qdropbox/SharedLink.hpp"
@@ -58,6 +59,7 @@ public:
     Q_INVOKABLE void listFolderMembers(const QString& sharedFolderId, const int& limit = 0);
     Q_INVOKABLE void createSharedLink(const QString& path);
     Q_INVOKABLE void getSharedLinks();
+    Q_INVOKABLE void getTemporaryLink(const QString& path);
 
     Q_INVOKABLE const QVariantList& getSelected() const;
     Q_INVOKABLE void setSelected(const QVariantList& selected);
@@ -92,6 +94,7 @@ public:
         void folderMemberAdded(const QString& sharedFolderId);
         void listFolderMembersLoaded(const QString& sharedFolderId, const QVariantList& members, const QString& cursor);
         void sharedLinkCreated(const QVariantMap& link);
+        void temporaryLinkLoaded(const QVariantMap& link);
 
         void selectedChanged(const QVariantList& selected);
         void error(const QString& error);
@@ -114,6 +117,7 @@ private slots:
     void onAccountBatchLoaded(const QList<Account*>& accounts);
     void onAccountLoaded(Account* account);
     void onSharedLinkCreated(SharedLink* link);
+    void onTemporaryLinkLoaded(QDropboxTempLink* link);
 
     void onError(QNetworkReply::NetworkError e, const QString& errorString);
 

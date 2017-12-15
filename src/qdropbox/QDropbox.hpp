@@ -26,6 +26,7 @@
 #include "QDropboxSharedLinkPolicy.hpp"
 #include "QDropboxViewerInfoPolicy.hpp"
 #include "QDropboxPendingUpload.hpp"
+#include "QDropboxTempLink.hpp"
 #include "SharedLink.hpp"
 #include "QDropboxFile.hpp"
 #include "QDropboxFolderMember.hpp"
@@ -78,6 +79,7 @@ public:
     void getThumbnail(const QString& path, const QString& size = "w128h128", const QString& format = "jpeg");
     void download(const QString& path, const QString& rev = "");
     void upload(QFile* file, const QString& remotePath, const QString& mode = "add", const bool& autorename = true, const bool& mute = false);
+    void getTemporaryLink(const QString& path);
 
     // sharing
     void addFolderMember(const QString& sharedFolderId, const QList<QDropboxMember>& members, const bool& quiet = false, const QString& customMessage = "");
@@ -113,6 +115,7 @@ Q_SIGNALS:
     void uploadStarted(const QString& remotePath);
     void uploaded(QDropboxFile* file);
     void uploadProgress(const QString& remotePath, qint64 loaded, qint64 total);
+    void temporaryLinkLoaded(QDropboxTempLink* link);
 
     // sharing signals
     void folderMemberAdded(const QString& sharedFolderId);
@@ -146,6 +149,7 @@ private slots:
     void onUploaded();
     void onUploadProgress(qint64 loaded, qint64 total);
     void read();
+    void onTemporaryLinkLoaded();
 
     // sharing slots
     void onFolderMemberAdded();

@@ -62,6 +62,8 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, Q
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(sharedLinkCreated(SharedLink*)), this, SLOT(onSharedLinkCreated(SharedLink*)));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(temporaryLinkLoaded(QDropboxTempLink*)), this, SLOT(onTemporaryLinkLoaded(QDropboxTempLink*)));
+    Q_ASSERT(res);
     Q_UNUSED(res);
 }
 
@@ -111,6 +113,8 @@ QDropboxController::~QDropboxController() {
     res = QObject::disconnect(m_pQDropbox, SIGNAL(folderUnshared(const QString&)), this, SIGNAL(unsharedFolder(const QString&)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(sharedLinkCreated(SharedLink*)), this, SLOT(onSharedLinkCreated(SharedLink*)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(temporaryLinkLoaded(QDropboxTempLink*)), this, SLOT(onTemporaryLinkLoaded(QDropboxTempLink*)));
     Q_ASSERT(res);
     Q_UNUSED(res);
 }
@@ -404,5 +408,14 @@ void QDropboxController::getAccount(const QString& accountId) {
 void QDropboxController::onAccountLoaded(Account* account) {
     emit accountLoaded(account->toMap());
     account->deleteLater();
+}
+
+void QDropboxController::getTemporaryLink(const QString& path) {
+    m_pQDropbox->getTemporaryLink(path);
+}
+
+void QDropboxController::onTemporaryLinkLoaded(QDropboxTempLink* link) {
+    emit temporaryLinkLoaded(link->toMap());
+    link->deleteLater();
 }
 

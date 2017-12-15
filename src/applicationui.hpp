@@ -30,6 +30,7 @@
 #include <QStringList>
 #include <QList>
 #include "qdropbox/SharedLink.hpp"
+#include <bb/system/InvokeTargetReply>
 
 namespace bb {
     namespace cascades {
@@ -37,6 +38,7 @@ namespace bb {
     }
     namespace system {
         class InvokeManager;
+        class InvokeTargetReply;
     }
 }
 
@@ -67,6 +69,7 @@ public:
     Q_INVOKABLE bool copyToClipboard(const QString& str);
     Q_INVOKABLE void shareText(const QString& str);
     Q_INVOKABLE QVariantMap getSharedLink(const QString& path);
+    Q_INVOKABLE void openFile(const QVariantMap& linkMap);
 
     Q_SIGNALS:
         void currentAccountLoaded(const QVariantMap& accountMap);
@@ -80,6 +83,7 @@ private slots:
     void onShared();
     void onSharedLinksLoaded(const QList<SharedLink*>& links);
     void onSharedLinkCreated(SharedLink* link);
+    void onCoreInvoked();
 private:
     QSettings m_settings;
     QStringList m_palette;
@@ -99,6 +103,7 @@ private:
     SystemToast m_toast;
 
     QList<SharedLink*> m_sharedLinks;
+    InvokeTargetReply* m_invokeReply;
 
     void configureQml();
 };

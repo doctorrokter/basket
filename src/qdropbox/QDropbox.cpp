@@ -470,6 +470,42 @@ void QDropbox::onUploadProgress(qint64 loaded, qint64 total) {
     emit uploadProgress(reply->property("path").toString(), loaded, total);
 }
 
+void QDropbox::getTemporaryLink(const QString& path) {
+    QNetworkRequest req = prepareRequest("/files/get_temporary_link");
+    QVariantMap map;
+    map["path"] = path;
+
+    QByteArray data = QJson::Serializer().serialize(map);
+    logger.debug(data);
+
+    QNetworkReply* reply = m_network.post(req, data);
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onTemporaryLinkLoaded()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void QDropbox::onTemporaryLinkLoaded() {
+    QNetworkReply* reply = getReply();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        bool res = false;
+        QVariant data = QJson::Parser().parse(reply->readAll(), &res);
+        if (res) {
+            QVariantMap map = data.toMap();
+            QVariantMap metadata = map.value("metadata").toMap();
+            metadata[".tag"] = FILE_TAG;
+            map["metadata"] = metadata;
+            QDropboxTempLink* link = new QDropboxTempLink(this);
+            link->fromMap(map);
+            emit temporaryLinkLoaded(link);
+        }
+    }
+
+    reply->deleteLater();
+}
+
 void QDropbox::addFolderMember(const QString& sharedFolderId, const QList<QDropboxMember>& members, const bool& quiet, const QString& customMessage) {
     QNetworkRequest req = prepareRequest("/sharing/add_folder_member");
     QVariantMap map;

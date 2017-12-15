@@ -120,10 +120,18 @@ Page {
                     root.shareFolder(path);
                 }
                 
+                function temporaryLinkLoaded(link) {
+                    _qdropbox.temporaryLinkLoaded.disconnect(listView.temporaryLinkLoaded);
+                    _app.openFile(link);
+                }
+                
                 onTriggered: {
                     var file = dataModel.data(indexPath);
                     if (file[".tag"] === "folder") {
                         root.listFolder(file.path_display, file.name);
+                    } else {
+                        _qdropbox.temporaryLinkLoaded.connect(listView.temporaryLinkLoaded);
+                        _qdropbox.getTemporaryLink(file.path_display);
                     }
                 }
                 

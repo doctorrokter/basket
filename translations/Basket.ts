@@ -4,7 +4,7 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="207"/>
+        <location filename="../src/applicationui.cpp" line="209"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
@@ -203,35 +203,35 @@
 <context>
     <name>FolderPage</name>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="195"/>
+        <location filename="../assets/pages/FolderPage.qml" line="203"/>
         <source>Create folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="215"/>
+        <location filename="../assets/pages/FolderPage.qml" line="223"/>
         <source>Upload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="246"/>
-        <location filename="../assets/pages/FolderPage.qml" line="504"/>
+        <location filename="../assets/pages/FolderPage.qml" line="254"/>
+        <location filename="../assets/pages/FolderPage.qml" line="512"/>
         <source>List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="248"/>
-        <location filename="../assets/pages/FolderPage.qml" line="511"/>
+        <location filename="../assets/pages/FolderPage.qml" line="256"/>
+        <location filename="../assets/pages/FolderPage.qml" line="519"/>
         <source>Grid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="264"/>
+        <location filename="../assets/pages/FolderPage.qml" line="272"/>
         <source>Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="374"/>
-        <location filename="../assets/pages/FolderPage.qml" line="375"/>
+        <location filename="../assets/pages/FolderPage.qml" line="382"/>
+        <location filename="../assets/pages/FolderPage.qml" line="383"/>
         <source>GB</source>
         <translation type="unfinished"></translation>
     </message>
@@ -364,12 +364,12 @@
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="285"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="289"/>
         <source>Upload finished: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="383"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="387"/>
         <source>Download finished: </source>
         <translation type="unfinished"></translation>
     </message>

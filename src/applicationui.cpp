@@ -27,7 +27,9 @@
 #include <QDir>
 #include "Common.hpp"
 #include <QTime>
+#include <QUrl>
 #include <bb/system/Clipboard>
+#include "qdropbox/QDropboxTempLink.hpp"
 
 #define ACCESS_TOKEN_KEY "dropbox.access_token"
 
@@ -243,4 +245,49 @@ QVariantMap ApplicationUI::getSharedLink(const QString& path) {
         }
     }
     return QVariantMap();
+}
+
+void ApplicationUI::openFile(const QVariantMap& linkMap) {
+    QDropboxTempLink link;
+    link.fromMap(linkMap);
+
+    QUrl url(link.getLink());
+
+    InvokeRequest request;
+    request.setAction("bb.action.VIEW");
+    request.setUri(url);
+
+    QString ext = m_pFileUtil->extension(link.getFile().getName());
+
+    if (m_pFileUtil->isPdf(ext)) {
+        request.setTarget("com.rim.bb.app.adobeReader.viewer");
+    } else if (m_pFileUtil->isImage(ext)) {
+        request.setTarget("sys.pictures.card.previewer");
+    } else if (m_pFileUtil->isDoc(ext)) {
+        request.setTarget("sys.wordtogo.previewer");
+    } else if (m_pFileUtil->isSpreadSheet(ext)) {
+        request.setTarget("sys.sheettogo.previewer");
+    } else if (m_pFileUtil->isPresentation(ext)) {
+        request.setTarget("sys.slideshowtogo.previewer");
+    } else if (m_pFileUtil->isAudio(ext) || m_pFileUtil->isVideo(ext)) {
+        request.setTarget("sys.mediaplayer.previewer");
+    }
+
+    if (!request.target().isEmpty()) {
+        m_invokeReply = m_invokeManager->invoke(request);
+        bool res = QObject::connect(m_invokeReply, SIGNAL(finished()), this, SLOT(onCoreInvoked()));
+        Q_ASSERT(res);
+        Q_UNUSED(res);
+    }
+}
+
+void ApplicationUI::onCoreInvoked() {
+    bool res = QObject::disconnect(m_invokeReply, SIGNAL(finished()), this, SLOT(onCoreInvoked()));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+
+    qDebug() << m_invokeReply->error() << endl;
+
+    delete m_invokeReply;
+    m_invokeReply = 0;
 }
