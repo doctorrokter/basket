@@ -227,6 +227,7 @@ void ApplicationUI::onShared() {
 void ApplicationUI::onSharedLinksLoaded(const QList<SharedLink*>& links) {
     qDebug() << "shared links loaded: " << links.size() << endl;
     m_sharedLinks = links;
+    emit sharedLinksLoaded();
 }
 
 void ApplicationUI::onSharedLinkCreated(SharedLink* link) {

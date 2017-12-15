@@ -204,6 +204,7 @@ Page {
                 visible: root.url !== ""
                 name: qsTr("Shared link") + Retranslate.onLocaleOrLanguageChanged + ":"
                 value: root.url
+                input: true
             }
             
             Container {
@@ -214,36 +215,6 @@ Page {
                 topPadding: ui.du(1)
                 rightPadding: ui.du(1)
                 bottomPadding: ui.du(1)
-                
-//                layout: StackLayout {
-//                    orientation: LayoutOrientation.LeftToRight
-//                }
-                
-                Button {
-                    horizontalAlignment: HorizontalAlignment.Center
-                    text: qsTr("Copy link to clipboard") + Retranslate.onLocaleOrLanguageChanged
-                    
-                    onClicked: {
-                        if (_app.copyToClipboard(root.url)) {
-                            toast.body = qsTr("Copied to clipboard") + Retranslate.onLocaleOrLanguageChanged;
-                            toast.position = SystemUiPosition.MiddleCenter
-                            toast.show();
-                        }
-                    }
-                }
-                
-//                Button {
-//                    layoutProperties: StackLayoutProperties {
-//                        spaceQuota: 1
-//                    }
-//                    
-//                    text: qsTr("Share") + Retranslate.onLocaleOrLanguageChanged
-//                    
-//                    onClicked: {
-//                        shareAction.triggered();
-////                        _app.shareText(root.url);
-//                    }
-//                }
             }
         }
     }

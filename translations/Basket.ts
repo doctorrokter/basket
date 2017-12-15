@@ -332,17 +332,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="224"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="225"/>
         <source>Copy link to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="228"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="229"/>
         <source>Copied to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="296"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="297"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>

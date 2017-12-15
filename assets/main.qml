@@ -63,13 +63,7 @@ NavigationPane {
     }
     
     onCreationCompleted: {
-        _qdropbox.getCurrentAccount();
-        _qdropbox.getSpaceUsage();
-        _qdropbox.getSharedLinks();
-        
         var fp = folderPage.createObject();
-        fp.path = "";
-        navPane.push(fp);
         
         _app.currentAccountLoaded.connect(function(account) {
             fp.account = account;
@@ -77,6 +71,14 @@ NavigationPane {
         _qdropbox.spaceUsageLoaded.connect(function(spaceUsage) {
             fp.spaceUsage = spaceUsage;
         });
+        _app.sharedLinksLoaded.connect(function() {
+            fp.path = "";
+            navPane.push(fp);
+        });
+        
+        _qdropbox.getCurrentAccount();
+        _qdropbox.getSpaceUsage();
+        _qdropbox.getSharedLinks();
     }
     
     onPopTransitionEnded: {

@@ -5,6 +5,7 @@ CustomListItem {
     
     property string name: "sdfsdf"
     property string value: "sdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf sdfsdfsdfsdf"
+    property bool input: false
     
     Container {
         horizontalAlignment: HorizontalAlignment.Fill
@@ -23,8 +24,14 @@ CustomListItem {
         
         Container {
             Label {
+                visible: !root.input
                 text: root.value
                 multiline: true
+            }
+            
+            TextArea {
+                visible: root.input
+                text: root.value
             }
         }
     }
