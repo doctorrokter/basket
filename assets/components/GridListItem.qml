@@ -22,6 +22,7 @@ CustomListItem {
     property variant membersCount: 0
     property string membersCursor: ""
     property bool isOwner: false
+    property string url: ""
     
     property string thumbnail: ""
     property string currentPath: ""
@@ -179,13 +180,15 @@ CustomListItem {
             margin.bottomOffset: ui.du(1)
         }
         
-//        ImageView {
-//            horizontalAlignment: HorizontalAlignment.Right
-//            verticalAlignment: VerticalAlignment.Top
-//            imageSource: "asset:///images/Splat_96x96.png"
-//            maxWidth: ui.du(5)
-//            maxHeight: ui.du(5)
-//        }
+        ImageView {
+            visible: root.url !== ""
+            horizontalAlignment: HorizontalAlignment.Right
+            verticalAlignment: VerticalAlignment.Top
+            imageSource: "asset:///images/ic_link.png"
+            maxWidth: ui.du(5)
+            maxHeight: ui.du(5)
+            filterColor: ui.palette.secondaryTextOnPlain
+        }
         
         attachedObjects: [
             LayoutUpdateHandler {
@@ -224,6 +227,10 @@ CustomListItem {
                 ShareAction {
                     enabled: root.isOwner || root.sharedFolderId === ""
                     listView: root.ListItem.view
+                },
+                
+                CreateSharedLinkAction {
+                    listView: root.ListItem.view     
                 },
                 
                 DownloadAction {

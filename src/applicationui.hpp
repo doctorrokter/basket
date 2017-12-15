@@ -62,6 +62,8 @@ public:
     Q_INVOKABLE void toast(const QString& message);
     Q_INVOKABLE QString getRandomColor() const;
     Q_INVOKABLE QString getAccountId() const;
+    Q_INVOKABLE bool copyToClipboard(const QString& str);
+    Q_INVOKABLE void shareText(const QString& str);
 
     Q_SIGNALS:
         void currentAccountLoaded(const QVariantMap& accountMap);
@@ -71,6 +73,7 @@ private slots:
     void onSystemLanguageChanged();
     void onAccessTokenObtained(const QString& accessToken);
     void onCurrentAccountLoaded(Account* account);
+    void onShared();
 private:
     QSettings m_settings;
     QStringList m_palette;

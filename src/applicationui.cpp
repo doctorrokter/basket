@@ -20,11 +20,14 @@
 #include <bb/cascades/AbstractPane>
 #include <bb/cascades/LocaleHandler>
 #include <bb/system/InvokeManager>
+#include <bb/system/InvokeQueryTargetsRequest>
+#include <bb/system/InvokeQueryTargetsReply>
 #include <bb/system/SystemUiPosition.hpp>
 #include <QSettings>
 #include <QDir>
 #include "Common.hpp"
 #include <QTime>
+#include <bb/system/Clipboard>
 
 #define ACCESS_TOKEN_KEY "dropbox.access_token"
 
@@ -175,4 +178,28 @@ QString ApplicationUI::getRandomColor() const {
 
 QString ApplicationUI::getAccountId() const {
     return m_pAccount->getAccountId();
+}
+
+bool ApplicationUI::copyToClipboard(const QString& str) {
+    Clipboard clipboard;
+    clipboard.clear();
+    QByteArray data = str.toLatin1();
+    return clipboard.insert("text/plain", data);
+}
+
+void ApplicationUI::shareText(const QString& str) {
+    InvokeQueryTargetsRequest request;
+    request.setAction("bb.action.OPEN");
+    request.setMimeType("text/plain");
+    request.setUri(str);
+    InvokeQueryTargetsReply* reply = m_invokeManager->queryTargets(request);
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onShared()));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void ApplicationUI::onShared() {
+    InvokeQueryTargetsReply* reply = qobject_cast<InvokeQueryTargetsReply*>(QObject::sender());
+    delete reply;
+    reply = 0;
 }

@@ -20,6 +20,7 @@ Page {
     property variant mediaInfo: undefined
     property int membersCount: 0
     property bool isOwner: false
+    property string url: ""
     
     signal propertiesDone()
     signal showMembers(string name, string path, string sharedFolderId)
@@ -194,40 +195,56 @@ Page {
                     onClicked: {
                         undoToast.body = qsTr("Unsharing folder...") + Retranslate.onLocaleOrLanguageChanged
                         undoToast.show();
-//                        _qdropbox.unshareFolder(root.sharedFolderId);
                     }
                 }
             }
             
             
-//            PropListItem {
-//                visible: root.publicUrl !== ""
-//                name: qsTr("Public URL") + Retranslate.onLocaleOrLanguageChanged + ":"
-//                value: root.publicUrl
-//            }
+            PropListItem {
+                visible: root.url !== ""
+                name: qsTr("Shared link") + Retranslate.onLocaleOrLanguageChanged + ":"
+                value: root.url
+            }
             
-//            Container {
-//                visible: root.publicUrl !== ""
-//                horizontalAlignment: HorizontalAlignment.Fill
-//                
-//                leftPadding: ui.du(1)
-//                topPadding: ui.du(1)
-//                rightPadding: ui.du(1)
-//                bottomPadding: ui.du(1)
-//                
+            Container {
+                visible: root.url !== ""
+                horizontalAlignment: HorizontalAlignment.Fill
+                
+                leftPadding: ui.du(1)
+                topPadding: ui.du(1)
+                rightPadding: ui.du(1)
+                bottomPadding: ui.du(1)
+                
+//                layout: StackLayout {
+//                    orientation: LayoutOrientation.LeftToRight
+//                }
+                
+                Button {
+                    horizontalAlignment: HorizontalAlignment.Center
+                    text: qsTr("Copy link to clipboard") + Retranslate.onLocaleOrLanguageChanged
+                    
+                    onClicked: {
+                        if (_app.copyToClipboard(root.url)) {
+                            toast.body = qsTr("Copied to clipboard") + Retranslate.onLocaleOrLanguageChanged;
+                            toast.position = SystemUiPosition.MiddleCenter
+                            toast.show();
+                        }
+                    }
+                }
+                
 //                Button {
-//                    horizontalAlignment: HorizontalAlignment.Fill
-//                    text: qsTr("Copy link to clipboard") + Retranslate.onLocaleOrLanguageChanged
+//                    layoutProperties: StackLayoutProperties {
+//                        spaceQuota: 1
+//                    }
+//                    
+//                    text: qsTr("Share") + Retranslate.onLocaleOrLanguageChanged
 //                    
 //                    onClicked: {
-//                        if (_app.copyToClipboard(root.publicUrl)) {
-//                            toast.body = qsTr("Copied to clipboard") + Retranslate.onLocaleOrLanguageChanged;
-//                            toast.position = SystemUiPosition.MiddleCenter
-//                            toast.show();
-//                        }
+//                        shareAction.triggered();
+////                        _app.shareText(root.url);
 //                    }
 //                }
-//            }
+            }
         }
     }
     

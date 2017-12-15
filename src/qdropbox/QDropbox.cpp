@@ -643,6 +643,42 @@ void QDropbox::onFolderUnshared() {
     reply->deleteLater();
 }
 
+void QDropbox::createSharedLink(const QString& path, const bool& shortUrl, const QDropboxPendingUpload& pendingUpload) {
+    QNetworkRequest req = prepareRequest("/sharing/create_shared_link");
+    QVariantMap map;
+    map["path"] = path;
+    map["short_url"] = shortUrl;
+    if (pendingUpload.value() != QDropboxPendingUpload::NONE) {
+        map["pending_upload"] = pendingUpload.name();
+    }
+
+    QByteArray data = QJson::Serializer().serialize(map);
+    logger.debug(data);
+
+    QNetworkReply* reply = m_network.post(req, data);
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onSharedLinkCreated()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void QDropbox::onSharedLinkCreated() {
+    QNetworkReply* reply = getReply();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        bool res = false;
+        QVariant data = QJson::Parser().parse(reply->readAll(), &res);
+        if (res) {
+            SharedLink* link = new SharedLink(this);
+            link->fromMap(data.toMap());
+            emit sharedLinkCreated(link);
+        }
+    }
+
+    reply->deleteLater();
+}
+
 void QDropbox::getAccount(const QString& accountId) {
     QNetworkRequest req = prepareRequest("/users/get_account");
     QVariantMap map;

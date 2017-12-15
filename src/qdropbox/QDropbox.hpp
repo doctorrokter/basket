@@ -25,6 +25,7 @@
 #include "QDropboxMemberPolicy.hpp"
 #include "QDropboxSharedLinkPolicy.hpp"
 #include "QDropboxViewerInfoPolicy.hpp"
+#include "QDropboxPendingUpload.hpp"
 #include "SharedLink.hpp"
 #include "QDropboxFile.hpp"
 #include "QDropboxFolderMember.hpp"
@@ -86,6 +87,7 @@ public:
             const QDropboxSharedLinkPolicy& sharedLinkPolicy = QDropboxSharedLinkPolicy(), const QDropboxViewerInfoPolicy& viewerInfoPolicy = QDropboxViewerInfoPolicy(),
             const QList<QDropboxFolderAction>& folderActions = QList<QDropboxFolderAction>()); // TODO: add LinkSettings!
     void unshareFolder(const QString& sharedFolderId, const bool& leaveACopy = false);
+    void createSharedLink(const QString& path, const bool& shortUrl = false, const QDropboxPendingUpload& pendingUpload = QDropboxPendingUpload());
 
     // users
     void getAccount(const QString& accountId);
@@ -116,6 +118,7 @@ Q_SIGNALS:
     void listFolderMembersLoaded(const QString& sharedFolderId, const QList<QDropboxFolderMember*>& members, const QString& cursor = "");
     void folderShared(const QString& path, const QString& sharedFolderId);
     void folderUnshared(const QString& sharedFolderId);
+    void sharedLinkCreated(SharedLink* link);
 
     // users signals
     void accountLoaded(Account* account);
@@ -147,6 +150,7 @@ private slots:
     void onListFolderMembers();
     void onFolderShared();
     void onFolderUnshared();
+    void onSharedLinkCreated();
 
     // users slots
     void onAccountLoaded();

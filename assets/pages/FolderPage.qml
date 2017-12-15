@@ -149,6 +149,7 @@ Page {
                             membersCount: ListItemData.members_count || 0
                             membersCursor: ListItemData.members_cursor || ""
                             isOwner: ListItemData.is_owner || false
+                            url: ListItemData.url || ""
                         }
                     },
                     
@@ -173,6 +174,7 @@ Page {
                             membersCount: ListItemData.members_count || 0
                             membersCursor: ListItemData.members_cursor || ""
                             isOwner: ListItemData.is_owner || false
+                            url: ListItemData.url || ""
                         }
                     }
                 ]
@@ -564,6 +566,17 @@ Page {
         }
     }
     
+    function sharedLinkCreated(link) {
+        for (var i = 0; i < dataModel.size(); i++) {
+            var file = dataModel.value(i);
+            if (file.path_display === link.path) {
+                file.url = link.url;
+                dataModel.replace(i, file);
+                return;
+            }
+        }
+    }
+    
     function cleanUp() {
         _qdropbox.popPath();
         _qdropbox.listFolderLoaded.disconnect(root.listFolderLoaded);
@@ -578,6 +591,7 @@ Page {
         _qdropbox.folderMemberAdded.disconnect(root.folderMemberAdded);
         _qdropbox.listFolderMembersLoaded.disconnect(root.listFolderMembersLoaded);
         _qdropbox.unsharedFolder.disconnect(root.unsharedFolder);
+        _qdropbox.sharedLinkCreated.disconnect(root.sharedLinkCreated);
         _app.propChanged.disconnect(root.propChanged);
     }
     
@@ -594,6 +608,7 @@ Page {
         _qdropbox.folderMemberAdded.connect(root.folderMemberAdded);
         _qdropbox.listFolderMembersLoaded.connect(root.listFolderMembersLoaded);
         _qdropbox.unsharedFolder.connect(root.unsharedFolder);
+        _qdropbox.sharedLinkCreated.connect(root.sharedLinkCreated);
         _app.propChanged.connect(root.propChanged);
     }
     

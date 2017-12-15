@@ -18,9 +18,10 @@ CustomListItem {
     property string clientModified: ""
     property string serverModified: ""
     property variant mediaInfo: undefined
-    property int membersCount: 0
+    property int membersCount: 4
     property string membersCursor: ""
     property bool isOwner: false
+    property string url: ""
     
     property string thumbnail: ""
     
@@ -53,6 +54,10 @@ CustomListItem {
                 ShareAction {
                     enabled: root.isOwner || root.sharedFolderId === ""
                     listView: root.ListItem.view
+                },
+                
+                CreateSharedLinkAction {
+                    listView: root.ListItem.view     
                 },
                 
                 DownloadAction {
@@ -200,7 +205,18 @@ CustomListItem {
                     }
                 }
                 
+                ImageView {
+                    visible: root.url !== ""
+                    horizontalAlignment: HorizontalAlignment.Right
+                    verticalAlignment: VerticalAlignment.Center
+                    imageSource: "asset:///images/ic_link.png"
+                    maxWidth: ui.du(3)
+                    maxHeight: ui.du(3)
+                    filterColor: ui.palette.secondaryTextOnPlain
+                }
+                
                 Container {
+                    margin.leftOffset: ui.du(2)
                     verticalAlignment: VerticalAlignment.Center
                     visible: root.membersCount !== 0
                     
@@ -224,13 +240,6 @@ CustomListItem {
                         verticalAlignment: VerticalAlignment.Center
                     }
                 }
-                
-//                ImageView {
-//                    horizontalAlignment: HorizontalAlignment.Right
-//                    imageSource: "asset:///images/Splat_96x96.png"
-//                    maxWidth: ui.du(5)
-//                    maxHeight: ui.du(5)
-//                }
             }
             
             

@@ -175,6 +175,7 @@ NavigationPane {
                     pp.mediaInfo = file.media_info;
                     pp.membersCount = file.members_count || 0;
                     pp.isOwner = file.is_owner || false;
+                    pp.url = file.url || "";
                     navPane.push(pp);
                 }
                 
