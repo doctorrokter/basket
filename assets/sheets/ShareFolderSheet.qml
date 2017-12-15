@@ -96,13 +96,13 @@ Sheet {
                                     id: editorOption
                                     text: qsTr("Editor") + Retranslate.onLocaleOrLanguageChanged
                                     value: 1
-                                    selected: true
                                 },
                                 
                                 Option {
                                     id: viewerOption
                                     text: qsTr("Viewer") + Retranslate.onLocaleOrLanguageChanged
                                     value: 2
+                                    selected: true
                                 }
                             ]
                         }
