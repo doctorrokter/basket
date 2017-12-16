@@ -3,6 +3,7 @@ import bb.system 1.2
 import WebImageView 1.0
 import basket.helpers 1.0
 import "../components"
+import "../sheets"
 
 Page {
     id: root
@@ -45,27 +46,49 @@ Page {
                 
                 contextActions: [
                     ActionSet {
-                        DeleteActionItem {
-                            id: removeFolderMember
-                            enabled: root.isOwner
-                            
-                            onTriggered: {
-                                root.indexPath = listView.selected();
-                                root.memberToRemove = dataModel.data(root.indexPath);
-                                root.removeMember(root.memberToRemove);
-                                toast.body = (qsTr("Member removed") + Retranslate.onLocaleOrLanguageChanged) + ": " +  root.memberToRemove.name.display_name;
-                                toast.show();
-                                timer.start();
-                            }
-                            
-                            shortcuts: Shortcut {
-                                key: "d"
+                        actions: [
+                            DeleteActionItem {
+                                id: removeFolderMember
+                                enabled: root.isOwner
                                 
                                 onTriggered: {
-                                    removeFolderMember.triggered();
+                                    root.indexPath = listView.selected();
+                                    root.memberToRemove = dataModel.data(root.indexPath);
+                                    root.removeMember(root.memberToRemove);
+                                    toast.body = (qsTr("Member removed") + Retranslate.onLocaleOrLanguageChanged) + ": " +  root.memberToRemove.name.display_name;
+                                    toast.show();
+                                    timer.start();
+                                }
+                                
+                                shortcuts: Shortcut {
+                                    key: "d"
+                                    
+                                    onTriggered: {
+                                        removeFolderMember.triggered();
+                                    }
+                                }
+                            },
+                            
+                            ActionItem {
+                                id: updateFolderMember
+                                enabled: root.isOwner
+                                imageSource: "asset:///images/ic_edit.png"
+                                title: qsTr("Edit") + Retranslate.onLocaleOrLanguageChanged
+                                
+                                onTriggered: {
+                                    editFolderMemberSheet.memberAccount = dataModel.data(listView.selected());
+                                    editFolderMemberSheet.open();
+                                }
+                                
+                                shortcuts: Shortcut {
+                                    key: "e"
+                                    
+                                    onTriggered: {
+                                        removeFolderMember.triggered();
+                                    }
                                 }
                             }
-                        }
+                        ]
                     }
                 ]
                 
@@ -73,8 +96,6 @@ Page {
                     ListItemComponent {
                         CustomListItem {
                             id: accountItem
-                            
-                            property ListView listView: ListItem.view
                             
                             function hasPhoto() {
                                 return ListItemData.profile_photo_url !== undefined && ListItemData.profile_photo_url !== "";
@@ -166,6 +187,13 @@ Page {
                 toast.finished(SystemUiResult.TimeOut);
                 toast.destroy();
             }
+        },
+        
+        EditFolderMemberSheet {
+            id: editFolderMemberSheet
+            
+            path: root.path
+            sharedFolderId: root.sharedFolderId
         }
     ]
     
@@ -196,14 +224,29 @@ Page {
         }
     }
     
+    function folderMemberUpdated(sharedFolderId, member) {
+        if (root.sharedFolderId === sharedFolderId) {
+            for (var i = 0; i < dataModel.size(); i++) {
+                var m = dataModel.value(i);
+                if (m.account_id === member.member.dropbox_id || m.email === member.member.email) {
+                    m.access_type = member.access_level;
+                    dataModel.replace(i, m);
+                    return;
+                }
+            }
+        }
+    }
+    
     function cleanUp() {
         _qdropbox.listFolderMembersLoaded.disconnect(root.listFolderMembersLoaded);
         _qdropbox.accountBatchLoaded.disconnect(root.accountBatchLoaded);
+        _qdropbox.folderMemberUpdated.disconnect(root.folderMemberUpdated);
     }
     
     onCreationCompleted: {
         _qdropbox.listFolderMembersLoaded.connect(root.listFolderMembersLoaded);
         _qdropbox.accountBatchLoaded.connect(root.accountBatchLoaded);
+        _qdropbox.folderMemberUpdated.connect(root.folderMemberUpdated);
     }
     
     onSharedFolderIdChanged: {

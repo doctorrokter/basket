@@ -1,4 +1,5 @@
 import bb.cascades 1.4
+import "../components"
 
 Sheet {
     id: root
@@ -83,49 +84,8 @@ Sheet {
                         }
                     }
                     
-                    Container {
-                        leftPadding: ui.du(2)
-                        topPadding: ui.du(4)
-                        rightPadding: ui.du(2)
-                        bottomPadding: ui.du(2)
-                        
-                        DropDown {
-                            id: accessLevel
-                            title: qsTr("Access level") + Retranslate.onLocaleOrLanguageChanged
-                            
-                            options: [
-                                Option {
-                                    id: editorOption
-                                    text: qsTr("Editor") + Retranslate.onLocaleOrLanguageChanged
-                                    value: 1
-                                },
-                                
-                                Option {
-                                    id: viewerOption
-                                    text: qsTr("Viewer") + Retranslate.onLocaleOrLanguageChanged
-                                    value: 2
-                                    selected: true
-                                }
-                            ]
-                        }
-                        
-                        Container {
-                            Label {
-                                id: editorLabel
-                                text: qsTr("Users can modify, delete and comment a file and also add it into own Dropbox.") + Retranslate.onLocaleOrLanguageChanged
-                                multiline: true
-                                visible: editorOption.selected
-                                textStyle.fontWeight: FontWeight.W300
-                            }
-                            
-                            Label {
-                                id: viewerLabel
-                                text: qsTr("Users can view, download and comment a file.") + Retranslate.onLocaleOrLanguageChanged
-                                multiline: true
-                                visible: viewerOption.selected
-                                textStyle.fontWeight: FontWeight.W300
-                            }
-                        }
+                    AccessLevelDropDown {
+                        id: accessLevel
                     }
                 }
                 

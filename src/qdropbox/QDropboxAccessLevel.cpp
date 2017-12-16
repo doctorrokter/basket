@@ -47,4 +47,14 @@ QDropboxAccessLevel& QDropboxAccessLevel::value(const AccessLevel& value) {
     return *this;
 }
 
+QDropboxAccessLevel& QDropboxAccessLevel::valueFromInt(const int& val) {
+    switch (val) {
+        case 0: value(QDropboxAccessLevel::OWNER); break;
+        case 1: value(QDropboxAccessLevel::EDITOR); break;
+        case 2: value(QDropboxAccessLevel::VIEWER); break;
+        case 3: value(QDropboxAccessLevel::VIEWER_NO_COMMENT); break;
+    }
+    return *this;
+}
+
 

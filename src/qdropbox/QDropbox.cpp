@@ -566,6 +566,34 @@ void QDropbox::onFolderMemberRemoved() {
     reply->deleteLater();
 }
 
+void QDropbox::updateFolderMember(const QString& sharedFolderId, QDropboxMember& member) {
+    QNetworkRequest req = prepareRequest("/sharing/update_folder_member");
+    QVariantMap map;
+    map["shared_folder_id"] = sharedFolderId;
+    map["member"] = member.toMap().value("member").toMap();
+    map["access_level"] = member.getAccessLevel().name();
+
+    QByteArray data = QJson::Serializer().serialize(map);
+    logger.debug(data);
+
+    QNetworkReply* reply = m_network.post(req, data);
+    reply->setProperty("shared_folder_id", sharedFolderId);
+    reply->setProperty("member", member.toMap());
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onFolderMemberUpdated()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void QDropbox::onFolderMemberUpdated() {
+    QNetworkReply* reply = getReply();
+    QDropboxMember* member = new QDropboxMember(this);
+    member->fromMap(reply->property("member").toMap());
+    emit folderMemberUpdated(reply->property("shared_folder_id").toString(), member);
+    reply->deleteLater();
+}
+
 void QDropbox::listFolderMembers(const QString& sharedFolderId, const int& limit) {
     QNetworkRequest req = prepareRequest("/sharing/list_folder_members");
     QVariantMap map;

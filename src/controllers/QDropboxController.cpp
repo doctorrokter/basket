@@ -66,6 +66,8 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, Q
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(folderMemberRemoved(const QString&, QDropboxMember*)), this, SLOT(onFolderMemberRemoved(const QString&, QDropboxMember*)));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(folderMemberUpdated(const QString&, QDropboxMember*)), this, SLOT(onFolderMemberUpdated(const QString&, QDropboxMember*)));
+    Q_ASSERT(res);
     Q_UNUSED(res);
 }
 
@@ -119,6 +121,8 @@ QDropboxController::~QDropboxController() {
     res = QObject::disconnect(m_pQDropbox, SIGNAL(temporaryLinkLoaded(QDropboxTempLink*)), this, SLOT(onTemporaryLinkLoaded(QDropboxTempLink*)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(folderMemberRemoved(const QString&, QDropboxMember*)), this, SLOT(onFolderMemberRemoved(const QString&, QDropboxMember*)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(folderMemberUpdated(const QString&, QDropboxMember*)), this, SLOT(onFolderMemberUpdated(const QString&, QDropboxMember*)));
     Q_ASSERT(res);
     Q_UNUSED(res);
 }
@@ -317,7 +321,7 @@ void QDropboxController::addFolderMember(const QString& sharedFolderId, const QV
     QList<QDropboxMember> membersList;
     foreach(QVariant v, members) {
         QDropboxAccessLevel level;
-        level.value(accessLevel == 1 ? QDropboxAccessLevel::EDITOR : QDropboxAccessLevel::VIEWER);
+        level.valueFromInt(accessLevel);
 
         QDropboxMember member;
         member
@@ -432,6 +436,23 @@ void QDropboxController::removeFolderMember(const QString& sharedFolderId, const
 
 void QDropboxController::onFolderMemberRemoved(const QString& sharedFolderId, QDropboxMember* member) {
     emit folderMemberRemoved(sharedFolderId, member->toMap());
+    member->deleteLater();
+}
+
+void QDropboxController::updateFolderMember(const QString& sharedFolderId, const QVariantMap& accountMap, const int& accessLevel) {
+    QDropboxMember m;
+    m.setEmail(accountMap.value("email", "").toString());
+    m.setDropboxId(accountMap.value("account_id", "").toString());
+
+    QDropboxAccessLevel level;
+    level.valueFromInt(accessLevel);
+    m.setAccessLevel(level);
+
+    m_pQDropbox->updateFolderMember(sharedFolderId, m);
+}
+
+void QDropboxController::onFolderMemberUpdated(const QString& sharedFolderId, QDropboxMember* member) {
+    emit folderMemberUpdated(sharedFolderId, member->toMap());
     member->deleteLater();
 }
 

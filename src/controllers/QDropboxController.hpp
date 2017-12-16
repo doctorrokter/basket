@@ -57,6 +57,7 @@ public:
     Q_INVOKABLE void unshareFolder(const QString& sharedFolderId);
     Q_INVOKABLE void addFolderMember(const QString& sharedFolderId, const QVariantList& members, const int& accessLevel);
     Q_INVOKABLE void removeFolderMember(const QString& sharedFolderId, const QVariantMap& accountMap);
+    Q_INVOKABLE void updateFolderMember(const QString& sharedFolderId, const QVariantMap& accountMap, const int& accessLevel);
     Q_INVOKABLE void listFolderMembers(const QString& sharedFolderId, const int& limit = 0);
     Q_INVOKABLE void createSharedLink(const QString& path);
     Q_INVOKABLE void getSharedLinks();
@@ -97,6 +98,7 @@ public:
         void sharedLinkCreated(const QVariantMap& link);
         void temporaryLinkLoaded(const QVariantMap& link);
         void folderMemberRemoved(const QString& sharedFolderId, const QVariantMap& member);
+        void folderMemberUpdated(const QString& sharedFolderId, const QVariantMap& member);
 
         void selectedChanged(const QVariantList& selected);
         void error(const QString& error);
@@ -121,6 +123,7 @@ private slots:
     void onSharedLinkCreated(SharedLink* link);
     void onTemporaryLinkLoaded(QDropboxTempLink* link);
     void onFolderMemberRemoved(const QString& sharedFolderId, QDropboxMember* member);
+    void onFolderMemberUpdated(const QString& sharedFolderId, QDropboxMember* member);
 
     void onError(QNetworkReply::NetworkError e, const QString& errorString);
 

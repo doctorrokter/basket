@@ -2,6 +2,34 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+    <name>AccessLevelDropDown</name>
+    <message>
+        <location filename="../assets/components/AccessLevelDropDown.qml" line="14"/>
+        <source>Access level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/components/AccessLevelDropDown.qml" line="25"/>
+        <source>Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/components/AccessLevelDropDown.qml" line="31"/>
+        <source>Viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/components/AccessLevelDropDown.qml" line="55"/>
+        <source>Users can modify, delete and comment a file and also add it into own Dropbox.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/components/AccessLevelDropDown.qml" line="63"/>
+        <source>Users can view, download and comment a file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ApplicationUI</name>
     <message>
         <location filename="../src/applicationui.cpp" line="209"/>
@@ -120,6 +148,34 @@
     <message>
         <location filename="../assets/pages/DownloadsPage.qml" line="7"/>
         <source>Downloads</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EditFolderMemberSheet</name>
+    <message>
+        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="14"/>
+        <source>Edit member</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="17"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="25"/>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="52"/>
+        <source>Resource to share:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="70"/>
+        <source>User to edit:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -267,17 +323,22 @@
 <context>
     <name>MembersPage</name>
     <message>
-        <location filename="../assets/pages/MembersPage.qml" line="21"/>
+        <location filename="../assets/pages/MembersPage.qml" line="22"/>
         <source>Members</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/MembersPage.qml" line="56"/>
+        <location filename="../assets/pages/MembersPage.qml" line="58"/>
         <source>Member removed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/MembersPage.qml" line="145"/>
+        <location filename="../assets/pages/MembersPage.qml" line="76"/>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/MembersPage.qml" line="166"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
@@ -374,12 +435,12 @@
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="293"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="297"/>
         <source>Upload finished: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="391"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="395"/>
         <source>Download finished: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -459,53 +520,28 @@
 <context>
     <name>ShareFolderSheet</name>
     <message>
-        <location filename="../assets/sheets/ShareFolderSheet.qml" line="11"/>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="12"/>
         <source>Share</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/sheets/ShareFolderSheet.qml" line="15"/>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="16"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/sheets/ShareFolderSheet.qml" line="25"/>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="26"/>
         <source>Done</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/sheets/ShareFolderSheet.qml" line="51"/>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="52"/>
         <source>Resource to share:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/sheets/ShareFolderSheet.qml" line="69"/>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="70"/>
         <source>To (use space as delimeter):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/sheets/ShareFolderSheet.qml" line="94"/>
-        <source>Access level</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/sheets/ShareFolderSheet.qml" line="99"/>
-        <source>Editor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/sheets/ShareFolderSheet.qml" line="105"/>
-        <source>Viewer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/sheets/ShareFolderSheet.qml" line="115"/>
-        <source>Users can modify, delete and comment a file and also add it into own Dropbox.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/sheets/ShareFolderSheet.qml" line="123"/>
-        <source>Users can view, download and comment a file.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

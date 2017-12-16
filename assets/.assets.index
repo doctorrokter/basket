@@ -1,12 +1,14 @@
 1
-63
+66
 sheets/FilePickersSheet.qml
 sheets/ShareFolderSheet.qml
+sheets/EditFolderMemberSheet.qml
 main.qml
 components/Avatar.qml
 components/GridListItem.qml
 components/PropListItem.qml
 components/BackgroundContainer.qml
+components/AccessLevelDropDown.qml
 components/FilesMover.qml
 components/StackListItem.qml
 components/InputTitleBar.qml
@@ -63,3 +65,4 @@ images/dropbox.jpeg
 images/ic_forward.png
 images/ic_view_grid.png
 images/ic_doctype_video.png
+images/ic_edit.png

@@ -32,6 +32,7 @@ public:
 
     const AccessLevel& value() const;
     QDropboxAccessLevel& value(const AccessLevel& value);
+    QDropboxAccessLevel& valueFromInt(const int& val);
 
 private:
     AccessLevel m_accessLevel;
