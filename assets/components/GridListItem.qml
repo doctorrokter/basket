@@ -22,7 +22,7 @@ CustomListItem {
     property variant membersCount: 0
     property string membersCursor: ""
     property bool isOwner: false
-    property string url: ""
+    property string url: "sdf"
     
     property string thumbnail: ""
     property string currentPath: ""
@@ -123,12 +123,13 @@ CustomListItem {
             Container {
                 visible: root.membersCount > 0
                 margin.leftOffset: ui.du(1);
+                margin.topOffset: ui.du(2)
                 Label {
                     text: root.membersCount
                     textStyle.color: ui.palette.primary;
                     textStyle.fontWeight: FontWeight.W300
-                    textStyle.base: SystemDefaults.TextStyles.SubtitleText
-                    opacity: 0.7
+                    textStyle.base: SystemDefaults.TextStyles.BodyText
+                    opacity: 0.85
                 }
             }
             
@@ -138,9 +139,9 @@ CustomListItem {
                 opacity: 0.5
                 filterColor: ui.palette.primary;
                 margin.bottomOffset: ui.du(10)
-                maxWidth: ui.du(3.5)
-                maxHeight: ui.du(3.5)
-                visible: false
+                maxWidth: ui.du(7)
+                maxHeight: ui.du(7)
+                visible: root.sharedFolderId !== ""
             }
         }
         
@@ -159,7 +160,7 @@ CustomListItem {
         Label {
             verticalAlignment: VerticalAlignment.Bottom
             text: root.name
-            textStyle.base: SystemDefaults.TextStyles.SubtitleText
+            textStyle.base: SystemDefaults.TextStyles.BodyText
             
             margin.leftOffset: ui.du(1);
             margin.bottomOffset: root.isDir() ? ui.du(5.5) : ui.du(4)

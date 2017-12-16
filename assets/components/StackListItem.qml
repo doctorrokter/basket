@@ -18,7 +18,7 @@ CustomListItem {
     property string clientModified: ""
     property string serverModified: ""
     property variant mediaInfo: undefined
-    property int membersCount: 4
+    property int membersCount: 0
     property string membersCursor: ""
     property bool isOwner: false
     property string url: ""
@@ -85,6 +85,7 @@ CustomListItem {
                 _qdropbox.getThumbnail(root.pathDisplay, "w128h128");
                 return "asset:///images/ic_doctype_picture.png";
             } else if (_file.isVideo(ext)) {
+//                _qdropbox.getThumbnail(root.pathDisplay, "w128h128");
                 return "asset:///images/ic_doctype_video.png";
             } else if (_file.isAudio(ext)) {
                 return "asset:///images/ic_doctype_music.png";
@@ -204,6 +205,7 @@ CustomListItem {
                 
                 Label {
                     text: root.name
+                    textStyle.base: SystemDefaults.TextStyles.BodyText
                     verticalAlignment: VerticalAlignment.Top
                     
                     layoutProperties: StackLayoutProperties {
@@ -216,8 +218,8 @@ CustomListItem {
                     horizontalAlignment: HorizontalAlignment.Right
                     verticalAlignment: VerticalAlignment.Center
                     imageSource: "asset:///images/ic_link.png"
-                    maxWidth: ui.du(3)
-                    maxHeight: ui.du(3)
+                    maxWidth: ui.du(4.8)
+                    maxHeight: ui.du(4.8)
                     filterColor: ui.palette.secondaryTextOnPlain
                 }
                 
@@ -234,15 +236,15 @@ CustomListItem {
                         Label {
                             text: root.membersCount
                             textStyle.color: ui.palette.secondaryTextOnPlain
-                            textStyle.base: SystemDefaults.TextStyles.SmallText
+                            textStyle.base: SystemDefaults.TextStyles.BodyText
                         }
                     }
                     
                     ImageView {
                         imageSource: "asset:///images/ic_groups_white.png"
                         filterColor: ui.palette.secondaryTextOnPlain
-                        maxWidth: ui.du(3)
-                        maxHeight: ui.du(3)
+                        maxWidth: ui.du(4.8)
+                        maxHeight: ui.du(4.8)
                         verticalAlignment: VerticalAlignment.Center
                     }
                 }

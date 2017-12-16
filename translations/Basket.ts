@@ -502,7 +502,7 @@
 <context>
     <name>StackListItem</name>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="264"/>
+        <location filename="../assets/components/StackListItem.qml" line="266"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>
