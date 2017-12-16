@@ -51,7 +51,7 @@ Page {
                             
                             onTriggered: {
                                 root.indexPath = listView.selected();
-                                root.memberToRemove = dataModel.data(indexPath);
+                                root.memberToRemove = dataModel.data(root.indexPath);
                                 root.removeMember(root.memberToRemove);
                                 toast.body = (qsTr("Member removed") + Retranslate.onLocaleOrLanguageChanged) + ": " +  root.memberToRemove.name.display_name;
                                 toast.show();
@@ -189,7 +189,7 @@ Page {
     function removeMember(member) {
         for (var i = 0; i < dataModel.size(); i++) {
             var m = dataModel.value(i);
-            if (m.email === member.email || m.dropbox_id === member.dropbox_id) {
+            if (m.email === member.email || m.account_id === member.account_id) {
                 dataModel.removeAt(i);
                 return;
             }
