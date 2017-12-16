@@ -7,11 +7,17 @@ Sheet {
     property string path: ""
     property string sharedFolderId: ""
     property variant memberAccount: undefined
+    property bool createMode: false
     
     Page {
         
         titleBar: TitleBar {
-            title: qsTr("Edit member") + Retranslate.onLocaleOrLanguageChanged
+            title: {
+                if (root.createMode) {
+                    return qsTr("Add member") + Retranslate.onLocaleOrLanguageChanged;
+                }
+                return qsTr("Edit member") + Retranslate.onLocaleOrLanguageChanged;
+            }
             
             dismissAction: ActionItem {
                 title: qsTr("Cancel") + Retranslate.onLocaleOrLanguageChanged
@@ -22,12 +28,24 @@ Sheet {
             }
             
             acceptAction: ActionItem {
-                title: qsTr("Save") + Retranslate.onLocaleOrLanguageChanged
+                id: doneAction
+                title: {
+                    if (root.createMode) {
+                        return qsTr("Done") + Retranslate.onLocaleOrLanguageChanged;
+                    }
+                    return qsTr("Save") + Retranslate.onLocaleOrLanguageChanged;
+                }
                 
                 onTriggered: {
                     spinner.start();
-                    _qdropbox.updateFolderMember(root.sharedFolderId, root.memberAccount, accessLevel.selectedOption.value);
+                    if (root.createMode) {
+                        _qdropbox.addFolderMember(root.sharedFolderId, memberName.text.trim().split(" "), accessLevel.selectedOption.value);
+                    } else {
+                        _qdropbox.updateFolderMember(root.sharedFolderId, root.memberAccount, accessLevel.selectedOption.value);
+                    }
                 }
+                
+                enabled: memberName.text !== ""
             }
         }
         
@@ -67,14 +85,29 @@ Sheet {
                         bottomPadding: ui.du(2)
                         
                         Label {
-                            text: qsTr("User to edit:") + Retranslate.onLocaleOrLanguageChanged
+                            text: {
+                                if (root.createMode) {
+                                    return qsTr("To (use space as delimeter):") + Retranslate.onLocaleOrLanguageChanged
+                                }
+                                return qsTr("User to edit:") + Retranslate.onLocaleOrLanguageChanged;
+                            }
                         }
                     }
                     
                     Container {
-                        TextField {
+                        TextArea {
                             id: memberName
-                            enabled: false
+                            enabled: root.createMode
+                            hintText: {
+                                if (root.createMode) {
+                                    return qsTr("Ex.: e1@gmail.com e2@gmail.com") + Retranslate.onLocaleOrLanguageChanged
+                                }
+                                return "";
+                            }
+                            
+                            onTextChanging: {
+                                doneAction.enabled = text.trim() !== "";
+                            }
                         }
                     }
                     
@@ -99,13 +132,33 @@ Sheet {
         root.close();
     }
     
+    function folderMemberAdded() {
+        spinner.stop();
+        root.close();
+    }
+    
     onCreationCompleted: {
         _qdropbox.folderMemberUpdated.connect(root.folderMemberUpdated);
+        _qdropbox.folderMemberAdded.connect(root.folderMemberAdded);
     }
     
     onMemberAccountChanged: {
         if (memberAccount) {
             memberName.text = root.memberAccount.name.display_name + " (" + root.memberAccount.email + ")";
+        } else {
+            memberName.resetText();
         }
+    }
+    
+    onOpened: {
+        if (root.createMode) {
+            memberName.requestFocus();
+        }
+    }
+    
+    onClosed: {
+        memberName.resetText();
+        root.createMode = false;
+        root.memberAccount = undefined;
     }
 }

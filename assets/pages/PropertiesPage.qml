@@ -225,6 +225,7 @@ Page {
         _qdropbox.thumbnailLoaded.disconnect(root.thumbnailLoaded);
         _qdropbox.unsharedFolder.disconnect(root.unsharedFolder);
         _qdropbox.folderMemberRemoved.disconnect(root.folderMemberRemoved);
+        _qdropbox.folderMemberAdded.disconnect(root.folderMemberAdded);
     }
     
     function isDir() {
@@ -254,10 +255,17 @@ Page {
         }
     }
     
+    function folderMemberAdded(sharedFolderId, member) {
+        if (root.sharedFolderId === sharedFolderId) {
+            root.membersCount = root.membersCount + 1;
+        }
+    }
+    
     onCreationCompleted: {
         _qdropbox.thumbnailLoaded.connect(root.thumbnailLoaded);
         _qdropbox.unsharedFolder.connect(root.unsharedFolder);
         _qdropbox.folderMemberRemoved.connect(root.folderMemberRemoved);
+        _qdropbox.folderMemberAdded.connect(root.folderMemberAdded);
     }
     
     attachedObjects: [

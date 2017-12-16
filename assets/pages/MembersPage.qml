@@ -22,6 +22,9 @@ Page {
         title: qsTr("Members") + Retranslate.onLocaleOrLanguageChanged
     }
     
+    actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
+    actionBarVisibility: ChromeVisibility.Overlay
+    
     Container {
         horizontalAlignment: HorizontalAlignment.Fill
         
@@ -157,6 +160,28 @@ Page {
         }
     }
     
+    actions: [
+        ActionItem {
+            id: addMember
+            title: qsTr("Add member") + Retranslate.onLocaleOrLanguageChanged
+            imageSource: "asset:///images/ic_add.png"
+            ActionBar.placement: ActionBarPlacement.Signature
+            
+            onTriggered: {
+                editFolderMemberSheet.createMode = true;
+                editFolderMemberSheet.open();
+            }
+            
+            shortcuts: Shortcut {
+                key: "c"
+                
+                onTriggered: {
+                    addMember.triggered();
+                }
+            }
+        }
+    ]
+    
     attachedObjects: [
         SystemToast {
             id: toast
@@ -202,6 +227,7 @@ Page {
     }
     
     function accountBatchLoaded(accounts) {
+        dataModel.clear();
         accounts.forEach(function(a) {
             root.members.forEach(function(m) {
                 if (m.user.account_id === a.account_id) {
@@ -257,7 +283,7 @@ Page {
     onMembersChanged: {
         if (members.length > 0) {
             var ids = members.map(function(m) {
-                    return m.user.account_id;    
+                return m.user.account_id;    
             });
             _qdropbox.getAccountBatch(ids);
         }

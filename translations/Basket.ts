@@ -154,28 +154,48 @@
 <context>
     <name>EditFolderMemberSheet</name>
     <message>
-        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="14"/>
+        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="17"/>
+        <source>Add member</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="19"/>
         <source>Edit member</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="17"/>
+        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="23"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="25"/>
+        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="34"/>
+        <source>Done</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="36"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="52"/>
+        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="70"/>
         <source>Resource to share:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="70"/>
+        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="90"/>
+        <source>To (use space as delimeter):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="92"/>
         <source>User to edit:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/EditFolderMemberSheet.qml" line="103"/>
+        <source>Ex.: e1@gmail.com e2@gmail.com</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -328,17 +348,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/MembersPage.qml" line="58"/>
+        <location filename="../assets/pages/MembersPage.qml" line="61"/>
         <source>Member removed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/MembersPage.qml" line="76"/>
+        <location filename="../assets/pages/MembersPage.qml" line="79"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../assets/pages/MembersPage.qml" line="166"/>
+        <source>Add member</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/MembersPage.qml" line="191"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
@@ -419,7 +444,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="277"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="285"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
