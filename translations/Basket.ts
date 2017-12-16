@@ -32,7 +32,7 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="211"/>
+        <location filename="../src/applicationui.cpp" line="212"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
@@ -460,12 +460,12 @@
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="297"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="301"/>
         <source>Upload finished: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="395"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="399"/>
         <source>Download finished: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -492,6 +492,14 @@
     </message>
 </context>
 <context>
+    <name>RevokeSharedLinkAction</name>
+    <message>
+        <location filename="../assets/actions/RevokeSharedLinkAction.qml" line="8"/>
+        <source>Revoke shared link</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SettingsPage</name>
     <message>
         <location filename="../assets/pages/SettingsPage.qml" line="10"/>
@@ -514,23 +522,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="67"/>
-        <source>Don&apos;t ask before deleting</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="93"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="66"/>
         <source>Date/time format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="104"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="77"/>
         <source>Localized</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="123"/>
-        <source>Amount of items per request</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -573,7 +571,7 @@
 <context>
     <name>StackListItem</name>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="266"/>
+        <location filename="../assets/components/StackListItem.qml" line="271"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>

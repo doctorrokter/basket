@@ -776,6 +776,33 @@ void QDropbox::onSharedLinkCreated() {
     reply->deleteLater();
 }
 
+void QDropbox::revokeSharedLink(const QString& sharedLinkUrl) {
+    QNetworkRequest req = prepareRequest("/sharing/revoke_shared_link");
+    QVariantMap map;
+    map["url"] = sharedLinkUrl;
+
+    QByteArray data = QJson::Serializer().serialize(map);
+    logger.debug(data);
+
+    QNetworkReply* reply = m_network.post(req, data);
+    reply->setProperty("url", sharedLinkUrl);
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onSharedLinkRevoked()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void QDropbox::onSharedLinkRevoked() {
+    QNetworkReply* reply = getReply();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        emit sharedLinkRevoked(reply->property("url").toString());
+    }
+
+    reply->deleteLater();
+}
+
 void QDropbox::getSharedLinks(const QString& path) {
     QNetworkRequest req = prepareRequest("/sharing/get_shared_links");
     QVariantMap map;

@@ -62,6 +62,7 @@ public:
     Q_INVOKABLE void createSharedLink(const QString& path);
     Q_INVOKABLE void getSharedLinks();
     Q_INVOKABLE void getTemporaryLink(const QString& path);
+    Q_INVOKABLE void revokeSharedLink(const QString& sharedLinkUrl);
 
     Q_INVOKABLE const QVariantList& getSelected() const;
     Q_INVOKABLE void setSelected(const QVariantList& selected);
@@ -99,6 +100,7 @@ public:
         void temporaryLinkLoaded(const QVariantMap& link);
         void folderMemberRemoved(const QString& sharedFolderId, const QVariantMap& member);
         void folderMemberUpdated(const QString& sharedFolderId, const QVariantMap& member);
+        void sharedLinkRevoked(const QString& sharedLinkUrl);
 
         void selectedChanged(const QVariantList& selected);
         void error(const QString& error);

@@ -599,6 +599,17 @@ Page {
         }
     }
     
+    function sharedLinkRevoked(url) {
+        for (var i = 0; i < dataModel.size(); i++) {
+            var file = dataModel.value(i);
+            if (file.url === url) {
+                file.url = "";
+                dataModel.replace(i, file);
+                return;
+            }
+        }
+    }
+    
     function cleanUp() {
         _qdropbox.popPath();
         _qdropbox.listFolderLoaded.disconnect(root.listFolderLoaded);
@@ -615,6 +626,7 @@ Page {
         _qdropbox.unsharedFolder.disconnect(root.unsharedFolder);
         _qdropbox.sharedLinkCreated.disconnect(root.sharedLinkCreated);
         _qdropbox.folderMemberRemoved.disconnect(root.folderMemberRemoved);
+        _qdropbox.sharedLinkRevoked.disconnect(root.sharedLinkRevoked);
         _app.propChanged.disconnect(root.propChanged);
     }
     
@@ -633,6 +645,7 @@ Page {
         _qdropbox.unsharedFolder.connect(root.unsharedFolder);
         _qdropbox.sharedLinkCreated.connect(root.sharedLinkCreated);
         _qdropbox.folderMemberRemoved.connect(root.folderMemberRemoved);
+        _qdropbox.sharedLinkRevoked.connect(root.sharedLinkRevoked);
         _app.propChanged.connect(root.propChanged);
     }
     

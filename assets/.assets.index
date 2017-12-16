@@ -1,5 +1,5 @@
 1
-66
+68
 sheets/FilePickersSheet.qml
 sheets/ShareFolderSheet.qml
 sheets/EditFolderMemberSheet.qml
@@ -27,6 +27,7 @@ actions/RenameFileAction.qml
 actions/ShareAction.qml
 actions/MoveActionItem.qml
 actions/DeleteFileAction.qml
+actions/RevokeSharedLinkAction.qml
 actions/PropsAction.qml
 actions/CreateSharedLinkAction.qml
 actions/DownloadAction.qml
@@ -50,6 +51,7 @@ images/ic_view_list.png
 images/ic_deselect_all.png
 images/ic_upload.png
 images/circle.png
+images/ic_clear.png
 images/ic_uploads.png
 images/ic_add_folder.png
 images/ic_unshare.png

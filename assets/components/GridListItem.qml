@@ -240,6 +240,11 @@ CustomListItem {
                     enabled: root.url !== ""
                 },
                 
+                RevokeSharedLinkAction {
+                    listView: root.ListItem.view  
+                    enabled: root.url !== ""
+                },
+                
                 DownloadAction {
                     listView: root.ListItem.view
                     enabled: !root.isDir()

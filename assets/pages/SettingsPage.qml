@@ -43,10 +43,10 @@ Page {
                         onCheckedChanged: {
                             if (checked) {
                                 Application.themeSupport.setVisualStyle(VisualStyle.Dark);
-                                _appConfig.set("theme", "DARK");
+                                _app.prop("theme", "DARK");
                             } else {
                                 Application.themeSupport.setVisualStyle(VisualStyle.Bright);
-                                _appConfig.set("theme", "BRIGHT");
+                                _app.prop("theme", "BRIGHT");
                             }
                         }
                     }
@@ -54,33 +54,6 @@ Page {
                 
                 Header {
                     title: qsTr("Behavior") + Retranslate.onLocaleOrLanguageChanged
-                }
-                
-                Container {
-                    layout: DockLayout {}
-                    topPadding: ui.du(2)
-                    bottomPadding: ui.du(0.5)
-                    leftPadding: ui.du(2.5)
-                    rightPadding: ui.du(2.5)
-                    horizontalAlignment: HorizontalAlignment.Fill
-                    Label {
-                        text: qsTr("Don't ask before deleting") + Retranslate.onLocaleOrLanguageChanged
-                        verticalAlignment: VerticalAlignment.Center
-                        horizontalAlignment: HorizontalAlignment.Left
-                    }
-                    
-                    ToggleButton {
-                        id: dontAskBeforeDeletingToggle
-                        horizontalAlignment: HorizontalAlignment.Right
-                        
-                        onCheckedChanged: {
-                            if (checked) {
-                                _appConfig.set("do_not_ask_before_deleting", "true");
-                            } else {
-                                _appConfig.set("do_not_ask_before_deleting", "false");
-                            }
-                        }
-                    }
                 }
                 
                 Container {
@@ -107,23 +80,7 @@ Page {
                         ]
                         
                         onSelectedOptionChanged: {
-                            _appConfig.set("date_format", selectedOption.value);
-                        }
-                    }
-                }
-                
-                Container {
-                    horizontalAlignment: HorizontalAlignment.Fill
-                    topPadding: ui.du(2.5)
-                    leftPadding: ui.du(2.5)
-                    rightPadding: ui.du(2.5)
-                    bottomPadding: ui.du(2.5)
-                    DropDown {
-                        id: pageSizeDropdown
-                        title: qsTr("Amount of items per request") + Retranslate.onLocaleOrLanguageChanged
-                        
-                        onSelectedOptionChanged: {
-                            _appConfig.set("amount_per_request", selectedOption.value);
+                            _app.prop("date_format", selectedOption.value);
                         }
                     }
                 }
@@ -137,25 +94,18 @@ Page {
     }
     
     function adjustTheme() {
-        var theme = _appConfig.get("theme");
+        var theme = _app.prop("theme");
         themeToggle.checked = theme && theme === "DARK";
     }
     
-    function adjustAskBeforeDeleting() {
-        var doNotAsk = _appConfig.get("do_not_ask_before_deleting");
-        dontAskBeforeDeletingToggle.checked = doNotAsk && doNotAsk === "true";
-    }
-    
     function adjustDateTimeFormat() {
-        var df = _appConfig.get("date_format");
+        var df = _app.prop("date_format");
         customFormatOption.selected = (df === "" || df === customFormatOption.value);
         localizedFormatOption.selected = (df === localizedFormatOption.value);
     }
        
     onCreationCompleted: {
         adjustTheme();
-        adjustAskBeforeDeleting();
         adjustDateTimeFormat();
-        _app.initPageSizes(pageSizeDropdown);
     }
 }

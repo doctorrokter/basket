@@ -78,6 +78,7 @@ ApplicationUI::ApplicationUI() :
     Q_ASSERT(res);
     res = QObject::connect(m_invokeManager, SIGNAL(invoked(const bb::system::InvokeRequest&)), this, SLOT(onInvoke(const bb::system::InvokeRequest&)));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQdropbox, SIGNAL(sharedLinkRevoked(const QString&)), this, SLOT(onSharedLinkRevoked(const QString&)));
     Q_UNUSED(res);
 
     configureQml();
@@ -247,6 +248,21 @@ QVariantMap ApplicationUI::getSharedLink(const QString& path) {
         return m_sharedLinksMap.value(path)->toMap();
     }
     return QVariantMap();
+}
+
+void ApplicationUI::onSharedLinkRevoked(const QString& sharedLinkUrl) {
+    SharedLink* link = 0;
+    for (int index = 0; index < m_sharedLinksMap.values().size(); index++) {
+        SharedLink* l = m_sharedLinksMap.values().at(index);
+        if (l->getUrl().compare(sharedLinkUrl) == 0) {
+            link = l;
+            m_sharedLinksMap.keys().removeAt(index);
+            return;
+        }
+    }
+    if (link != 0) {
+        link->deleteLater();
+    }
 }
 
 void ApplicationUI::onInvoke(const bb::system::InvokeRequest& req) {

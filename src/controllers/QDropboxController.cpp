@@ -68,6 +68,8 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, Q
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(folderMemberUpdated(const QString&, QDropboxMember*)), this, SLOT(onFolderMemberUpdated(const QString&, QDropboxMember*)));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(sharedLinkRevoked(const QString&)), this, SIGNAL(sharedLinkRevoked(const QString&)));
+    Q_ASSERT(res);
     Q_UNUSED(res);
 }
 
@@ -123,6 +125,8 @@ QDropboxController::~QDropboxController() {
     res = QObject::disconnect(m_pQDropbox, SIGNAL(folderMemberRemoved(const QString&, QDropboxMember*)), this, SLOT(onFolderMemberRemoved(const QString&, QDropboxMember*)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(folderMemberUpdated(const QString&, QDropboxMember*)), this, SLOT(onFolderMemberUpdated(const QString&, QDropboxMember*)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(sharedLinkRevoked(const QString&)), this, SIGNAL(sharedLinkRevoked(const QString&)));
     Q_ASSERT(res);
     Q_UNUSED(res);
 }
@@ -454,5 +458,9 @@ void QDropboxController::updateFolderMember(const QString& sharedFolderId, const
 void QDropboxController::onFolderMemberUpdated(const QString& sharedFolderId, QDropboxMember* member) {
     emit folderMemberUpdated(sharedFolderId, member->toMap());
     member->deleteLater();
+}
+
+void QDropboxController::revokeSharedLink(const QString& sharedLinkUrl) {
+    m_pQDropbox->revokeSharedLink(sharedLinkUrl);
 }
 
