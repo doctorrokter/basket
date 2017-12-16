@@ -117,6 +117,7 @@ NavigationPane {
                     mp.name = name;
                     mp.path = path;
                     mp.sharedFolderId = sharedFolderId;
+                    mp.isOwner = isOwner;
                     navPane.push(mp);
                 }
             }

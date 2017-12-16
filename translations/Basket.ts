@@ -267,7 +267,7 @@
 <context>
     <name>MembersPage</name>
     <message>
-        <location filename="../assets/pages/MembersPage.qml" line="16"/>
+        <location filename="../assets/pages/MembersPage.qml" line="17"/>
         <source>Members</source>
         <translation type="unfinished"></translation>
     </message>
@@ -348,7 +348,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="267"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="275"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -364,12 +364,12 @@
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="289"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="293"/>
         <source>Upload finished: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="387"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="391"/>
         <source>Download finished: </source>
         <translation type="unfinished"></translation>
     </message>

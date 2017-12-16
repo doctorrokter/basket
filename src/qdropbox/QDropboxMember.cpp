@@ -25,7 +25,9 @@ const QDropboxTag& QDropboxMember::getTag() const { return m_tag; }
 const QString& QDropboxMember::getEmail() const { return m_email; }
 QDropboxMember& QDropboxMember::setEmail(const QString& email) {
     m_email = email;
-    m_tag.fromStr("email");
+    if (m_tag.value() != QDropboxTag::DROPBOX_ID) {
+        m_tag.fromStr("email");
+    }
     return *this;
 }
 
@@ -46,12 +48,10 @@ QVariantMap QDropboxMember::toMap() {
     QVariantMap map;
     QVariantMap member;
     member[".tag"] = m_tag.name();
-    if (!m_email.isEmpty()) {
-        member["email"] = m_email;
-    }
-
     if (!m_dropboxId.isEmpty()) {
         member["dropbox_id"] = m_dropboxId;
+    } else {
+        member["email"] = m_email;
     }
 
     map["member"] = member;

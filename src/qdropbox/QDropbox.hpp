@@ -83,6 +83,7 @@ public:
 
     // sharing
     void addFolderMember(const QString& sharedFolderId, const QList<QDropboxMember>& members, const bool& quiet = false, const QString& customMessage = "");
+    void removeFolderMember(const QString& sharedFolderId, QDropboxMember& member, const bool& leaveACopy = false);
     void listFolderMembers(const QString& sharedFolderId, const int& limit = 0);
     void shareFolder(const QString& path, const bool& forceAsync = false, const QDropboxAclUpdatePolicy& aclUpdatePolicy = QDropboxAclUpdatePolicy(),
             const QDropboxMemberPolicy& memberPolicy = QDropboxMemberPolicy(),
@@ -119,6 +120,7 @@ Q_SIGNALS:
 
     // sharing signals
     void folderMemberAdded(const QString& sharedFolderId);
+    void folderMemberRemoved(const QString& sharedFolderId, QDropboxMember* member);
     void listFolderMembersLoaded(const QString& sharedFolderId, const QList<QDropboxFolderMember*>& members, const QString& cursor = "");
     void folderShared(const QString& path, const QString& sharedFolderId);
     void folderUnshared(const QString& sharedFolderId);
@@ -153,6 +155,7 @@ private slots:
 
     // sharing slots
     void onFolderMemberAdded();
+    void onFolderMemberRemoved();
     void onListFolderMembers();
     void onFolderShared();
     void onFolderUnshared();

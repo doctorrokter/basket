@@ -9,6 +9,7 @@ Page {
     property string name: ""
     property string sharedFolderId: ""
     property variant members: []
+    property bool isOwner: false
     
     signal showAccount(variant account)
     
@@ -19,75 +20,111 @@ Page {
     Container {
         horizontalAlignment: HorizontalAlignment.Fill
         
-        Header {
-            title: root.path
-        }
+        layout: DockLayout {}
         
-        ListView {
-            id: listView
-            
-            dataModel: ArrayDataModel {
-                id: dataModel
+        Container {
+            Header {
+                title: root.path
             }
             
-            onTriggered: {
-                root.showAccount(dataModel.data(indexPath));
-            }
-            
-            listItemComponents: [
-                ListItemComponent {
-                    CustomListItem {
-                        id: accountItem
-                        
-                        function hasPhoto() {
-                            return ListItemData.profile_photo_url !== undefined && ListItemData.profile_photo_url !== "";
-                        }          
-                        
-                        Container {
-                            layout: StackLayout {
-                                orientation: LayoutOrientation.LeftToRight
+            ListView {
+                id: listView
+                scrollRole: ScrollRole.Main
+                
+                dataModel: ArrayDataModel {
+                    id: dataModel
+                }
+                
+                onTriggered: {
+                    root.showAccount(dataModel.data(indexPath));
+                }
+                
+                contextActions: [
+                    ActionSet {
+                        DeleteActionItem {
+                            id: removeFolderMember
+                            enabled: root.isOwner
+                            
+                            onTriggered: {
+                                var member = dataModel.data(listView.selected());
+                                _qdropbox.removeFolderMember(root.sharedFolderId, member);
                             }
                             
-                            leftPadding: ui.du(1)
-                            topPadding: ui.du(1)
-                            rightPadding: ui.du(1)
-                            bottomPadding: ui.du(1)
-                            
-                            Avatar {
-                                url: ListItemData.profile_photo_url
-                                abbreviatedName: ListItemData.name.abbreviated_name
+                            shortcuts: Shortcut {
+                                key: "d"
+                                
+                                onTriggered: {
+                                    removeFolderMember.triggered();
+                                }
                             }
+                        }
+                    }
+                ]
+                
+                listItemComponents: [
+                    ListItemComponent {
+                        CustomListItem {
+                            id: accountItem
+                            
+                            property ListView listView: ListItem.view
+                            
+                            function hasPhoto() {
+                                return ListItemData.profile_photo_url !== undefined && ListItemData.profile_photo_url !== "";
+                            }          
                             
                             Container {
-                                leftPadding: ui.du(2)
-                                
-                                Container {
-                                    Label {
-                                        text: ListItemData.name.display_name
-                                        textStyle.base: SystemDefaults.TextStyles.PrimaryText
-                                    }
+                                layout: StackLayout {
+                                    orientation: LayoutOrientation.LeftToRight
                                 }
-                                                                   
-                                Container {
-                                    Label {
-                                        text: ListItemData.email
-                                        textStyle.base: SystemDefaults.TextStyles.SubtitleText
-                                    }
+                                
+                                leftPadding: ui.du(1)
+                                topPadding: ui.du(1)
+                                rightPadding: ui.du(1)
+                                bottomPadding: ui.du(1)
+                                
+                                Avatar {
+                                    url: ListItemData.profile_photo_url
+                                    abbreviatedName: ListItemData.name.abbreviated_name
                                 }
                                 
                                 Container {
-                                    Label {
-                                        text: ListItemData.access_type
-                                        textStyle.base: SystemDefaults.TextStyles.SubtitleText
-                                        textStyle.color: ui.palette.secondaryTextOnPlain
-                                        textStyle.fontWeight: FontWeight.W300
+                                    leftPadding: ui.du(2)
+                                    
+                                    Container {
+                                        Label {
+                                            text: ListItemData.name.display_name
+                                            textStyle.base: SystemDefaults.TextStyles.PrimaryText
+                                        }
+                                    }
+                                    
+                                    Container {
+                                        Label {
+                                            text: ListItemData.email
+                                            textStyle.base: SystemDefaults.TextStyles.SubtitleText
+                                        }
+                                    }
+                                    
+                                    Container {
+                                        Label {
+                                            text: ListItemData.access_type
+                                            textStyle.base: SystemDefaults.TextStyles.SubtitleText
+                                            textStyle.color: ui.palette.secondaryTextOnPlain
+                                            textStyle.fontWeight: FontWeight.W300
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
-            ]
+                ]
+            }
+        }
+        
+        ActivityIndicator {
+            id: spinner
+            verticalAlignment: VerticalAlignment.Center
+            horizontalAlignment: HorizontalAlignment.Center
+            minWidth: ui.du(20)
         }
     }
     
@@ -105,19 +142,35 @@ Page {
             });   
         });
         dataModel.append(accounts);
+        spinner.stop();
+    }
+    
+    function folderMemberRemoved(sharedFolderId, member) {
+        if (root.sharedFolderId === sharedFolderId) {
+            for (var i = 0; i < dataModel.size(); i++) {
+                var m = dataModel.value(i);
+                if (m.email === member.email || m.dropbox_id === member.dropbox_id) {
+                    dataModel.removeAt(i);
+                    return;
+                }
+            }
+        }
     }
     
     function cleanUp() {
         _qdropbox.listFolderMembersLoaded.disconnect(root.listFolderMembersLoaded);
         _qdropbox.accountBatchLoaded.disconnect(root.accountBatchLoaded);
+        _qdropbox.folderMemberRemoved.disconnect(root.folderMemberRemoved);
     }
     
     onCreationCompleted: {
         _qdropbox.listFolderMembersLoaded.connect(root.listFolderMembersLoaded);
         _qdropbox.accountBatchLoaded.connect(root.accountBatchLoaded);
+        _qdropbox.folderMemberRemoved.connect(root.folderMemberRemoved);
     }
     
     onSharedFolderIdChanged: {
+        spinner.start();
         _qdropbox.listFolderMembers(sharedFolderId);
     }
     

@@ -23,7 +23,7 @@ Page {
     property string url: ""
     
     signal propertiesDone()
-    signal showMembers(string name, string path, string sharedFolderId)
+    signal showMembers(string name, string path, string sharedFolderId, bool isOwner)
     
     titleBar: TitleBar {
         title: qsTr("Properties") + Retranslate.onLocaleOrLanguageChanged
@@ -174,7 +174,7 @@ Page {
                 visible: root.sharedFolderId !== ""
                 
                 onClicked: {
-                    root.showMembers(root.name, root.pathDisplay, root.sharedFolderId);
+                    root.showMembers(root.name, root.pathDisplay, root.sharedFolderId, root.isOwner);
                 }
             }
             
@@ -222,6 +222,7 @@ Page {
     function cleanUp() {
         _qdropbox.thumbnailLoaded.disconnect(root.thumbnailLoaded);
         _qdropbox.unsharedFolder.disconnect(root.unsharedFolder);
+        _qdropbox.folderMemberRemoved.disconnect(root.folderMemberRemoved);
     }
     
     function isDir() {
@@ -245,9 +246,16 @@ Page {
         }
     }
     
+    function folderMemberRemoved(sharedFolderId, member) {
+        if (root.sharedFolderId === sharedFolderId) {
+            root.membersCount = root.membersCount - 1;
+        }
+    }
+    
     onCreationCompleted: {
         _qdropbox.thumbnailLoaded.connect(root.thumbnailLoaded);
         _qdropbox.unsharedFolder.connect(root.unsharedFolder);
+        _qdropbox.folderMemberRemoved.connect(root.folderMemberRemoved);
     }
     
     attachedObjects: [
