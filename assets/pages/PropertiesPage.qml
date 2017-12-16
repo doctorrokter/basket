@@ -1,5 +1,6 @@
 import bb.cascades 1.4
 import bb.system 1.2
+import basket.helpers 1.0
 import "../components"
 
 Page {
@@ -195,6 +196,7 @@ Page {
                     onClicked: {
                         undoToast.body = qsTr("Unsharing folder...") + Retranslate.onLocaleOrLanguageChanged
                         undoToast.show();
+                        timer.start();
                     }
                 }
             }
@@ -276,10 +278,23 @@ Page {
             position: SystemUiPosition.BottomCenter
             
             onFinished: {
-                console.debug("toast: ", value);
                 if (value !== 1) {
                     _qdropbox.unshareFolder(root.sharedFolderId);
+                } else {
+                    timer.stop();
                 }
+            }
+        },
+        
+        Timer {
+            id: timer
+            
+            interval: 2000
+            singleShot: true
+            
+            onTimeout: {
+                undoToast.finished(SystemUiResult.TimeOut);
+                undoToast.destroy();
             }
         }
     ]

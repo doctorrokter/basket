@@ -71,9 +71,11 @@ Sheet {
                     }
                     
                     Container {
-                        TextField {
+                        TextArea {
                             id: emailsField
+                            textFormat: TextFormat.Plain
                             hintText: "Ex.: e1@gmail.com e2@gmail.com"
+                            
                             
                             onTextChanging: {
                                 doneAction.enabled = text.trim() !== ""
@@ -135,6 +137,10 @@ Sheet {
                 }
             }
         }
+    }
+    
+    onCreationCompleted: {
+        emailsField.requestFocus();
     }
     
     function onError() {

@@ -267,8 +267,18 @@
 <context>
     <name>MembersPage</name>
     <message>
-        <location filename="../assets/pages/MembersPage.qml" line="17"/>
+        <location filename="../assets/pages/MembersPage.qml" line="21"/>
         <source>Members</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/MembersPage.qml" line="56"/>
+        <source>Member removed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/MembersPage.qml" line="145"/>
+        <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -283,72 +293,72 @@
 <context>
     <name>PropertiesPage</name>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="29"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="30"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="136"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="137"/>
         <source>Folder properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="138"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="139"/>
         <source>File properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="143"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="144"/>
         <source>Filename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="149"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="150"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="155"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="156"/>
         <source>Last modified</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="161"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="162"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="162"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="163"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="166"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="167"/>
         <source>Placement</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="171"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="172"/>
         <source>Members</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="193"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="194"/>
         <source>Unshare</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="196"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="197"/>
         <source>Unsharing folder...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="205"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="207"/>
         <source>Shared link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="275"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="277"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -474,27 +484,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/sheets/ShareFolderSheet.qml" line="92"/>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="94"/>
         <source>Access level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/sheets/ShareFolderSheet.qml" line="97"/>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="99"/>
         <source>Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/sheets/ShareFolderSheet.qml" line="103"/>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="105"/>
         <source>Viewer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/sheets/ShareFolderSheet.qml" line="113"/>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="115"/>
         <source>Users can modify, delete and comment a file and also add it into own Dropbox.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/sheets/ShareFolderSheet.qml" line="121"/>
+        <location filename="../assets/sheets/ShareFolderSheet.qml" line="123"/>
         <source>Users can view, download and comment a file.</source>
         <translation type="unfinished"></translation>
     </message>

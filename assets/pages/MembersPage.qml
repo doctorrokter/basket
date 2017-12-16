@@ -1,5 +1,7 @@
 import bb.cascades 1.4
+import bb.system 1.2
 import WebImageView 1.0
+import basket.helpers 1.0
 import "../components"
 
 Page {
@@ -10,6 +12,8 @@ Page {
     property string sharedFolderId: ""
     property variant members: []
     property bool isOwner: false
+    property variant indexPath: []
+    property variant memberToRemove: undefined
     
     signal showAccount(variant account)
     
@@ -46,8 +50,12 @@ Page {
                             enabled: root.isOwner
                             
                             onTriggered: {
-                                var member = dataModel.data(listView.selected());
-                                _qdropbox.removeFolderMember(root.sharedFolderId, member);
+                                root.indexPath = listView.selected();
+                                root.memberToRemove = dataModel.data(indexPath);
+                                root.removeMember(root.memberToRemove);
+                                toast.body = (qsTr("Member removed") + Retranslate.onLocaleOrLanguageChanged) + ": " +  root.memberToRemove.name.display_name;
+                                toast.show();
+                                timer.start();
                             }
                             
                             shortcuts: Shortcut {
@@ -128,6 +136,39 @@ Page {
         }
     }
     
+    attachedObjects: [
+        SystemToast {
+            id: toast
+            
+            position: SystemUiPosition.BottomCenter
+            button.enabled: true
+            button.label: qsTr("Undo") + Retranslate.onLocaleOrLanguageChanged
+            
+            onFinished: {
+                if (value !== 1) {
+                    _qdropbox.removeFolderMember(root.sharedFolderId, root.memberToRemove);
+                } else {
+                    timer.stop();
+                    dataModel.insert(root.indexPath[0], root.memberToRemove);
+                    root.memberToRemove = undefined;
+                    root.indexPath = [];
+                }
+            }
+        },
+        
+        Timer {
+            id: timer
+            
+            interval: 2000
+            singleShot: true
+            
+            onTimeout: {
+                toast.finished(SystemUiResult.TimeOut);
+                toast.destroy();
+            }
+        }
+    ]
+    
     function listFolderMembersLoaded(sharedFolderId, members, cursor) {
         root.members = members;
     }
@@ -145,14 +186,12 @@ Page {
         spinner.stop();
     }
     
-    function folderMemberRemoved(sharedFolderId, member) {
-        if (root.sharedFolderId === sharedFolderId) {
-            for (var i = 0; i < dataModel.size(); i++) {
-                var m = dataModel.value(i);
-                if (m.email === member.email || m.dropbox_id === member.dropbox_id) {
-                    dataModel.removeAt(i);
-                    return;
-                }
+    function removeMember(member) {
+        for (var i = 0; i < dataModel.size(); i++) {
+            var m = dataModel.value(i);
+            if (m.email === member.email || m.dropbox_id === member.dropbox_id) {
+                dataModel.removeAt(i);
+                return;
             }
         }
     }
@@ -160,13 +199,11 @@ Page {
     function cleanUp() {
         _qdropbox.listFolderMembersLoaded.disconnect(root.listFolderMembersLoaded);
         _qdropbox.accountBatchLoaded.disconnect(root.accountBatchLoaded);
-        _qdropbox.folderMemberRemoved.disconnect(root.folderMemberRemoved);
     }
     
     onCreationCompleted: {
         _qdropbox.listFolderMembersLoaded.connect(root.listFolderMembersLoaded);
         _qdropbox.accountBatchLoaded.connect(root.accountBatchLoaded);
-        _qdropbox.folderMemberRemoved.connect(root.folderMemberRemoved);
     }
     
     onSharedFolderIdChanged: {

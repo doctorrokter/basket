@@ -25,12 +25,14 @@
 
 #include "controllers/QDropboxController.hpp"
 #include "vendor/WebImageView.h"
+#include <QTimer>
 
 using namespace bb::cascades;
 
 Q_DECL_EXPORT int main(int argc, char **argv) {
     qRegisterMetaType<QDropboxController*>("QDropboxController*");
     qmlRegisterType<WebImageView>("WebImageView", 1, 0, "WebImageView");
+    qmlRegisterType<QTimer>("basket.helpers", 1, 0, "Timer");
 
     QTextCodec *codec1 = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForLocale(codec1);
