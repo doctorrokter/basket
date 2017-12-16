@@ -383,8 +383,13 @@ void QDropbox::download(const QString& path, const QString& rev) {
 void QDropbox::read() {
     QNetworkReply* reply = getReply();
     QString path = reply->property("path").toString();
+    QDir dir(m_downloadsFolder);
+    if (!dir.exists()) {
+        dir.mkpath(m_downloadsFolder);
+    }
+
     QFile file(m_downloadsFolder + "/" + getFilename(path));
-    file.open(QIODevice::WriteOnly);
+    file.open(QIODevice::WriteOnly | QIODevice::Append);
     file.write(reply->readAll());
     file.flush();
     file.close();

@@ -430,6 +430,7 @@ Page {
                 }
             }
         }
+        _qdropbox.getSpaceUsage();
     }
     
     function isDir(file) {
@@ -529,6 +530,7 @@ Page {
             dataModel.append(file);
             listView.scrollToPosition(ScrollPosition.End, ScrollAnimation.Smooth);
         }
+        _qdropbox.getSpaceUsage();
     }
     
     function sharedFolder(path, sharedFolderId) {

@@ -132,13 +132,15 @@
         </filter>
     </invoke-target>
 
-    <invoke-target id="com.example.Basket">
+    <invoke-target id="chachkouski.Basket.auth">
         <invoke-target-type>application</invoke-target-type>
         <invoke-target-name>Basket</invoke-target-name>
-        <icon>
-            <image>icon.png</image>
-        </icon>
         <entry-point-id>Basket</entry-point-id>
+        <filter>
+    		<action>bb.action.OPEN</action>
+    		<mime-type>text/plain</mime-type>
+    		<property var="uris" value="basket://"/>
+  		</filter>
     </invoke-target>
 
     <!-- Unique author ID assigned by signing authority. Required if using debug

@@ -32,7 +32,7 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="209"/>
+        <location filename="../src/applicationui.cpp" line="211"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
@@ -40,7 +40,7 @@
 <context>
     <name>AuthPage</name>
     <message>
-        <location filename="../assets/pages/AuthPage.qml" line="28"/>
+        <location filename="../assets/pages/AuthPage.qml" line="30"/>
         <source>Sign in</source>
         <translation type="unfinished"></translation>
     </message>
@@ -270,13 +270,13 @@
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="254"/>
-        <location filename="../assets/pages/FolderPage.qml" line="512"/>
+        <location filename="../assets/pages/FolderPage.qml" line="513"/>
         <source>List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="256"/>
-        <location filename="../assets/pages/FolderPage.qml" line="519"/>
+        <location filename="../assets/pages/FolderPage.qml" line="520"/>
         <source>Grid</source>
         <translation type="unfinished"></translation>
     </message>

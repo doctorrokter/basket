@@ -58,7 +58,7 @@ ApplicationUI::ApplicationUI() :
     QString df = m_settings.value("date_format", "").toString();
     m_pDateUtil = new DateUtil(df, this);
 
-//    QString token = settings.value(ACCESS_TOKEN_KEY, "").toString();
+//    QString token = m_settings.value(ACCESS_TOKEN_KEY, "").toString();
     QString token = "u_XewBWc388AAAAAAAAF9Xc0lW_rhLW1dbzA_XoRYeGEi_6iazRrv5LMmxbJGZ0W";
     QmlDocument* qml = 0;
     if (token.compare("") == 0) {
@@ -75,6 +75,8 @@ ApplicationUI::ApplicationUI() :
     res = QObject::connect(m_pQdropbox, SIGNAL(sharedLinksLoaded(const QList<SharedLink*>&)), this, SLOT(onSharedLinksLoaded(const QList<SharedLink*>&)));
     Q_ASSERT(res);
     res = QObject::connect(m_pQdropbox, SIGNAL(sharedLinkCreated(SharedLink*)), this, SLOT(onSharedLinkCreated(SharedLink*)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_invokeManager, SIGNAL(invoked(const bb::system::InvokeRequest&)), this, SLOT(onInvoke(const bb::system::InvokeRequest&)));
     Q_ASSERT(res);
     Q_UNUSED(res);
 
@@ -245,4 +247,11 @@ QVariantMap ApplicationUI::getSharedLink(const QString& path) {
         return m_sharedLinksMap.value(path)->toMap();
     }
     return QVariantMap();
+}
+
+void ApplicationUI::onInvoke(const bb::system::InvokeRequest& req) {
+    qDebug() << req.action() << endl;
+    qDebug() << req.target() << endl;
+    qDebug() << req.mimeType() << endl;
+    qDebug() << req.uri() << endl;
 }

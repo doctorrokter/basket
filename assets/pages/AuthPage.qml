@@ -20,10 +20,12 @@ Page {
                 verticalAlignment: VerticalAlignment.Center
                 
                 ImageView {
+                    horizontalAlignment: HorizontalAlignment.Center
                     imageSource: "asset:///images/d_logo.png"
                 }
                 
                 Container {
+                    horizontalAlignment: HorizontalAlignment.Center
                     Button {
                         text: qsTr("Sign in") + Retranslate.onLocaleOrLanguageChanged
                         

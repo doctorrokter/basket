@@ -83,6 +83,7 @@ private slots:
     void onShared();
     void onSharedLinksLoaded(const QList<SharedLink*>& links);
     void onSharedLinkCreated(SharedLink* link);
+    void onInvoke(const bb::system::InvokeRequest& req);
 private:
     QSettings m_settings;
     QStringList m_palette;
