@@ -29,7 +29,7 @@
 #include <QTime>
 #include <QUrl>
 #include <bb/system/Clipboard>
-#include "qdropbox/QDropboxTempLink.hpp"
+#include <QFile>
 
 #define ACCESS_TOKEN_KEY "dropbox.access_token"
 
@@ -92,7 +92,7 @@ ApplicationUI::~ApplicationUI() {
     if (m_pAccount != 0) {
         m_pAccount->deleteLater();
     }
-    foreach(SharedLink* l, m_sharedLinks) {
+    foreach(SharedLink* l, m_sharedLinksMap.values()) {
         l->deleteLater();
     }
 }
@@ -229,65 +229,20 @@ void ApplicationUI::onShared() {
 
 void ApplicationUI::onSharedLinksLoaded(const QList<SharedLink*>& links) {
     qDebug() << "shared links loaded: " << links.size() << endl;
-    m_sharedLinks = links;
+    foreach(SharedLink* l, links) {
+        m_sharedLinksMap[l->getPath()] = l;
+    }
     emit sharedLinksLoaded();
 }
 
 void ApplicationUI::onSharedLinkCreated(SharedLink* link) {
-    m_sharedLinks.append(link);
-    qDebug() << "shared link added: " << m_sharedLinks.size() << endl;
+    m_sharedLinksMap[link->getPath()] = link;
+    qDebug() << "shared link added: " << m_sharedLinksMap.size() << endl;
 }
 
 QVariantMap ApplicationUI::getSharedLink(const QString& path) {
-    foreach(SharedLink* l, m_sharedLinks) {
-        if (l->getPath().compare(path) == 0) {
-            return l->toMap();
-        }
+    if (m_sharedLinksMap.contains(path)) {
+        return m_sharedLinksMap.value(path)->toMap();
     }
     return QVariantMap();
-}
-
-void ApplicationUI::openFile(const QVariantMap& linkMap) {
-    QDropboxTempLink link;
-    link.fromMap(linkMap);
-
-    QUrl url(link.getLink());
-
-    InvokeRequest request;
-    request.setAction("bb.action.VIEW");
-    request.setUri(url);
-
-    QString ext = m_pFileUtil->extension(link.getFile().getName());
-
-    if (m_pFileUtil->isPdf(ext)) {
-        request.setTarget("com.rim.bb.app.adobeReader.viewer");
-    } else if (m_pFileUtil->isImage(ext)) {
-        request.setTarget("sys.pictures.card.previewer");
-    } else if (m_pFileUtil->isDoc(ext)) {
-        request.setTarget("sys.wordtogo.previewer");
-    } else if (m_pFileUtil->isSpreadSheet(ext)) {
-        request.setTarget("sys.sheettogo.previewer");
-    } else if (m_pFileUtil->isPresentation(ext)) {
-        request.setTarget("sys.slideshowtogo.previewer");
-    } else if (m_pFileUtil->isAudio(ext) || m_pFileUtil->isVideo(ext)) {
-        request.setTarget("sys.mediaplayer.previewer");
-    }
-
-    if (!request.target().isEmpty()) {
-        m_invokeReply = m_invokeManager->invoke(request);
-        bool res = QObject::connect(m_invokeReply, SIGNAL(finished()), this, SLOT(onCoreInvoked()));
-        Q_ASSERT(res);
-        Q_UNUSED(res);
-    }
-}
-
-void ApplicationUI::onCoreInvoked() {
-    bool res = QObject::disconnect(m_invokeReply, SIGNAL(finished()), this, SLOT(onCoreInvoked()));
-    Q_ASSERT(res);
-    Q_UNUSED(res);
-
-    qDebug() << m_invokeReply->error() << endl;
-
-    delete m_invokeReply;
-    m_invokeReply = 0;
 }

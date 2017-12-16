@@ -122,7 +122,7 @@ Page {
                 
                 function temporaryLinkLoaded(link) {
                     _qdropbox.temporaryLinkLoaded.disconnect(listView.temporaryLinkLoaded);
-                    _app.openFile(link);
+                    _file.open(link);
                 }
                 
                 onTriggered: {
