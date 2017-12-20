@@ -63,7 +63,7 @@ ApplicationUI::ApplicationUI() :
     QmlDocument* qml = 0;
     if (token.compare("") == 0) {
         m_pQdropbox = new QDropbox(CLIENT_SECRET, CLIENT_ID, "basket://auth", this);
-        qml = QmlDocument::create("asset:///pages/AuthPage.qml").parent(this);
+        qml = QmlDocument::create("asset:///pages/OuthPage.qml").parent(this);
     } else {
         m_pQdropbox = new QDropbox(token, this);
         qml = QmlDocument::create("asset:///main.qml").parent(this);

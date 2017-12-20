@@ -132,7 +132,7 @@
         </filter>
     </invoke-target>
 
-    <invoke-target id="chachkouski.Basket.auth">
+    <!--<invoke-target id="chachkouski.Basket.auth">
         <invoke-target-type>application</invoke-target-type>
         <invoke-target-name>Basket</invoke-target-name>
         <entry-point-id>Basket</entry-point-id>
@@ -141,7 +141,7 @@
     		<mime-type>text/plain</mime-type>
     		<property var="uris" value="basket://"/>
   		</filter>
-    </invoke-target>
+    </invoke-target>-->
 
     <!-- Unique author ID assigned by signing authority. Required if using debug
         tokens. -->

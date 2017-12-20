@@ -1,5 +1,5 @@
 1
-68
+69
 sheets/FilePickersSheet.qml
 sheets/ShareFolderSheet.qml
 sheets/EditFolderMemberSheet.qml
@@ -21,6 +21,7 @@ pages/AuthPage.qml
 pages/SettingsPage.qml
 pages/PropertiesPage.qml
 pages/MembersPage.qml
+pages/OAuthPage.qml
 pages/DirPage.qml
 pages/FolderPage.qml
 actions/RenameFileAction.qml
