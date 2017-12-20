@@ -279,35 +279,41 @@
 <context>
     <name>FolderPage</name>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="203"/>
+        <location filename="../assets/pages/FolderPage.qml" line="102"/>
+        <location filename="../assets/pages/FolderPage.qml" line="125"/>
+        <source>selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="234"/>
         <source>Create folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="223"/>
+        <location filename="../assets/pages/FolderPage.qml" line="254"/>
         <source>Upload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="254"/>
-        <location filename="../assets/pages/FolderPage.qml" line="513"/>
+        <location filename="../assets/pages/FolderPage.qml" line="285"/>
+        <location filename="../assets/pages/FolderPage.qml" line="544"/>
         <source>List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="256"/>
-        <location filename="../assets/pages/FolderPage.qml" line="520"/>
+        <location filename="../assets/pages/FolderPage.qml" line="287"/>
+        <location filename="../assets/pages/FolderPage.qml" line="551"/>
         <source>Grid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="272"/>
+        <location filename="../assets/pages/FolderPage.qml" line="303"/>
         <source>Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="382"/>
-        <location filename="../assets/pages/FolderPage.qml" line="383"/>
+        <location filename="../assets/pages/FolderPage.qml" line="413"/>
+        <location filename="../assets/pages/FolderPage.qml" line="414"/>
         <source>GB</source>
         <translation type="unfinished"></translation>
     </message>
@@ -460,21 +466,13 @@
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="301"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="305"/>
         <source>Upload finished: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="399"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="403"/>
         <source>Download finished: </source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QJson::ParserRunnable</name>
-    <message>
-        <location filename="../src/qjson/parserrunnable.cpp" line="64"/>
-        <source>An error occurred while parsing json: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

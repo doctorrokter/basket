@@ -8,7 +8,7 @@
 #include <QFile>
 #include <QDir>
 #include "QDropboxController.hpp"
-#include "../qdropbox/QDropboxAccessLevel.hpp"
+#include <qdropbox/QDropboxAccessLevel.hpp>
 
 Logger QDropboxController::logger = Logger::getLogger("QDropboxController");
 
@@ -70,6 +70,8 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, Q
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(sharedLinkRevoked(const QString&)), this, SIGNAL(sharedLinkRevoked(const QString&)));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(deletedBatch()), this, SIGNAL(deletedBatch()));
+    Q_ASSERT(res);
     Q_UNUSED(res);
 }
 
@@ -127,6 +129,8 @@ QDropboxController::~QDropboxController() {
     res = QObject::disconnect(m_pQDropbox, SIGNAL(folderMemberUpdated(const QString&, QDropboxMember*)), this, SLOT(onFolderMemberUpdated(const QString&, QDropboxMember*)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(sharedLinkRevoked(const QString&)), this, SIGNAL(sharedLinkRevoked(const QString&)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(deletedBatch()), this, SIGNAL(deletedBatch()));
     Q_ASSERT(res);
     Q_UNUSED(res);
 }
@@ -464,3 +468,10 @@ void QDropboxController::revokeSharedLink(const QString& sharedLinkUrl) {
     m_pQDropbox->revokeSharedLink(sharedLinkUrl);
 }
 
+void QDropboxController::deleteBatch(const QVariantList& paths) {
+    QStringList list;
+    foreach(QVariant path, paths) {
+        list << path.toString();
+    }
+    m_pQDropbox->deleteBatch(list);
+}

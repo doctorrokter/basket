@@ -13,14 +13,14 @@
 #include <QList>
 #include <QVariantList>
 #include <QtGui/QImage>
-#include "../qdropbox/QDropbox.hpp"
-#include "../qdropbox/QDropboxFile.hpp"
-#include "../qdropbox/QDropboxMember.hpp"
-#include "../qdropbox/QDropboxFolderMember.hpp"
-#include "../qdropbox/QDropboxTempLink.hpp"
-#include "../qdropbox/Account.hpp"
-#include "../qdropbox/QDropboxSpaceUsage.hpp"
-#include "../qdropbox/SharedLink.hpp"
+#include <qdropbox/QDropbox.hpp>
+#include <qdropbox/QDropboxFile.hpp>
+#include <qdropbox/QDropboxMember.hpp>
+#include <qdropbox/QDropboxFolderMember.hpp>
+#include <qdropbox/QDropboxTempLink.hpp>
+#include <qdropbox/Account.hpp>
+#include <qdropbox/QDropboxSpaceUsage.hpp>
+#include <qdropbox/SharedLink.hpp>
 #include "../Logger.hpp"
 #include <bb/system/SystemToast>
 #include "../util/FileUtil.hpp"
@@ -63,6 +63,7 @@ public:
     Q_INVOKABLE void getSharedLinks();
     Q_INVOKABLE void getTemporaryLink(const QString& path);
     Q_INVOKABLE void revokeSharedLink(const QString& sharedLinkUrl);
+    Q_INVOKABLE void deleteBatch(const QVariantList& paths);
 
     Q_INVOKABLE const QVariantList& getSelected() const;
     Q_INVOKABLE void setSelected(const QVariantList& selected);
@@ -101,6 +102,7 @@ public:
         void folderMemberRemoved(const QString& sharedFolderId, const QVariantMap& member);
         void folderMemberUpdated(const QString& sharedFolderId, const QVariantMap& member);
         void sharedLinkRevoked(const QString& sharedLinkUrl);
+        void deletedBatch();
 
         void selectedChanged(const QVariantList& selected);
         void error(const QString& error);

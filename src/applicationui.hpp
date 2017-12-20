@@ -21,15 +21,15 @@
 #include <QSettings>
 #include <QVariantMap>
 #include <bb/cascades/QmlDocument>
-#include "qdropbox/QDropbox.hpp"
-#include "qdropbox/Account.hpp"
+#include <qdropbox/QDropbox.hpp>
+#include <qdropbox/Account.hpp>
 #include "controllers/QDropboxController.hpp"
 #include "util/DateUtil.hpp"
 #include "util/FileUtil.hpp"
 #include <bb/system/SystemToast>
 #include <QStringList>
 #include <QList>
-#include "qdropbox/SharedLink.hpp"
+#include <qdropbox/SharedLink.hpp>
 #include <bb/system/InvokeRequest>
 #include <QMap>
 

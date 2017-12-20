@@ -94,6 +94,37 @@ Page {
                     }
                 ]
                 
+                multiSelectAction: MultiSelectActionItem {
+                    
+                }
+                
+                multiSelectHandler {
+                    status: "0 " + (qsTr("selected") + Retranslate.onLocaleOrLanguageChanged)
+                    actions: [
+                        DeleteActionItem {
+                            id: multiDeleteAction
+                            
+                            onTriggered: {
+                                var files = [];
+                                listView.selectionList().forEach(function(indexPath) {
+                                    files.push(dataModel.data(indexPath));
+                                });
+                                var paths = files.map(function(f) {
+                                    return f.path_display;
+                                });
+                                files.forEach(function(f) {
+                                    dataModel.removeAt(dataModel.indexOf(f));    
+                                });
+                                _qdropbox.deleteBatch(paths);
+                            }
+                        }
+                    ]
+                }
+                
+                onSelectionChanged: {
+                    multiSelectHandler.status = selectionList().length + " " + (qsTr("selected") + Retranslate.onLocaleOrLanguageChanged)
+                }
+                
                 function itemType(data, indexPath) {
                     if (layout.objectName === "stackListLayout") {
                         return "listItem";
@@ -610,6 +641,10 @@ Page {
         }
     }
     
+    function deletedBatch(ids) {
+        console.debug("Deleted batch: " + ids.length);
+    }
+    
     function cleanUp() {
         _qdropbox.popPath();
         _qdropbox.listFolderLoaded.disconnect(root.listFolderLoaded);
@@ -627,6 +662,7 @@ Page {
         _qdropbox.sharedLinkCreated.disconnect(root.sharedLinkCreated);
         _qdropbox.folderMemberRemoved.disconnect(root.folderMemberRemoved);
         _qdropbox.sharedLinkRevoked.disconnect(root.sharedLinkRevoked);
+        _qdropbox.deletedBatch.disconnect(root.deletedBatch);
         _app.propChanged.disconnect(root.propChanged);
     }
     
@@ -646,6 +682,7 @@ Page {
         _qdropbox.sharedLinkCreated.connect(root.sharedLinkCreated);
         _qdropbox.folderMemberRemoved.connect(root.folderMemberRemoved);
         _qdropbox.sharedLinkRevoked.connect(root.sharedLinkRevoked);
+        _qdropbox.deletedBatch.connect(root.deletedBatch);
         _app.propChanged.connect(root.propChanged);
     }
     
