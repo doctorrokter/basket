@@ -38,9 +38,14 @@ Container {
         margin.bottomOffset: ui.du(2)
         
         onClicked: {
-            _qdropbox.selected.forEach(function(file) {
-                _qdropbox.move(file.path_display, root.path + "/" + file.name);
-            });
+            if (_qdropbox.selected.length > 1) {
+                _qdropbox.moveBatch(root.path);
+            } else {
+                _qdropbox.selected.forEach(function(file) {
+                    _qdropbox.move(file.path_display, root.path + "/" + file.name);
+                });
+            }
+            
         }
     }
     

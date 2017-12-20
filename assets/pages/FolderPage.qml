@@ -117,6 +117,20 @@ Page {
                                 });
                                 _qdropbox.deleteBatch(paths);
                             }
+                        },
+                        
+                        ActionItem {
+                            id: multiMoveAction
+                            title: qsTr("Move") + Retranslate.onLocaleOrLanguageChanged
+                            imageSource: "asset:///images/ic_forward.png"
+                            
+                            onTriggered: {
+                                var selected = [];
+                                listView.selectionList().forEach(function(indexPath) {
+                                    selected.push(dataModel.data(indexPath));    
+                                });
+                                _qdropbox.selected = selected;
+                            }
                         }
                     ]
                 }

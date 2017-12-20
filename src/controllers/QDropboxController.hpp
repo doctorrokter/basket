@@ -64,6 +64,7 @@ public:
     Q_INVOKABLE void getTemporaryLink(const QString& path);
     Q_INVOKABLE void revokeSharedLink(const QString& sharedLinkUrl);
     Q_INVOKABLE void deleteBatch(const QVariantList& paths);
+    Q_INVOKABLE void moveBatch(const QString& toPath);
 
     Q_INVOKABLE const QVariantList& getSelected() const;
     Q_INVOKABLE void setSelected(const QVariantList& selected);

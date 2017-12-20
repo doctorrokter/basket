@@ -475,3 +475,19 @@ void QDropboxController::deleteBatch(const QVariantList& paths) {
     }
     m_pQDropbox->deleteBatch(list);
 }
+
+void QDropboxController::moveBatch(const QString& toPath) {
+    QList<MoveEntry> entries;
+    foreach(QVariant v, m_selected) {
+        QVariantMap file = v.toMap();
+        QString newPath = toPath + "/" + file.value("name").toString();
+        MoveEntry e(file.value("path_display").toString(), newPath);
+        entries.append(e);
+
+        file["path_display"] = newPath;
+        file["path_lower"] = newPath.toLower();
+        emit moved(file);
+    }
+    unselectAll();
+    m_pQDropbox->moveBatch(entries);
+}
