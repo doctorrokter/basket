@@ -23,6 +23,7 @@
 #include <bb/system/InvokeQueryTargetsRequest>
 #include <bb/system/InvokeQueryTargetsReply>
 #include <bb/system/SystemUiPosition.hpp>
+#include <bb/cascades/ThemeSupport>
 #include <QSettings>
 #include <QDir>
 #include "Common.hpp"
@@ -45,7 +46,8 @@ ApplicationUI::ApplicationUI() :
         m_invokeManager(new InvokeManager(this)),
         m_pAccount(0),
         m_pFileUtil(new FileUtil(this)),
-        m_pCommunication(new HeadlessCommunication(this)) {
+        m_pCommunication(new HeadlessCommunication(this)),
+        m_watchCamera(false) {
 
     QCoreApplication::setOrganizationName("mikhail.chachkouski");
     QCoreApplication::setApplicationName("Basket");
