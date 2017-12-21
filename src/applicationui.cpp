@@ -32,6 +32,11 @@
 #include <QFile>
 
 #define ACCESS_TOKEN_KEY "dropbox.access_token"
+#define AUTOLOAD_SETTINGS "autoload.camera.files"
+#define AUTOLOAD_CAMERA_FILES_ENABLED "autoload.camera.files.enabled"
+#define AUTOLOAD_CAMERA_FILES_DISABLED "autoload.camera.files.disabled"
+
+Logger ApplicationUI::logger = Logger::getLogger("ApplicationUI");
 
 ApplicationUI::ApplicationUI() :
         QObject(),
@@ -39,21 +44,24 @@ ApplicationUI::ApplicationUI() :
         m_localeHandler(new LocaleHandler(this)),
         m_invokeManager(new InvokeManager(this)),
         m_pAccount(0),
-        m_pFileUtil(new FileUtil(this)) {
+        m_pFileUtil(new FileUtil(this)),
+        m_pCommunication(new HeadlessCommunication(this)) {
+
+    QCoreApplication::setOrganizationName("mikhail.chachkouski");
+    QCoreApplication::setApplicationName("Basket");
+
+    QString theme = prop("theme", "BRIGHT").toString();
+    if (theme.compare("DARK") == 0) {
+        Application::instance()->themeSupport()->setVisualStyle(VisualStyle::Dark);
+    } else {
+        Application::instance()->themeSupport()->setVisualStyle(VisualStyle::Bright);
+    }
 
     QTime time = QTime::currentTime();
     qsrand((uint)time.msec());
 
     m_palette << "#323232" << "#0092CC" << "#FF3333" << "#DCD427" << "#779933" << "#282828" << "#087099" << "#CC3333" << "#B7B327" << "#5C7829";
-
     m_downloadsFolder = QDir::currentPath() + "/shared/downloads/basket";
-
-    if (!QObject::connect(m_localeHandler, SIGNAL(systemLanguageChanged()),
-            this, SLOT(onSystemLanguageChanged()))) {
-        qWarning() << "Recovering from a failed connect()";
-    }
-
-    onSystemLanguageChanged();
 
     QString df = m_settings.value("date_format", "").toString();
     m_pDateUtil = new DateUtil(df, this);
@@ -70,18 +78,12 @@ ApplicationUI::ApplicationUI() :
     }
     m_pQdropbox->setDownloadsFolder(m_downloadsFolder);
     m_pQdropboxController = new QDropboxController(m_pQdropbox, m_pFileUtil, this);
-    bool res = QObject::connect(m_pQdropboxController, SIGNAL(currentAccountLoaded(Account*)), this, SLOT(onCurrentAccountLoaded(Account*)));
-    Q_ASSERT(res);
-    res = QObject::connect(m_pQdropbox, SIGNAL(sharedLinksLoaded(const QList<SharedLink*>&)), this, SLOT(onSharedLinksLoaded(const QList<SharedLink*>&)));
-    Q_ASSERT(res);
-    res = QObject::connect(m_pQdropbox, SIGNAL(sharedLinkCreated(SharedLink*)), this, SLOT(onSharedLinkCreated(SharedLink*)));
-    Q_ASSERT(res);
-    res = QObject::connect(m_invokeManager, SIGNAL(invoked(const bb::system::InvokeRequest&)), this, SLOT(onInvoke(const bb::system::InvokeRequest&)));
-    Q_ASSERT(res);
-    res = QObject::connect(m_pQdropbox, SIGNAL(sharedLinkRevoked(const QString&)), this, SLOT(onSharedLinkRevoked(const QString&)));
-    Q_UNUSED(res);
 
+    initSignals();
+    onSystemLanguageChanged();
     configureQml();
+    startHeadless();
+
     AbstractPane *root = qml->createRootObject<AbstractPane>();
     Application::instance()->setScene(root);
 }
@@ -114,14 +116,21 @@ QVariant ApplicationUI::prop(const QString& key, const QVariant& defaultValue) {
 }
 
 void ApplicationUI::setProp(const QString& key, const QVariant& val) {
+    logger.debug("Settings changed: " + key);
+    if (key.compare(AUTOLOAD_SETTINGS) == 0) {
+        bool enabled = val.toBool();
+        setAutoloadEnabled(enabled);
+        m_pCommunication->send(enabled ? AUTOLOAD_CAMERA_FILES_ENABLED : AUTOLOAD_CAMERA_FILES_DISABLED);
+    }
+
     m_settings.setValue(key, val);
     emit propChanged(key, val);
 }
 
 void ApplicationUI::resendNotification() {
     InvokeRequest request;
-    request.setTarget("com.example.BasketService");
-    request.setAction("com.example.BasketService.RESET");
+    request.setTarget("chachkouski.BasketService");
+    request.setAction("chachkouski.BasketService.RESET");
     m_invokeManager->invoke(request);
     Application::instance()->minimize();
 }
@@ -270,4 +279,57 @@ void ApplicationUI::onInvoke(const bb::system::InvokeRequest& req) {
     qDebug() << req.target() << endl;
     qDebug() << req.mimeType() << endl;
     qDebug() << req.uri() << endl;
+}
+
+void ApplicationUI::onCommand(const QString& command) {
+    logger.debug("Command received: " + command);
+    if (command.compare(AUTOLOAD_CAMERA_FILES_ENABLED) == 0) {
+        setAutoloadEnabled(true);
+    } else if (command.compare(AUTOLOAD_CAMERA_FILES_DISABLED) == 0) {
+        setAutoloadEnabled(false);
+    }
+}
+
+void ApplicationUI::startHeadless() {
+    logger.info("Start Headless");
+    InvokeRequest request;
+    request.setTarget("chachkouski.BasketService");
+    request.setAction("chachkouski.BasketService.START");
+    InvokeTargetReply* reply = m_invokeManager->invoke(request);
+    QObject::connect(reply, SIGNAL(finished()), this, SLOT(headlessInvoked()));
+}
+
+void ApplicationUI::headlessInvoked() {
+    InvokeTargetReply* reply = qobject_cast<InvokeTargetReply*>(QObject::sender());
+    logger.info(QString("Invoked headless success: ").append(reply->isFinished() ? QString::number(1) : QString::number(0)));
+    reply->deleteLater();
+}
+
+void ApplicationUI::initSignals() {
+    if (!QObject::connect(m_localeHandler, SIGNAL(systemLanguageChanged()),
+                this, SLOT(onSystemLanguageChanged()))) {
+            logger.warn("Recovering from a failed connect()");
+    }
+
+    bool res = QObject::connect(m_pQdropboxController, SIGNAL(currentAccountLoaded(Account*)), this, SLOT(onCurrentAccountLoaded(Account*)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pQdropbox, SIGNAL(sharedLinksLoaded(const QList<SharedLink*>&)), this, SLOT(onSharedLinksLoaded(const QList<SharedLink*>&)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pQdropbox, SIGNAL(sharedLinkCreated(SharedLink*)), this, SLOT(onSharedLinkCreated(SharedLink*)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_invokeManager, SIGNAL(invoked(const bb::system::InvokeRequest&)), this, SLOT(onInvoke(const bb::system::InvokeRequest&)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pQdropbox, SIGNAL(sharedLinkRevoked(const QString&)), this, SLOT(onSharedLinkRevoked(const QString&)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pCommunication, SIGNAL(commandReceived(const QString&)), this, SLOT(onCommand(const QString&)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+const bool& ApplicationUI::isAutoloadEnabled() const { return m_watchCamera; }
+void ApplicationUI::setAutoloadEnabled(const bool& autoload) {
+    if (m_watchCamera != autoload) {
+        m_watchCamera = autoload;
+        emit autoloadChanged(m_watchCamera);
+    }
 }

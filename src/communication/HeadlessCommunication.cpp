@@ -11,7 +11,7 @@
 
 #define PORT 10002
 
-Logger HeadlessCommunication::logger = Logger::getLogger("HeadlessCommunication");
+Logger HeadlessCommunication::logger = Logger::getLogger("HeadlessCommunication::UI");
 
 HeadlessCommunication::HeadlessCommunication(QObject* parent) : QObject(parent),
         m_pServer(new QTcpServer(this)) {

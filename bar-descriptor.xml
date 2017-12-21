@@ -116,7 +116,7 @@
         <permission system="true">_sys_headless_nostop</permission>
     </entryPoint>
 
-    <invoke-target id="com.example.BasketService">
+    <invoke-target id="chachkouski.BasketService">
         <invoke-target-type>application.headless</invoke-target-type>
         <invoke-target-name>Basket Service</invoke-target-name>
         <entry-point-id>BasketService</entry-point-id>
@@ -126,22 +126,16 @@
             <property var="uris" value="data://local" />
         </filter>
         <filter>
-            <action>com.example.BasketService.RESET</action>
+            <action>chachkouski.BasketService.RESET</action>
+            <mime-type>*</mime-type>
+            <property var="uris" value="headless:" />
+        </filter>
+        <filter>
+            <action>chachkouski.BasketService.START</action>
             <mime-type>*</mime-type>
             <property var="uris" value="headless:" />
         </filter>
     </invoke-target>
-
-    <!--<invoke-target id="chachkouski.Basket.auth">
-        <invoke-target-type>application</invoke-target-type>
-        <invoke-target-name>Basket</invoke-target-name>
-        <entry-point-id>Basket</entry-point-id>
-        <filter>
-    		<action>bb.action.OPEN</action>
-    		<mime-type>text/plain</mime-type>
-    		<property var="uris" value="basket://"/>
-  		</filter>
-    </invoke-target>-->
 
     <!-- Unique author ID assigned by signing authority. Required if using debug
         tokens. -->

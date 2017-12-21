@@ -32,6 +32,8 @@
 #include <qdropbox/SharedLink.hpp>
 #include <bb/system/InvokeRequest>
 #include <QMap>
+#include "communication/HeadlessCommunication.hpp"
+#include "Logger.hpp"
 
 namespace bb {
     namespace cascades {
@@ -55,6 +57,7 @@ class QTranslator;
  */
 class ApplicationUI: public QObject {
     Q_OBJECT
+    Q_PROPERTY(bool autoload READ isAutoloadEnabled WRITE setAutoloadEnabled NOTIFY autoloadChanged);
 public:
     ApplicationUI();
     virtual ~ApplicationUI();
@@ -71,10 +74,14 @@ public:
     Q_INVOKABLE void shareText(const QString& str);
     Q_INVOKABLE QVariantMap getSharedLink(const QString& path);
 
+    const bool& isAutoloadEnabled() const;
+    void setAutoloadEnabled(const bool& autoload);
+
     Q_SIGNALS:
         void currentAccountLoaded(const QVariantMap& accountMap);
         void propChanged(const QString& key, const QVariant& val);
         void sharedLinksLoaded();
+        void autoloadChanged(const bool& autoload);
 
 private slots:
     void onSystemLanguageChanged();
@@ -85,6 +92,8 @@ private slots:
     void onSharedLinkCreated(SharedLink* link);
     void onInvoke(const bb::system::InvokeRequest& req);
     void onSharedLinkRevoked(const QString& sharedLinkUrl);
+    void onCommand(const QString& command);
+    void headlessInvoked();
 private:
     QSettings m_settings;
     QStringList m_palette;
@@ -100,11 +109,18 @@ private:
     FileUtil* m_pFileUtil;
     DateUtil* m_pDateUtil;
 
+    HeadlessCommunication* m_pCommunication;
+
     QString m_downloadsFolder;
     SystemToast m_toast;
-
     QMap<QString, SharedLink*> m_sharedLinksMap;
+    bool m_watchCamera;
+
     void configureQml();
+    void startHeadless();
+    void initSignals();
+
+    static Logger logger;
 };
 
 #endif /* ApplicationUI_HPP_ */

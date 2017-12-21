@@ -26,10 +26,26 @@
 #include "controllers/QDropboxController.hpp"
 #include "vendor/WebImageView.h"
 #include <QTimer>
+#include "vendor/Console.hpp"
 
 using namespace bb::cascades;
 
+void myMessageOutput(QtMsgType type, const char* msg) {  // <-- ADD THIS
+    Q_UNUSED(type);
+    fprintf(stdout, "%s\n", msg);
+    fflush(stdout);
+
+    QSettings settings;
+    if (settings.value("sendToConsoleDebug", true).toBool()) {
+        Console* console = new Console();
+        console->sendMessage("ConsoleThis$$" + QString(msg));
+        console->deleteLater();
+    }
+}
+
 Q_DECL_EXPORT int main(int argc, char **argv) {
+    qInstallMsgHandler(myMessageOutput);
+
     qRegisterMetaType<QDropboxController*>("QDropboxController*");
     qmlRegisterType<WebImageView>("WebImageView", 1, 0, "WebImageView");
     qmlRegisterType<QTimer>("basket.helpers", 1, 0, "Timer");

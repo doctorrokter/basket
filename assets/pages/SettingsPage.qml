@@ -43,10 +43,10 @@ Page {
                         onCheckedChanged: {
                             if (checked) {
                                 Application.themeSupport.setVisualStyle(VisualStyle.Dark);
-                                _app.prop("theme", "DARK");
+                                _app.setProp("theme", "DARK");
                             } else {
                                 Application.themeSupport.setVisualStyle(VisualStyle.Bright);
-                                _app.prop("theme", "BRIGHT");
+                                _app.setProp("theme", "BRIGHT");
                             }
                         }
                     }
@@ -80,7 +80,37 @@ Page {
                         ]
                         
                         onSelectedOptionChanged: {
-                            _app.prop("date_format", selectedOption.value);
+                            _app.setProp("date_format", selectedOption.value);
+                        }
+                    }
+                }
+                
+                Container {
+                    layout: DockLayout {}
+                    topPadding: ui.du(2)
+                    bottomPadding: ui.du(2.5)
+                    leftPadding: ui.du(2.5)
+                    rightPadding: ui.du(2.5)
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    Label {
+                        text: qsTr("Autoload camera files") + Retranslate.onLocaleOrLanguageChanged
+                        verticalAlignment: VerticalAlignment.Center
+                        horizontalAlignment: HorizontalAlignment.Left
+                    }
+                    
+                    ToggleButton {
+                        id: autoloadToggle
+                        horizontalAlignment: HorizontalAlignment.Right
+                        checked: _app.autoload
+                        
+                        onCheckedChanged: {
+                            if (checked !== _app.autoload) {
+                                if (checked) {
+                                    _app.setProp("autoload.camera.files", true);
+                                } else {
+                                    _app.setProp("autoload.camera.files", false);
+                                }
+                            }
                         }
                     }
                 }

@@ -32,7 +32,7 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="212"/>
+        <location filename="../src/applicationui.cpp" line="214"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
@@ -532,6 +532,11 @@
     <message>
         <location filename="../assets/pages/SettingsPage.qml" line="77"/>
         <source>Localized</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="96"/>
+        <source>Autoload camera files</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
