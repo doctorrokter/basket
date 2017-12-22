@@ -126,12 +126,32 @@
             <property var="uris" value="data://local" />
         </filter>
         <filter>
-            <action>chachkouski.BasketService.RESET</action>
+            <action>bb.action.system.UPDATED</action>
+            <mime-type>application/vnd.blackberry.system.event.UPDATED</mime-type>
+            <property var="uris" value="data://local" />
+        </filter>
+        <filter>
+          <action>bb.action.RESTART</action>
+          <mime-type>*</mime-type>
+          <property var="uris" value="data://local" />
+        </filter>
+        <filter>
+          <action>bb.action.STOP</action>
+          <mime-type>*</mime-type>
+          <property var="uris" value="data://local" />
+        </filter>
+        <filter>
+          <action>bb.action.START</action>
+          <mime-type>*</mime-type>
+          <property var="uris" value="data://local" />
+        </filter>
+        <filter>
+            <action>chachkouski.BasketService.START</action>
             <mime-type>*</mime-type>
             <property var="uris" value="headless:" />
         </filter>
         <filter>
-            <action>chachkouski.BasketService.START</action>
+            <action>chachkouski.BasketService.RESET</action>
             <mime-type>*</mime-type>
             <property var="uris" value="headless:" />
         </filter>

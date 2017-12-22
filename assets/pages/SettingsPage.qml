@@ -116,6 +116,29 @@ Page {
                 }
                 
                 Container {
+                    topPadding: ui.du(2)
+                    bottomPadding: ui.du(2.5)
+                    leftPadding: ui.du(2.5)
+                    rightPadding: ui.du(2.5)
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    
+                    Label {
+                        multiline: true
+                        text: qsTr("Clicking by this button will start sync immediately") + Retranslate.onLocaleOrLanguageChanged
+                        textStyle.fontWeight: FontWeight.W300
+                    }
+                    
+                    Button {
+                        text: qsTr("Sync now") + Retranslate.onLocaleOrLanguageChanged
+                        horizontalAlignment: HorizontalAlignment.Fill
+                        
+                        onClicked: {
+                            _app.sync();
+                        }
+                    }
+                }
+                
+                Container {
                     horizontalAlignment: HorizontalAlignment.Fill
                     minHeight: ui.du(20)
                 }

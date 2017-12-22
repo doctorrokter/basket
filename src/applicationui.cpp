@@ -36,6 +36,7 @@
 #define AUTOLOAD_SETTINGS "autoload.camera.files"
 #define AUTOLOAD_CAMERA_FILES_ENABLED "autoload.camera.files.enabled"
 #define AUTOLOAD_CAMERA_FILES_DISABLED "autoload.camera.files.disabled"
+#define SYNC_COMMAND "sync"
 
 Logger ApplicationUI::logger = Logger::getLogger("ApplicationUI");
 
@@ -303,7 +304,7 @@ void ApplicationUI::startHeadless() {
 
 void ApplicationUI::headlessInvoked() {
     InvokeTargetReply* reply = qobject_cast<InvokeTargetReply*>(QObject::sender());
-    logger.info(QString("Invoked headless success: ").append(reply->isFinished() ? QString::number(1) : QString::number(0)));
+    logger.info(QString("Invoked headless success: ").append(reply->target()));
     reply->deleteLater();
 }
 
@@ -334,4 +335,9 @@ void ApplicationUI::setAutoloadEnabled(const bool& autoload) {
         m_watchCamera = autoload;
         emit autoloadChanged(m_watchCamera);
     }
+}
+
+void ApplicationUI::sync() {
+    m_pCommunication->send(SYNC_COMMAND);
+    toast(tr("Sync started!"));
 }

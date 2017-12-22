@@ -32,8 +32,13 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="223"/>
+        <location filename="../src/applicationui.cpp" line="224"/>
         <source>Shared link copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/applicationui.cpp" line="342"/>
+        <source>Sync started!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -537,6 +542,16 @@
     <message>
         <location filename="../assets/pages/SettingsPage.qml" line="96"/>
         <source>Autoload camera files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="127"/>
+        <source>Clicking by this button will start sync immediately</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="132"/>
+        <source>Sync now</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
