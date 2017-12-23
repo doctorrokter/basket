@@ -168,6 +168,10 @@
 
     <!-- The icon for the application, which should be 114x114. -->
     <icon>
+        <image>icon_144_x_144.png</image>
+        <image>icon_110_x_110.png</image>
+        <image>icon_90_x_90.png</image>
+        <image>icon_96_x_96.png</image>
         <image>icon.png</image>
     </icon>
 
@@ -178,6 +182,10 @@
     <asset path="translations" dest="qm">
         <include name="*.qm" />
     </asset>
+    <asset path="assets/icons/icon_144_x_144.png">icon_144_x_144.png</asset>
+    <asset path="assets/icons/icon_110_x_110.png">icon_110_x_110.png</asset>
+    <asset path="assets/icons/icon_90_x_90.png">icon_90_x_90.png</asset>
+    <asset path="assets/icons/icon_96_x_96.png">icon_96_x_96.png</asset>
 
     <!-- Request permission to post notification. -->
     <permission>post_notification</permission>
