@@ -38,6 +38,14 @@
         An updated version of application must have a versionNumber value higher
         than the previous version. Required. -->
     <versionNumber>1.0.0</versionNumber>
+    <splashScreens>
+       <image>splash_1280_x_720.png</image>
+       <image>splash_1280_x_768.png</image>
+       <image>splash_1440_x_1440.png</image>
+       <image>splash_720_x_1280.png</image>
+       <image>splash_720_x_720.png</image>
+       <image>splash_768_x_1280.png</image>
+    </splashScreens>
     <platformVersion>10.2.0</platformVersion>
     <authorId>gYAAgJBERbiwoSHtjskM8WvopKU</authorId>
 
@@ -186,6 +194,12 @@
     <asset path="assets/icons/icon_110_x_110.png">icon_110_x_110.png</asset>
     <asset path="assets/icons/icon_90_x_90.png">icon_90_x_90.png</asset>
     <asset path="assets/icons/icon_96_x_96.png">icon_96_x_96.png</asset>
+    <asset path="assets/splash/splash_1280_x_720.png">splash_1280_x_720.png</asset>
+    <asset path="assets/splash/splash_1280_x_768.png">splash_1280_x_768.png</asset>
+    <asset path="assets/splash/splash_1440_x_1440.png">splash_1440_x_1440.png</asset>
+    <asset path="assets/splash/splash_720_x_1280.png">splash_720_x_1280.png</asset>
+    <asset path="assets/splash/splash_720_x_720.png">splash_720_x_720.png</asset>
+    <asset path="assets/splash/splash_768_x_1280.png">splash_768_x_1280.png</asset>
 
     <!-- Request permission to post notification. -->
     <permission>post_notification</permission>
