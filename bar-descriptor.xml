@@ -30,7 +30,10 @@
     <!-- The name that is displayed in the BlackBerry 10 application installer.
         May have multiple values for each language. See samples or xsd schema file.
         Optional. -->
-    <name>Basket</name>
+    <name>
+       Basket
+       <text xml:lang="ru">Basket</text>
+    </name>
 
     <!-- A string value of the format <0-999>.<0-999>.<0-999> that represents
         application version which can be used to check for application upgrade. Values
@@ -59,7 +62,10 @@
     <!-- Description, displayed in the BlackBerry 10 application installer.
         May have multiple values for each language. See samples or xsd schema file.
         Optional. -->
-    <description>The Basket application</description>
+    <description>
+       The Basket application
+       <text xml:lang="ru">The Basket Application</text>
+    </description>
 
     <!-- Copyright information. Optional. -->
     <!-- <copyright></copyright> -->
@@ -68,6 +74,7 @@
         name of your development certificate. -->
     <author>Mikhail Chachkouski</author>
     <buildIdFile>buildnum</buildIdFile>
+    <packageLocale>ru</packageLocale>
     <configuration name="Device-Debug">
         <platformArchitecture>armle-v7</platformArchitecture>
         <entryPointType>Qnx/Elf</entryPointType>
