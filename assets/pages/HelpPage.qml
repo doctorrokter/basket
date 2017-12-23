@@ -69,7 +69,6 @@ Page {
         Invocation {
             id: bbwInvoke
             query {
-                // TODO: change ID!!!
                 uri: "appworld://vendor/97424"
                 invokeActionId: "bb.action.OPEN"
                 invokeTargetId: "sys.appworld"

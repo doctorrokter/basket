@@ -67,75 +67,6 @@
     </message>
 </context>
 <context>
-    <name>DirPage</name>
-    <message>
-        <location filename="../assets/pages/DirPage.qml" line="195"/>
-        <source>Enter folder name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/pages/DirPage.qml" line="210"/>
-        <source>Public URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/pages/DirPage.qml" line="217"/>
-        <location filename="../assets/pages/DirPage.qml" line="243"/>
-        <source>Confirm the deleting</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/pages/DirPage.qml" line="218"/>
-        <location filename="../assets/pages/DirPage.qml" line="244"/>
-        <source>This action cannot be undone. Continue?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/pages/DirPage.qml" line="221"/>
-        <location filename="../assets/pages/DirPage.qml" line="247"/>
-        <source>Don&apos;t ask again</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/pages/DirPage.qml" line="272"/>
-        <source>Create folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/pages/DirPage.qml" line="292"/>
-        <source>Upload</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/pages/DirPage.qml" line="314"/>
-        <source>Uploads</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/pages/DirPage.qml" line="324"/>
-        <source>Downloads</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/pages/DirPage.qml" line="343"/>
-        <location filename="../assets/pages/DirPage.qml" line="504"/>
-        <source>List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/pages/DirPage.qml" line="345"/>
-        <location filename="../assets/pages/DirPage.qml" line="508"/>
-        <source>Grid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/pages/DirPage.qml" line="405"/>
-        <location filename="../assets/pages/DirPage.qml" line="406"/>
-        <source>GB</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>DownloadAction</name>
     <message>
         <location filename="../assets/actions/DownloadAction.qml" line="8"/>
@@ -284,46 +215,51 @@
 <context>
     <name>FolderPage</name>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="102"/>
-        <location filename="../assets/pages/FolderPage.qml" line="139"/>
+        <location filename="../assets/pages/FolderPage.qml" line="103"/>
+        <location filename="../assets/pages/FolderPage.qml" line="140"/>
         <source>selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="124"/>
+        <location filename="../assets/pages/FolderPage.qml" line="125"/>
         <source>Move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="248"/>
+        <location filename="../assets/pages/FolderPage.qml" line="249"/>
         <source>Create folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="268"/>
+        <location filename="../assets/pages/FolderPage.qml" line="269"/>
         <source>Upload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="299"/>
-        <location filename="../assets/pages/FolderPage.qml" line="558"/>
+        <location filename="../assets/pages/FolderPage.qml" line="300"/>
+        <location filename="../assets/pages/FolderPage.qml" line="569"/>
         <source>List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="301"/>
-        <location filename="../assets/pages/FolderPage.qml" line="565"/>
+        <location filename="../assets/pages/FolderPage.qml" line="302"/>
+        <location filename="../assets/pages/FolderPage.qml" line="576"/>
         <source>Grid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="317"/>
+        <location filename="../assets/pages/FolderPage.qml" line="318"/>
         <source>Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="427"/>
-        <location filename="../assets/pages/FolderPage.qml" line="428"/>
+        <location filename="../assets/pages/FolderPage.qml" line="328"/>
+        <source>Uploads</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="438"/>
+        <location filename="../assets/pages/FolderPage.qml" line="439"/>
         <source>GB</source>
         <translation type="unfinished"></translation>
     </message>

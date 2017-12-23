@@ -1,5 +1,5 @@
 1
-68
+78
 sheets/FilePickersSheet.qml
 sheets/ShareFolderSheet.qml
 sheets/EditFolderMemberSheet.qml
@@ -21,8 +21,13 @@ pages/AuthPage.qml
 pages/SettingsPage.qml
 pages/PropertiesPage.qml
 pages/MembersPage.qml
-pages/DirPage.qml
 pages/FolderPage.qml
+splash/splash_720_x_720.png
+splash/splash_1280_x_720.png
+splash/splash_1280_x_768.png
+splash/splash_720_x_1280.png
+splash/splash_1440_x_1440.png
+splash/splash_768_x_1280.png
 actions/RenameFileAction.qml
 actions/ShareAction.qml
 actions/MoveActionItem.qml
@@ -32,6 +37,11 @@ actions/PropsAction.qml
 actions/CreateSharedLinkAction.qml
 actions/DownloadAction.qml
 actions/CopySharedLinkAction.qml
+icons/icon.png
+icons/icon_90_x_90.png
+icons/icon_144_x_144.png
+icons/icon_110_x_110.png
+icons/icon_96_x_96.png
 images/ic_rename.png
 images/ic_doctype_pdf.png
 images/ic_share.png

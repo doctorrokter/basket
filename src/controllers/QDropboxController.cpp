@@ -299,7 +299,7 @@ void QDropboxController::upload(const QString& localPath, const QString& remoteP
 
 void QDropboxController::onUploaded(QDropboxFile* file) {
     QString path = file->getPathDisplay();
-    m_downloads.removeAll(path);
+    m_uploads.removeAll(path);
     emit uploadsChanged(m_uploads);
     emit uploaded(file->toMap());
     m_toast.setBody(tr("Upload finished: ") + path);

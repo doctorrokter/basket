@@ -185,8 +185,11 @@ NavigationPane {
                 }
                 
                 onShowDownloads: {
-                    var dp = downloadsPage.createObject();
-                    navPane.push(dp);
+                    navPane.openDownloads();
+                }
+                
+                onShowUploads: {
+                    navPane.openUploads();
                 }
                 
                 onUpload: {
@@ -204,10 +207,20 @@ NavigationPane {
         Invocation {
             id: invokeFeedback
             query {
-                uri: "mailto:yadisk.bbapp@gmail.com?subject=Ya%20Disk:%20Feedback"
+                uri: "mailto:basket.bbapp@gmail.com?subject=Basket:%20Feedback"
                 invokeActionId: "bb.action.SENDEMAIL"
                 invokeTargetId: "sys.pim.uib.email.hybridcomposer"
             }
         }
     ]
+    
+    function openDownloads() {
+        var dp = downloadsPage.createObject();
+        navPane.push(dp);
+    }
+    
+    function openUploads() {
+        var up = uploadsPage.createObject();
+        navPane.push(up);
+    }
 }

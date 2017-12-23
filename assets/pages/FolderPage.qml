@@ -25,6 +25,7 @@ Page {
     signal listFolder(string path, string name)
     signal showProps(variant file)
     signal showDownloads()
+    signal showUploads();
     signal upload(string path)
     signal shareFolder(string path)
     
@@ -319,6 +320,16 @@ Page {
             
             onTriggered: {
                 root.showDownloads();
+            }
+        },
+        
+        ActionItem {
+            id: uploads
+            title: qsTr("Uploads") + Retranslate.onLocaleOrLanguageChanged
+            imageSource: "asset:///images/ic_uploads.png"
+            
+            onTriggered: {
+                root.showUploads();
             }
         }
     ]
