@@ -268,4 +268,11 @@ CustomListItem {
             mainImage.visible = true;
         }
     }
+    
+    onTagChanged: {
+        if (root.isDir()) {
+            preview.visible = true;
+            mainImage.visible = false;
+        }
+    }
 }
