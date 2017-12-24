@@ -22,7 +22,7 @@ CustomListItem {
     property variant membersCount: 0
     property string membersCursor: ""
     property bool isOwner: false
-    property string url: "sdf"
+    property string url: ""
     
     property string thumbnail: ""
     property string currentPath: ""
@@ -112,40 +112,6 @@ CustomListItem {
             preferredHeight: listItemLUH.layoutFrame.height
         }
         
-        Container {
-            horizontalAlignment: HorizontalAlignment.Left
-            verticalAlignment: VerticalAlignment.Bottom
-            
-            layout: StackLayout {
-                orientation: LayoutOrientation.LeftToRight
-            }
-            
-            Container {
-                visible: root.membersCount > 0
-                margin.leftOffset: ui.du(1);
-                margin.topOffset: ui.du(2)
-                Label {
-                    text: root.membersCount
-                    textStyle.color: ui.palette.primary;
-                    textStyle.fontWeight: FontWeight.W300
-                    textStyle.base: SystemDefaults.TextStyles.BodyText
-                    opacity: 0.85
-                }
-            }
-            
-            ImageView {
-                id: sharedFolder
-                imageSource: "asset:///images/ic_groups_white.png"
-                opacity: 0.5
-                filterColor: ui.palette.primary;
-                margin.bottomOffset: ui.du(10)
-                maxWidth: ui.du(7)
-                maxHeight: ui.du(7)
-                visible: root.sharedFolderId !== ""
-            }
-        }
-        
-        
         ImageView {
             id: bgImage
             visible: !root.isDir()
@@ -181,15 +147,53 @@ CustomListItem {
             margin.bottomOffset: ui.du(1)
         }
         
-        ImageView {
-            visible: root.url !== ""
+        Container {
             horizontalAlignment: HorizontalAlignment.Right
             verticalAlignment: VerticalAlignment.Top
-            imageSource: "asset:///images/ic_link.png"
-            maxWidth: ui.du(5)
-            maxHeight: ui.du(5)
-            filterColor: ui.palette.secondaryTextOnPlain
+            
+            layout: StackLayout {
+                orientation: LayoutOrientation.LeftToRight
+            }
+            
+            ImageView {
+                visible: root.url !== ""
+                verticalAlignment: VerticalAlignment.Center
+                imageSource: "asset:///images/ic_link.png"
+                maxWidth: ui.du(5)
+                maxHeight: ui.du(5)
+                filterColor: ui.palette.secondaryTextOnPlain
+            }
+            
+            Container {
+                verticalAlignment: VerticalAlignment.Center
+                margin.leftOffset: ui.du(2)
+                visible: root.membersCount > 0
+                
+                layout: StackLayout {
+                    orientation: LayoutOrientation.LeftToRight
+                }
+                
+                Container {
+                    
+                    verticalAlignment: VerticalAlignment.Center
+                    Label {
+                        text: root.membersCount
+                        textStyle.color: ui.palette.secondaryTextOnPlain
+                        textStyle.base: SystemDefaults.TextStyles.BodyText
+                    }
+                }
+                
+                ImageView {
+                    verticalAlignment: VerticalAlignment.Center
+                    id: sharedFolder
+                    imageSource: "asset:///images/ic_groups_white.png"
+                    filterColor: ui.palette.secondaryTextOnPlain
+                    maxWidth: ui.du(4.8)
+                    maxHeight: ui.du(4.8)
+                }
+            }
         }
+        
         
         attachedObjects: [
             LayoutUpdateHandler {
