@@ -146,6 +146,11 @@
             <property var="uris" value="data://local" />
         </filter>
         <filter>
+            <action>bb.action.system.INSTALLED</action>
+            <mime-type>application/vnd.blackberry.system.event.INSTALLED</mime-type>
+            <property var="uris" value="data://local" />
+        </filter>
+        <filter>
           <action>bb.action.RESTART</action>
           <mime-type>*</mime-type>
           <property var="uris" value="data://local" />

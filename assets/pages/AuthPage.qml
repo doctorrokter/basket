@@ -1,40 +1,42 @@
 import bb.cascades 1.4
 import "../components"
 
-Page {
-    id: root
+NavigationPane {
     
-    ScrollView {
-        id: scrollView
+    id: navPane
+    
+    Page {
+        id: root
         
-        scrollRole: ScrollRole.Main
-        
-        Container {
-            layout: DockLayout {}
-            
+        BackgroundContainer {
             horizontalAlignment: HorizontalAlignment.Fill
             verticalAlignment: VerticalAlignment.Fill
             
+            imageSource: "asset:///splash/splash_1440_x_1440.png"
+            
             Container {
                 horizontalAlignment: HorizontalAlignment.Center
-                verticalAlignment: VerticalAlignment.Center
-                
-                ImageView {
-                    horizontalAlignment: HorizontalAlignment.Center
-                    imageSource: "asset:///images/d_logo.png"
-                }
-                
-                Container {
-                    horizontalAlignment: HorizontalAlignment.Center
-                    Button {
-                        text: qsTr("Sign in") + Retranslate.onLocaleOrLanguageChanged
-                        
-                        onClicked: {
-                            _app.authorize();
-                        }
+                verticalAlignment: VerticalAlignment.Bottom
+                margin.bottomOffset: ui.du(15)
+                Button {
+                    text: qsTr("Sign in") + Retranslate.onLocaleOrLanguageChanged
+                    
+                    onClicked: {
+//                        _app.authorize();
+                        var ap = authFlowPage.createObject();
+                        navPane.push(ap);
                     }
                 }
             }
         }
     }
+    
+    attachedObjects: [
+        ComponentDefinition {
+            id: authFlowPage
+            AuthFlowPage {
+                
+            }
+        }
+    ]
 }

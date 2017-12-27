@@ -4,6 +4,7 @@ Container {
     id: root
     
     property string imageSource: ""
+    property double imageOpacity: 1.0
     
     layout: DockLayout {}
     
@@ -17,5 +18,6 @@ Container {
         verticalAlignment: VerticalAlignment.Fill
         scalingMethod: ScalingMethod.AspectFill
         imageSource: root.imageSource
+        opacity: root.imageOpacity
     }
 }

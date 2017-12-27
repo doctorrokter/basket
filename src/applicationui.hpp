@@ -32,7 +32,6 @@
 #include <qdropbox/SharedLink.hpp>
 #include <bb/system/InvokeRequest>
 #include <QMap>
-#include "communication/HeadlessCommunication.hpp"
 #include "Logger.hpp"
 
 namespace bb {
@@ -73,7 +72,6 @@ public:
     Q_INVOKABLE bool copyToClipboard(const QString& str);
     Q_INVOKABLE void shareText(const QString& str);
     Q_INVOKABLE QVariantMap getSharedLink(const QString& path);
-    Q_INVOKABLE void sync();
 
     const bool& isAutoloadEnabled() const;
     void setAutoloadEnabled(const bool& autoload);
@@ -93,7 +91,6 @@ private slots:
     void onSharedLinkCreated(SharedLink* link);
     void onInvoke(const bb::system::InvokeRequest& req);
     void onSharedLinkRevoked(const QString& sharedLinkUrl);
-    void onCommand(const QString& command);
     void headlessInvoked();
 private:
     QSettings m_settings;
@@ -109,8 +106,6 @@ private:
     QDropboxController* m_pQdropboxController;
     FileUtil* m_pFileUtil;
     DateUtil* m_pDateUtil;
-
-    HeadlessCommunication* m_pCommunication;
 
     QString m_downloadsFolder;
     SystemToast m_toast;

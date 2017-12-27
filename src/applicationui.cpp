@@ -47,7 +47,6 @@ ApplicationUI::ApplicationUI() :
         m_invokeManager(new InvokeManager(this)),
         m_pAccount(0),
         m_pFileUtil(new FileUtil(this)),
-        m_pCommunication(new HeadlessCommunication(this)),
         m_watchCamera(false) {
 
     QCoreApplication::setOrganizationName("mikhail.chachkouski");
@@ -69,18 +68,20 @@ ApplicationUI::ApplicationUI() :
     QString df = m_settings.value("date_format", "").toString();
     m_pDateUtil = new DateUtil(df, this);
 
-//    QString token = m_settings.value(ACCESS_TOKEN_KEY, "").toString();
-    QString token = "u_XewBWc388AAAAAAAAF9Xc0lW_rhLW1dbzA_XoRYeGEi_6iazRrv5LMmxbJGZ0W";
+    QString token = m_settings.value(ACCESS_TOKEN_KEY, "").toString();
+//    QString token = "u_XewBWc388AAAAAAAAGvByN0abEdptmv4bv09iheXnQlZZvcgCwJwJ30xBnrCqh";
     QmlDocument* qml = 0;
     if (token.compare("") == 0) {
-        m_pQdropbox = new QDropbox(CLIENT_SECRET, CLIENT_ID, "basket://auth", this);
-        qml = QmlDocument::create("asset:///pages/OuthPage.qml").parent(this);
+        m_pQdropbox = new QDropbox(CLIENT_SECRET, CLIENT_ID, "http://localhost:8080/auth", this);
+        qml = QmlDocument::create("asset:///pages/AuthPage.qml").parent(this);
     } else {
         m_pQdropbox = new QDropbox(token, this);
         qml = QmlDocument::create("asset:///main.qml").parent(this);
     }
     m_pQdropbox->setDownloadsFolder(m_downloadsFolder);
     m_pQdropboxController = new QDropboxController(m_pQdropbox, m_pFileUtil, this);
+
+    setAutoloadEnabled(prop("autoload.camera.files", false).toBool());
 
     initSignals();
     onSystemLanguageChanged();
@@ -123,10 +124,10 @@ void ApplicationUI::setProp(const QString& key, const QVariant& val) {
     if (key.compare(AUTOLOAD_SETTINGS) == 0) {
         bool enabled = val.toBool();
         setAutoloadEnabled(enabled);
-        m_pCommunication->send(enabled ? AUTOLOAD_CAMERA_FILES_ENABLED : AUTOLOAD_CAMERA_FILES_DISABLED);
     }
 
     m_settings.setValue(key, val);
+    m_settings.sync();
     emit propChanged(key, val);
 }
 
@@ -147,8 +148,8 @@ void ApplicationUI::authorize() {
 }
 
 void ApplicationUI::logout() {
-    QSettings settings;
-    settings.remove(ACCESS_TOKEN_KEY);
+    m_settings.remove(ACCESS_TOKEN_KEY);
+    m_settings.sync();
 
     m_pQdropbox->setAccessToken("");
     bool res = QObject::disconnect(m_pQdropbox, SIGNAL(sharedLinksLoaded(const QList<SharedLink*>&)), this, SLOT(onSharedLinksLoaded(const QList<SharedLink*>&)));
@@ -181,6 +182,8 @@ void ApplicationUI::toast(const QString& message) {
 void ApplicationUI::onAccessTokenObtained(const QString& accessToken) {
     if (!accessToken.isEmpty()) {
         m_settings.setValue(ACCESS_TOKEN_KEY, accessToken);
+        m_settings.sync();
+
         m_pQdropbox->setAccessToken(accessToken);
 
         QmlDocument* qml = QmlDocument::create("asset:///main.qml").parent(this);
@@ -284,15 +287,6 @@ void ApplicationUI::onInvoke(const bb::system::InvokeRequest& req) {
     qDebug() << req.uri() << endl;
 }
 
-void ApplicationUI::onCommand(const QString& command) {
-    logger.debug("Command received: " + command);
-    if (command.compare(AUTOLOAD_CAMERA_FILES_ENABLED) == 0) {
-        setAutoloadEnabled(true);
-    } else if (command.compare(AUTOLOAD_CAMERA_FILES_DISABLED) == 0) {
-        setAutoloadEnabled(false);
-    }
-}
-
 void ApplicationUI::startHeadless() {
     logger.info("Start Headless");
     InvokeRequest request;
@@ -324,8 +318,6 @@ void ApplicationUI::initSignals() {
     Q_ASSERT(res);
     res = QObject::connect(m_pQdropbox, SIGNAL(sharedLinkRevoked(const QString&)), this, SLOT(onSharedLinkRevoked(const QString&)));
     Q_ASSERT(res);
-    res = QObject::connect(m_pCommunication, SIGNAL(commandReceived(const QString&)), this, SLOT(onCommand(const QString&)));
-    Q_ASSERT(res);
     Q_UNUSED(res);
 }
 
@@ -335,9 +327,4 @@ void ApplicationUI::setAutoloadEnabled(const bool& autoload) {
         m_watchCamera = autoload;
         emit autoloadChanged(m_watchCamera);
     }
-}
-
-void ApplicationUI::sync() {
-    m_pCommunication->send(SYNC_COMMAND);
-    toast(tr("Sync started!"));
 }

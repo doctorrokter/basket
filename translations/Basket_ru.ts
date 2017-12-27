@@ -32,20 +32,72 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="224"/>
+        <location filename="../src/applicationui.cpp" line="225"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished">Ссылка скопирована в буфер</translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="342"/>
         <source>Sync started!</source>
-        <translation type="unfinished">Синхронизация запущена!</translation>
+        <translation type="obsolete">Синхронизация запущена!</translation>
+    </message>
+</context>
+<context>
+    <name>AuthFlowPage</name>
+    <message>
+        <location filename="../assets/pages/AuthFlowPage.qml" line="49"/>
+        <source>Navigate to a modern browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/AuthFlowPage.qml" line="50"/>
+        <source>Since the core BB10 browser does not support some new security policies there is no methods to authorize in Dropbox easily.
+
+Copy this link and open it in any modern browser (mobile or desktop):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/AuthFlowPage.qml" line="60"/>
+        <source>Complete the sign in flow in Dropbox</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/AuthFlowPage.qml" line="70"/>
+        <source>Allow BasketBB10 app use your Dropbox</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/AuthFlowPage.qml" line="80"/>
+        <source>Retrieve auth token from generated URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/AuthFlowPage.qml" line="83"/>
+        <source>Copy ONLY access token. You will be redirected to a URL which will look like: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/AuthFlowPage.qml" line="92"/>
+        <source>You are almost here!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/AuthFlowPage.qml" line="94"/>
+        <source>Paste your token in the input below:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AuthListItem</name>
+    <message>
+        <location filename="../assets/components/AuthListItem.qml" line="93"/>
+        <source>Done!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AuthPage</name>
     <message>
-        <location filename="../assets/pages/AuthPage.qml" line="30"/>
+        <location filename="../assets/pages/AuthPage.qml" line="22"/>
         <source>Sign in</source>
         <translation type="unfinished">Вход</translation>
     </message>
@@ -481,14 +533,12 @@
         <translation type="unfinished">Автозагрузка файлов камеры</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="127"/>
         <source>Clicking by this button will start sync immediately</source>
-        <translation type="unfinished">Нажатие на кнопку запустит синхронизацию сразу же</translation>
+        <translation type="obsolete">Нажатие на кнопку запустит синхронизацию сразу же</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="132"/>
         <source>Sync now</source>
-        <translation type="unfinished">Синхронизировать сейчас</translation>
+        <translation type="obsolete">Синхронизировать сейчас</translation>
     </message>
 </context>
 <context>
@@ -533,6 +583,14 @@
         <location filename="../assets/components/StackListItem.qml" line="271"/>
         <source>MB</source>
         <translation type="unfinished">МБ</translation>
+    </message>
+</context>
+<context>
+    <name>SwipeContainer</name>
+    <message>
+        <location filename="../assets/components/SwipeContainer.qml" line="11"/>
+        <source>Swipe left</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
