@@ -74,8 +74,7 @@ CustomListItem {
                     text: root.inputText
                     visible: root.inputText !== "" || root.inputHintText !== ""
                     hintText: root.inputHintText
-                    backgroundVisible: root.inputBackground
-                
+//                    backgroundVisible: root.inputBackground
                 }
             }
             

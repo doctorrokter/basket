@@ -72,6 +72,7 @@ public:
     Q_INVOKABLE bool copyToClipboard(const QString& str);
     Q_INVOKABLE void shareText(const QString& str);
     Q_INVOKABLE QVariantMap getSharedLink(const QString& path);
+    Q_INVOKABLE void auth(const QString& token);
 
     const bool& isAutoloadEnabled() const;
     void setAutoloadEnabled(const bool& autoload);

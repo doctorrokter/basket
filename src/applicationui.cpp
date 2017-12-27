@@ -179,6 +179,10 @@ void ApplicationUI::toast(const QString& message) {
     m_toast.show();
 }
 
+void ApplicationUI::auth(const QString& token) {
+    onAccessTokenObtained(token);
+}
+
 void ApplicationUI::onAccessTokenObtained(const QString& accessToken) {
     if (!accessToken.isEmpty()) {
         m_settings.setValue(ACCESS_TOKEN_KEY, accessToken);

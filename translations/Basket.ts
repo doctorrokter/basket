@@ -32,7 +32,7 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="225"/>
+        <location filename="../src/applicationui.cpp" line="231"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
