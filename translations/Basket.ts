@@ -32,7 +32,7 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="231"/>
+        <location filename="../src/applicationui.cpp" line="234"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
@@ -85,7 +85,7 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>AuthListItem</name>
     <message>
-        <location filename="../assets/components/AuthListItem.qml" line="93"/>
+        <location filename="../assets/components/AuthListItem.qml" line="92"/>
         <source>Done!</source>
         <translation type="unfinished"></translation>
     </message>

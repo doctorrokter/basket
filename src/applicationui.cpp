@@ -32,6 +32,7 @@
 #include <bb/system/Clipboard>
 #include <QFile>
 
+#define REDIRECT_URL "http://localhost:8080/auth"
 #define ACCESS_TOKEN_KEY "dropbox.access_token"
 #define AUTOLOAD_SETTINGS "autoload.camera.files"
 #define AUTOLOAD_CAMERA_FILES_ENABLED "autoload.camera.files.enabled"
@@ -72,7 +73,7 @@ ApplicationUI::ApplicationUI() :
 //    QString token = "u_XewBWc388AAAAAAAAGvByN0abEdptmv4bv09iheXnQlZZvcgCwJwJ30xBnrCqh";
     QmlDocument* qml = 0;
     if (token.compare("") == 0) {
-        m_pQdropbox = new QDropbox(CLIENT_SECRET, CLIENT_ID, "http://localhost:8080/auth", this);
+        m_pQdropbox = new QDropbox(CLIENT_SECRET, CLIENT_ID, REDIRECT_URL, this);
         qml = QmlDocument::create("asset:///pages/AuthPage.qml").parent(this);
     } else {
         m_pQdropbox = new QDropbox(token, this);
@@ -148,6 +149,9 @@ void ApplicationUI::authorize() {
 }
 
 void ApplicationUI::logout() {
+    m_pQdropbox->authTokenRevoke();
+    setProp("theme", "BRIGHT");
+
     m_settings.remove(ACCESS_TOKEN_KEY);
     m_settings.sync();
 
@@ -159,7 +163,7 @@ void ApplicationUI::logout() {
 
     delete m_pQdropbox;
 
-    m_pQdropbox = new QDropbox("wqynh6pf0cu5506", "q2ficti4tr8zql8", "basket://auth", this);
+    m_pQdropbox = new QDropbox(CLIENT_SECRET, CLIENT_ID, REDIRECT_URL, this);
     m_pQdropbox->setDownloadsFolder(m_downloadsFolder);
     res = QObject::connect(m_pQdropbox, SIGNAL(sharedLinksLoaded(const QList<SharedLink*>&)), this, SLOT(onSharedLinksLoaded(const QList<SharedLink*>&)));
     Q_ASSERT(res);
