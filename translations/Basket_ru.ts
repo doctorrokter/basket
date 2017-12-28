@@ -71,7 +71,7 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
     <message>
         <location filename="../assets/pages/AuthFlowPage.qml" line="80"/>
         <source>Retrieve auth token from generated URL</source>
-        <translation type="unfinished">Получите токен из полученного URL</translation>
+        <translation type="unfinished">Получите токен из URL</translation>
     </message>
     <message>
         <location filename="../assets/pages/AuthFlowPage.qml" line="83"/>
