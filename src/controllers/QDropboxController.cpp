@@ -7,14 +7,34 @@
 
 #include <QFile>
 #include <QDir>
+#include <QDirIterator>
 #include "QDropboxController.hpp"
 #include <qdropbox/QDropboxAccessLevel.hpp>
+
+#define THUMBNAILS_DIR "/data/thumbnails"
+#define THUMBNAILS_THRESHOLD 500
 
 Logger QDropboxController::logger = Logger::getLogger("QDropboxController");
 
 QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, QObject* parent) : QObject(parent) {
     m_pQDropbox = qdropbox;
     m_pFileUtil = fileUtil;
+
+    QDir thumbs(QDir::currentPath() + THUMBNAILS_DIR);
+    if (thumbs.exists()) {
+        if (thumbs.count() >= THUMBNAILS_THRESHOLD) {
+            QDirIterator it(QDir::currentPath() + THUMBNAILS_DIR, QDir::NoDotAndDotDot | QDir::Files);
+            int countForDelete = 100;
+            while (countForDelete != 0) {
+                QString path = it.next();
+                QFile file(path);
+                if (file.exists()) {
+                    file.remove();
+                }
+                countForDelete--;
+            }
+        }
+    }
 
     bool res = QObject::connect(m_pQDropbox, SIGNAL(listFolderLoaded(const QString&, QList<QDropboxFile*>&, const QString&, const bool&)), this, SLOT(onListFolderLoaded(const QString&, QList<QDropboxFile*>&, const QString&, const bool&)));
     Q_ASSERT(res);
@@ -244,7 +264,7 @@ void QDropboxController::getSpaceUsage() {
 }
 
 void QDropboxController::getThumbnail(const QString& path, const QString& size) {
-    QString thumbs = QDir::currentPath() + "/data/thumbnails";
+    QString thumbs = QDir::currentPath() + THUMBNAILS_DIR;
     QDir dir(thumbs);
     if (!dir.exists()) {
         m_pQDropbox->getThumbnail(path, "w128h128");
@@ -260,7 +280,7 @@ void QDropboxController::getThumbnail(const QString& path, const QString& size) 
 
 void QDropboxController::onThumbnailLoaded(const QString& path, const QString& size, QImage* thumbnail) {
 
-    QString thumbs = QDir::currentPath() + "/data/thumbnails";
+    QString thumbs = QDir::currentPath() + THUMBNAILS_DIR;
     QDir dir(thumbs);
     if (!dir.exists()) {
         dir.mkpath(thumbs);

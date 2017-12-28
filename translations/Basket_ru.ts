@@ -477,12 +477,12 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="305"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="325"/>
         <source>Upload finished: </source>
         <translation type="unfinished">Загрузка завершена: </translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="403"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="423"/>
         <source>Download finished: </source>
         <translation type="unfinished">Загрузка завершена: </translation>
     </message>
