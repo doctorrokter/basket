@@ -69,8 +69,8 @@ ApplicationUI::ApplicationUI() :
     QString df = m_settings.value("date_format", "").toString();
     m_pDateUtil = new DateUtil(df, this);
 
-    QString token = m_settings.value(ACCESS_TOKEN_KEY, "").toString();
-//    QString token = "u_XewBWc388AAAAAAAAGvByN0abEdptmv4bv09iheXnQlZZvcgCwJwJ30xBnrCqh";
+//    QString token = m_settings.value(ACCESS_TOKEN_KEY, "").toString();
+    QString token = "u_XewBWc388AAAAAAAAGvByN0abEdptmv4bv09iheXnQlZZvcgCwJwJ30xBnrCqh";
     QmlDocument* qml = 0;
     if (token.compare("") == 0) {
         m_pQdropbox = new QDropbox(CLIENT_SECRET, CLIENT_ID, REDIRECT_URL, this);

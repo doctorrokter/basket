@@ -32,7 +32,7 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="234"/>
+        <location filename="../src/applicationui.cpp" line="235"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished">Ссылка скопирована в буфер</translation>
     </message>
@@ -46,44 +46,47 @@
     <message>
         <location filename="../assets/pages/AuthFlowPage.qml" line="49"/>
         <source>Navigate to a modern browser</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перейдите в современный браузер</translation>
     </message>
     <message>
         <location filename="../assets/pages/AuthFlowPage.qml" line="50"/>
         <source>Since the core BB10 browser does not support some new security policies there is no methods to authorize in Dropbox easily.
 
 Copy this link and open it in any modern browser (mobile or desktop):</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Т.к. родной браузер не поддерживает некоторые новые политики безопасности, мы пойдём другим путём.
+
+Скопируйте ссылку ниже и откройте её в любом современном браузере (мобильном или десктопном):
+        </translation>
     </message>
     <message>
         <location filename="../assets/pages/AuthFlowPage.qml" line="60"/>
         <source>Complete the sign in flow in Dropbox</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Пройдите процедуру входа в Dropbox</translation>
     </message>
     <message>
         <location filename="../assets/pages/AuthFlowPage.qml" line="70"/>
         <source>Allow BasketBB10 app use your Dropbox</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Разрешите BasketBB10 использовать ваш Dropbox</translation>
     </message>
     <message>
         <location filename="../assets/pages/AuthFlowPage.qml" line="80"/>
         <source>Retrieve auth token from generated URL</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Получите токен из полученного URL</translation>
     </message>
     <message>
         <location filename="../assets/pages/AuthFlowPage.qml" line="83"/>
         <source>Copy ONLY access token. You will be redirected to a URL which will look like: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Скопируйте ТОЛЬКО токен. Вы будете переведены на URL что-то вроде этого: </translation>
     </message>
     <message>
         <location filename="../assets/pages/AuthFlowPage.qml" line="92"/>
         <source>You are almost here!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Почти всё готово!</translation>
     </message>
     <message>
         <location filename="../assets/pages/AuthFlowPage.qml" line="94"/>
         <source>Paste your token in the input below:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Вставьте полученный токен в поле ниже:</translation>
     </message>
 </context>
 <context>
@@ -268,7 +271,7 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
     <name>FolderPage</name>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="103"/>
-        <location filename="../assets/pages/FolderPage.qml" line="140"/>
+        <location filename="../assets/pages/FolderPage.qml" line="157"/>
         <source>selected</source>
         <translation type="unfinished">выбрано</translation>
     </message>
@@ -278,40 +281,50 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
         <translation type="unfinished">Переместить</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="249"/>
+        <location filename="../assets/pages/FolderPage.qml" line="139"/>
+        <source>Download</source>
+        <translation type="unfinished">Скачать</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="150"/>
+        <source>Download started</source>
+        <translation type="unfinished">Загрузка начата</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="266"/>
         <source>Create folder</source>
         <translation type="unfinished">Создать папку</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="269"/>
+        <location filename="../assets/pages/FolderPage.qml" line="286"/>
         <source>Upload</source>
         <translation type="unfinished">Загрузить</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="300"/>
-        <location filename="../assets/pages/FolderPage.qml" line="569"/>
+        <location filename="../assets/pages/FolderPage.qml" line="317"/>
+        <location filename="../assets/pages/FolderPage.qml" line="586"/>
         <source>List</source>
         <translation type="unfinished">Список</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="302"/>
-        <location filename="../assets/pages/FolderPage.qml" line="576"/>
+        <location filename="../assets/pages/FolderPage.qml" line="319"/>
+        <location filename="../assets/pages/FolderPage.qml" line="593"/>
         <source>Grid</source>
         <translation type="unfinished">Сетка</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="318"/>
+        <location filename="../assets/pages/FolderPage.qml" line="335"/>
         <source>Downloads</source>
         <translation type="unfinished">Закачки</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="328"/>
+        <location filename="../assets/pages/FolderPage.qml" line="345"/>
         <source>Uploads</source>
         <translation type="unfinished">Загрузки</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="438"/>
-        <location filename="../assets/pages/FolderPage.qml" line="439"/>
+        <location filename="../assets/pages/FolderPage.qml" line="455"/>
+        <location filename="../assets/pages/FolderPage.qml" line="456"/>
         <source>GB</source>
         <translation type="unfinished">ГБ</translation>
     </message>

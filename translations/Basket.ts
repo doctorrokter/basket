@@ -32,7 +32,7 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="234"/>
+        <location filename="../src/applicationui.cpp" line="235"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
@@ -264,7 +264,7 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
     <name>FolderPage</name>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="103"/>
-        <location filename="../assets/pages/FolderPage.qml" line="140"/>
+        <location filename="../assets/pages/FolderPage.qml" line="157"/>
         <source>selected</source>
         <translation type="unfinished"></translation>
     </message>
@@ -274,40 +274,50 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="249"/>
+        <location filename="../assets/pages/FolderPage.qml" line="139"/>
+        <source>Download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="150"/>
+        <source>Download started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="266"/>
         <source>Create folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="269"/>
+        <location filename="../assets/pages/FolderPage.qml" line="286"/>
         <source>Upload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="300"/>
-        <location filename="../assets/pages/FolderPage.qml" line="569"/>
+        <location filename="../assets/pages/FolderPage.qml" line="317"/>
+        <location filename="../assets/pages/FolderPage.qml" line="586"/>
         <source>List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="302"/>
-        <location filename="../assets/pages/FolderPage.qml" line="576"/>
+        <location filename="../assets/pages/FolderPage.qml" line="319"/>
+        <location filename="../assets/pages/FolderPage.qml" line="593"/>
         <source>Grid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="318"/>
+        <location filename="../assets/pages/FolderPage.qml" line="335"/>
         <source>Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="328"/>
+        <location filename="../assets/pages/FolderPage.qml" line="345"/>
         <source>Uploads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="438"/>
-        <location filename="../assets/pages/FolderPage.qml" line="439"/>
+        <location filename="../assets/pages/FolderPage.qml" line="455"/>
+        <location filename="../assets/pages/FolderPage.qml" line="456"/>
         <source>GB</source>
         <translation type="unfinished"></translation>
     </message>

@@ -132,6 +132,23 @@ Page {
                                 });
                                 _qdropbox.selected = selected;
                             }
+                        },
+                        
+                        ActionItem {
+                            id: multiDownload
+                            title: qsTr("Download") + Retranslate.onLocaleOrLanguageChanged
+                            imageSource: "asset:///images/ic_download.png"
+                            
+                            onTriggered: {
+                                var files = [];
+                                listView.selectionList().forEach(function(indexPath) {
+                                        files.push(dataModel.data(indexPath));    
+                                });
+                                files.forEach(function(file) {
+                                    _qdropbox.download(file.path_display);    
+                                });
+                                _app.toast(qsTr("Download started") + Retranslate.onLocaleOrLanguageChanged);
+                            }
                         }
                     ]
                 }
