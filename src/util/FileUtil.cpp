@@ -13,7 +13,7 @@
 
 #define TEMP_DIR "/data/temp"
 
-FileUtil::FileUtil(QObject* parent) : QObject(parent), m_invokeReply(0), m_pTempLink(0) {
+FileUtil::FileUtil(QObject* parent) : QObject(parent), m_invokeReply(0), m_pTempLink(0), m_pProgressdialog(new SystemProgressDialog(this)) {
     m_imagesList << "jpg" << "jpeg" << "gif" << "png";
     m_videoList << "mp4" << "avi" << "mov" << "mkv" << "3gp" << "3g2" << "asf" << "f4v" << "ismv" << "m4v" << "mpeg" << "wmv";
     m_audioList << "mp3" << "wav" << "aac" << "amr" << "flac" << "m4a" << "wma";
@@ -161,17 +161,32 @@ void FileUtil::open(const QVariantMap& linkMap) {
             reply->setProperty("name", name);
             bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onTempLinkLoaded()));
             Q_ASSERT(res);
+            res = QObject::connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64, qint64)));
+            Q_ASSERT(res);
             Q_UNUSED(res);
+            m_pProgressdialog->setTitle("Downloading...");
+            m_pProgressdialog->setBody(name);
+            m_pProgressdialog->setProgress(0);
+            m_pProgressdialog->show();
         } else {
             openLocalFile(localPath, ext);
         }
     }
 }
 
+void FileUtil::onDownloadProgress(qint64 downloaded, qint64 total) {
+    int progress = (downloaded * 100) / total;
+    m_pProgressdialog->setProgress(progress);
+    m_pProgressdialog->update();
+}
+
 void FileUtil::onTempLinkLoaded() {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
 
     if (reply->error() == QNetworkReply::NoError) {
+        m_pProgressdialog->resetProgress();
+        m_pProgressdialog->cancel();
+
         QString name = reply->property("name").toString();
         QString ext = reply->property("ext").toString();
         QString localPath = QDir::currentPath() + TEMP_DIR + "/" + name;

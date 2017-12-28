@@ -13,6 +13,9 @@
 #include <bb/system/InvokeTargetReply>
 #include <bb/system/InvokeRequest>
 #include <bb/system/InvokeManager>
+#include <bb/system/SystemProgressDialog>
+#include <bb/system/SystemUiProgressState>
+#include <bb/system/SystemUiResult>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -42,6 +45,7 @@ public:
 private slots:
     void onCoreInvoked();
     void onTempLinkLoaded();
+    void onDownloadProgress(qint64 downloaded, qint64 total);
 
 private:
     QStringList m_imagesList;
@@ -56,6 +60,7 @@ private:
     InvokeTargetReply* m_invokeReply;
 
     QDropboxTempLink* m_pTempLink;
+    SystemProgressDialog* m_pProgressdialog;
 
     void invokeCore(InvokeRequest& request);
     void openLocalFile(const QString& path, const QString& ext);
