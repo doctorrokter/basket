@@ -47,7 +47,7 @@ Page {
                     AuthListItem {
                         color: "#F0F0F0"
                         title: qsTr("Navigate to a modern browser") + Retranslate.onLocaleOrLanguageChanged
-                        description: qsTr("Since the core BB10 browser does not support some new security policies there is no methods to authorize in Dropbox easily.\n\nCopy this link and open it in any modern browser (mobile or desktop):") + Retranslate.onLocaleOrLanguageChanged
+                        description: qsTr("Since the core browser does not support some new security policies there is no methods to authorize in Dropbox easily.\n\nCopy this link and open it in any modern browser (mobile or desktop):") + Retranslate.onLocaleOrLanguageChanged
                         inputText: "https://www.dropbox.com/oauth2/authorize?client_id=q2ficti4tr8zql8&redirect_uri=http://localhost:8080/auth&response_type=token"
                         textColor: Color.Black
                     }
@@ -67,7 +67,7 @@ Page {
                     type: root.steps.THIRD
                     AuthListItem {
                         color: "#CC3333"
-                        title: qsTr("Allow BasketBB10 app use your Dropbox") + Retranslate.onLocaleOrLanguageChanged
+                        title: qsTr("Allow app to use your Dropbox") + Retranslate.onLocaleOrLanguageChanged
                         imageSource: "asset:///images/grant.png"
                         textColor: Color.White
                     }

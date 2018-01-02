@@ -50,7 +50,7 @@
     </message>
     <message>
         <location filename="../assets/pages/AuthFlowPage.qml" line="50"/>
-        <source>Since the core BB10 browser does not support some new security policies there is no methods to authorize in Dropbox easily.
+        <source>Since the core browser does not support some new security policies there is no methods to authorize in Dropbox easily.
 
 Copy this link and open it in any modern browser (mobile or desktop):</source>
         <translation type="unfinished">Т.к. родной браузер не поддерживает некоторые новые политики безопасности, мы пойдём другим путём.
@@ -65,8 +65,8 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
     </message>
     <message>
         <location filename="../assets/pages/AuthFlowPage.qml" line="70"/>
-        <source>Allow BasketBB10 app use your Dropbox</source>
-        <translation type="unfinished">Разрешите BasketBB10 использовать ваш Dropbox</translation>
+        <source>Allow app to use your Dropbox</source>
+        <translation type="unfinished">Разрешите приложению использовать ваш Dropbox</translation>
     </message>
     <message>
         <location filename="../assets/pages/AuthFlowPage.qml" line="80"/>
