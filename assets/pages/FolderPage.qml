@@ -383,7 +383,7 @@ Page {
             onSubmit: {
                 if (text !== "") {
                     spinner.start();
-                    var fullPath = (root.path === "" ? "/" : root.path) + text;
+                    var fullPath = (root.path === "" ? "/" : root.path + "/") + text;
                     _qdropbox.createFolder(fullPath);
                     root.titleBar.reset();
                     root.titleBar = defaultTitleBar;
@@ -487,19 +487,20 @@ Page {
     
     function folderCreated(folder) {
         spinner.stop();
-        var p = folder.path_lower;
-        if (root.isInRoot(p) || p.indexOf(root.path) !== -1) {
+        var p = folder.path_display.replace("/" + folder.name, "");
+        if (p === root.path) {
             dataModel.insert(0, folder);
             listView.scrollToPosition(ScrollPosition.Beginning, ScrollAnimation.Smooth);
         }
     }
     
     function fileDeleted(file) {
-        var p = file.path_display;
-        if (root.isInRoot(p) || p.indexOf(root.path) !== -1) {
+        var p = file.path_display.replace("/" + file.name, "");
+        if (p === root.path) {
             for (var i = 0; i < dataModel.size(); i++) {
                 if (dataModel.value(i).id === file.id) {
                     dataModel.removeAt(i);
+                    return;
                 }
             }
         }

@@ -40,7 +40,7 @@
         can also be 1-part or 2-part. It is not necessary to have a 3-part value.
         An updated version of application must have a versionNumber value higher
         than the previous version. Required. -->
-    <versionNumber>1.0.0</versionNumber>
+    <versionNumber>1.0.1</versionNumber>
     <splashScreens>
        <image>splash_1280_x_720.png</image>
        <image>splash_1280_x_768.png</image>

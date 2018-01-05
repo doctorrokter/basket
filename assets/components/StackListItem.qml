@@ -90,7 +90,6 @@ CustomListItem {
                 _qdropbox.getThumbnail(root.pathDisplay, "w128h128");
                 return "asset:///images/ic_doctype_picture.png";
             } else if (_file.isVideo(ext)) {
-//                _qdropbox.getThumbnail(root.pathDisplay, "w128h128");
                 return "asset:///images/ic_doctype_video.png";
             } else if (_file.isAudio(ext)) {
                 return "asset:///images/ic_doctype_music.png";
@@ -116,6 +115,11 @@ CustomListItem {
         return ui.palette.primary;
     }
     
+    function assignDefaultImage() {
+        defaultImage.imageSource = root.getImage();
+        defaultImage.filterColor = root.filterColor();
+    }
+    
     Container {
         horizontalAlignment: HorizontalAlignment.Fill
         verticalAlignment: VerticalAlignment.Fill
@@ -133,8 +137,6 @@ CustomListItem {
             
             ImageView {
                 id: defaultImage
-                imageSource: root.getImage();
-                filterColor: root.filterColor();
                 
                 opacity: root.isDir() ? 0.25 : 1.0
                 preferredWidth: ui.du(11)
@@ -285,6 +287,21 @@ CustomListItem {
             bgImage.visible = false;
             mainImage.imageSource = "file://" + thumbnail;
             mainImage.visible = true;
+        }
+    }
+    
+    onCreationCompleted: {
+        root.assignDefaultImage();
+    }
+    
+    onFileIdChanged: {
+        if (root.isDir()) {
+            root.assignDefaultImage();
+            defaultImage.visible = true;
+            bgImage.visible = false;
+            mainImage.visible = false;
+        } else {
+            root.assignDefaultImage();
         }
     }
 }

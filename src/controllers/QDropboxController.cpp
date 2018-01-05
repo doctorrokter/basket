@@ -13,6 +13,7 @@
 
 #define THUMBNAILS_DIR "/data/thumbnails"
 #define THUMBNAILS_THRESHOLD 500
+#define THUMBNAILS_QUEUE_SIZE 5
 
 Logger QDropboxController::logger = Logger::getLogger("QDropboxController");
 
@@ -266,19 +267,40 @@ void QDropboxController::getSpaceUsage() {
 void QDropboxController::getThumbnail(const QString& path, const QString& size) {
     QString thumbs = QDir::currentPath() + THUMBNAILS_DIR;
     QDir dir(thumbs);
-    if (!dir.exists()) {
-        m_pQDropbox->getThumbnail(path, "w128h128");
-    } else {
+
+    if (dir.exists()) {
         QString localPath = thumbs + "/" + size + "_" + path.split("/").last();
         if (QFile::exists(localPath)) {
             emit thumbnailLoaded(path, localPath);
-        } else {
-            m_pQDropbox->getThumbnail(path, size);
+            return;
         }
     }
+
+    Thumbnail t;
+    t.path = path;
+    t.size = size;
+    m_thumbnailsQueue.enqueue(t);
+    if (m_thumbnailsInProgressQueue.size() < THUMBNAILS_QUEUE_SIZE) {
+        processNextThumbnail();
+    }
+
+//    if (!dir.exists()) {
+//        m_pQDropbox->getThumbnail(path, "w128h128");
+//    } else {
+//        QString localPath = thumbs + "/" + size + "_" + path.split("/").last();
+//        if (QFile::exists(localPath)) {
+//            emit thumbnailLoaded(path, localPath);
+//        } else {
+//            m_pQDropbox->getThumbnail(path, size);
+//        }
+//    }
 }
 
 void QDropboxController::onThumbnailLoaded(const QString& path, const QString& size, QImage* thumbnail) {
+    Thumbnail t;
+    t.path = path;
+    t.size = size;
+    m_thumbnailsInProgressQueue.removeAll(t);
 
     QString thumbs = QDir::currentPath() + THUMBNAILS_DIR;
     QDir dir(thumbs);
@@ -296,6 +318,10 @@ void QDropboxController::onThumbnailLoaded(const QString& path, const QString& s
     thumbnail = 0;
 
     emit thumbnailLoaded(path, localPath);
+
+    if (m_thumbnailsQueue.size()) {
+        processNextThumbnail();
+    }
 }
 
 const QVariantList& QDropboxController::getDownloads() const {
@@ -510,4 +536,11 @@ void QDropboxController::moveBatch(const QString& toPath) {
     }
     unselectAll();
     m_pQDropbox->moveBatch(entries);
+}
+
+void QDropboxController::processNextThumbnail() {
+    Thumbnail t = m_thumbnailsQueue.dequeue();
+    logger.debug("Process next thumbnail: " + t.path + ", queue size: " + QString::number(m_thumbnailsQueue.size()));
+    m_thumbnailsInProgressQueue.append(t);
+    m_pQDropbox->getThumbnail(t.path, t.size);
 }

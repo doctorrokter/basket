@@ -25,8 +25,18 @@
 #include <bb/system/SystemToast>
 #include "../util/FileUtil.hpp"
 #include <QNetworkReply>
+#include <QQueue>
 
 using namespace bb::system;
+
+struct Thumbnail {
+    QString path;
+    QString size;
+
+    bool operator==(const Thumbnail& t) {
+        return this->path.compare(t.path) == 0 && this->size.compare(t.size) == 0;
+    }
+};
 
 class QDropboxController: public QObject {
     Q_OBJECT
@@ -144,8 +154,11 @@ private:
     QVariantList m_uploads;
 
     SystemToast m_toast;
+    QQueue<Thumbnail> m_thumbnailsQueue;
+    QList<Thumbnail> m_thumbnailsInProgressQueue;
 
     void clear(QList<QDropboxFile*>& files);
+    void processNextThumbnail();
 };
 
 #endif /* QDROPBOXCONTROLLER_HPP_ */

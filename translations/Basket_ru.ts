@@ -302,13 +302,13 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="317"/>
-        <location filename="../assets/pages/FolderPage.qml" line="586"/>
+        <location filename="../assets/pages/FolderPage.qml" line="595"/>
         <source>List</source>
         <translation type="unfinished">Список</translation>
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="319"/>
-        <location filename="../assets/pages/FolderPage.qml" line="593"/>
+        <location filename="../assets/pages/FolderPage.qml" line="602"/>
         <source>Grid</source>
         <translation type="unfinished">Сетка</translation>
     </message>
@@ -477,12 +477,12 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="325"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="351"/>
         <source>Upload finished: </source>
         <translation type="unfinished">Загрузка завершена: </translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="423"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="449"/>
         <source>Download finished: </source>
         <translation type="unfinished">Загрузка завершена: </translation>
     </message>
@@ -593,7 +593,7 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>StackListItem</name>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="271"/>
+        <location filename="../assets/components/StackListItem.qml" line="273"/>
         <source>MB</source>
         <translation type="unfinished">МБ</translation>
     </message>
