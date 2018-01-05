@@ -302,13 +302,13 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="317"/>
-        <location filename="../assets/pages/FolderPage.qml" line="595"/>
+        <location filename="../assets/pages/FolderPage.qml" line="587"/>
         <source>List</source>
         <translation type="unfinished">Список</translation>
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="319"/>
-        <location filename="../assets/pages/FolderPage.qml" line="602"/>
+        <location filename="../assets/pages/FolderPage.qml" line="594"/>
         <source>Grid</source>
         <translation type="unfinished">Сетка</translation>
     </message>
@@ -593,7 +593,7 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>StackListItem</name>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="273"/>
+        <location filename="../assets/components/StackListItem.qml" line="263"/>
         <source>MB</source>
         <translation type="unfinished">МБ</translation>
     </message>

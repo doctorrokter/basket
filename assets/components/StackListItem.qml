@@ -163,16 +163,6 @@ CustomListItem {
                 filterColor: ui.palette.primary;
                 visible: false
             }
-            
-            ImageView {
-                id: bgImage
-                visible: !root.isDir()
-                imageSource: "asset:///images/opac_bg.png"
-                
-                opacity: 0.5
-                preferredWidth: ui.du(11)
-                preferredHeight: ui.du(11)
-            }
         }                            
         
         Container {
@@ -284,7 +274,6 @@ CustomListItem {
     onThumbnailChanged: {
         if (thumbnail !== "") {
             defaultImage.visible = false;
-            bgImage.visible = false;
             mainImage.imageSource = "file://" + thumbnail;
             mainImage.visible = true;
         }
@@ -298,7 +287,6 @@ CustomListItem {
         if (root.isDir()) {
             root.assignDefaultImage();
             defaultImage.visible = true;
-            bgImage.visible = false;
             mainImage.visible = false;
         } else {
             root.assignDefaultImage();

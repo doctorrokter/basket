@@ -72,6 +72,12 @@ CustomListItem {
         return ui.palette.primary;
     }
     
+    function assignDefaultImage() {
+        preview.imageSource = root.getImage();
+        preview.filterColor = root.filterColor();
+        preview.visible = true;
+    }
+    
     Container {
         horizontalAlignment: HorizontalAlignment.Fill
         verticalAlignment: VerticalAlignment.Fill
@@ -82,8 +88,6 @@ CustomListItem {
         
         ImageView {
             id: preview
-            imageSource: root.getImage();
-            filterColor: root.filterColor();
             
             opacity: root.isDir() ? 0.25 : 1.0
             preferredWidth: root.isDir()  ? listItemLUH.layoutFrame.width : ui.du(20)
@@ -124,8 +128,8 @@ CustomListItem {
         }
         
         Label {
+            id: fileName
             verticalAlignment: VerticalAlignment.Bottom
-            text: root.name
             textStyle.base: SystemDefaults.TextStyles.BodyText
             
             margin.leftOffset: ui.du(1);
@@ -212,11 +216,12 @@ CustomListItem {
         ActionSet {
             actions: [
                 DeleteFileAction {
+                    id: deleteFileAction
                     pathDisplay: root.pathDisplay    
                 },
                 
                 RenameFileAction {
-                    name: root.name
+                    id: renameFileAction
                     path: root.pathDisplay
                     isDir: root.isDir()
                 },
@@ -268,11 +273,39 @@ CustomListItem {
             mainImage.visible = true;
         }
     }
-    
-    onTagChanged: {
+
+    onNameChanged: {
+        fileName.text = name;
+        renameFileAction.name = name;
+        
+        root.assignDefaultImage();
         if (root.isDir()) {
             preview.visible = true;
             mainImage.visible = false;
+        } else {
+            preview.visible = false;
+            mainImage.visible = true;
+        }
+    }
+    
+    onTagChanged: {
+        root.assignDefaultImage();
+        if (root.isDir()) {
+            preview.visible = true;
+            mainImage.visible = false;
+        } else {
+            preview.visible = false;
+            mainImage.visible = true;
+        }
+    }
+    
+    onFileIdChanged: {
+        if (root.isDir()) {
+            root.assignDefaultImage();
+            preview.visible = true;
+            mainImage.visible = false;
+        } else {
+            root.assignDefaultImage();
         }
     }
 }
