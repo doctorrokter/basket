@@ -488,7 +488,7 @@ Page {
     function folderCreated(folder) {
         spinner.stop();
         var p = folder.path_display.replace("/" + folder.name, "");
-        if (p === root.path) {
+        if (p.toLowerCase() === root.path.toLowerCase()) {
             dataModel.insert(0, folder);
             listView.scrollToPosition(ScrollPosition.Beginning, ScrollAnimation.Smooth);
         }
@@ -496,7 +496,7 @@ Page {
     
     function fileDeleted(file) {
         var p = file.path_display.replace("/" + file.name, "");
-        if (p === root.path) {
+        if (p.toLowerCase() === root.path.toLowerCase()) {
             for (var i = 0; i < dataModel.size(); i++) {
                 if (dataModel.value(i).id === file.id) {
                     dataModel.removeAt(i);
