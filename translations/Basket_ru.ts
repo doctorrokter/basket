@@ -32,7 +32,7 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="235"/>
+        <location filename="../src/applicationui.cpp" line="232"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished">Ссылка скопирована в буфер</translation>
     </message>
@@ -477,12 +477,12 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="351"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="271"/>
         <source>Upload finished: </source>
         <translation type="unfinished">Загрузка завершена: </translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="449"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="369"/>
         <source>Download finished: </source>
         <translation type="unfinished">Загрузка завершена: </translation>
     </message>
@@ -593,7 +593,7 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>StackListItem</name>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="263"/>
+        <location filename="../assets/components/StackListItem.qml" line="215"/>
         <source>MB</source>
         <translation type="unfinished">МБ</translation>
     </message>

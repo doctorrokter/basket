@@ -14,8 +14,18 @@
 #define PREVIEWS_QUEUE_SIZE 5
 #define UPLOADS_QUEUE_SIZE 1
 #define DOWNLOADS_QUEUE_SIZE 5
-#define PAGE_SIZE 25
+#define PAGE_SIZE 50
 #define INVOKE_CARD_EDIT_URI "chachkouski.Basket.card.edit.uri"
 #define DATE_FORMAT "d MMM yyyy, h:mm"
+#define THUMBNAILS_DIR "/data/thumbnails"
+#define THUMBNAILS_THRESHOLD 500
+#define THUMBNAILS_QUEUE_SIZE 10
+#define ACCESS_TOKEN_KEY "dropbox.access_token"
+#define IMAGES_ASSETS_DIR "app/native/assets/images"
+#define REDIRECT_URL "http://localhost:8080/auth"
+#define AUTOLOAD_SETTINGS "autoload.camera.files"
+#define AUTOLOAD_CAMERA_FILES_ENABLED "autoload.camera.files.enabled"
+#define AUTOLOAD_CAMERA_FILES_DISABLED "autoload.camera.files.disabled"
+#define SYNC_COMMAND "sync"
 
 #endif /* COMMON_HPP_ */

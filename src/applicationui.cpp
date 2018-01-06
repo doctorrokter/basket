@@ -31,13 +31,7 @@
 #include <QUrl>
 #include <bb/system/Clipboard>
 #include <QFile>
-
-#define REDIRECT_URL "http://localhost:8080/auth"
-#define ACCESS_TOKEN_KEY "dropbox.access_token"
-#define AUTOLOAD_SETTINGS "autoload.camera.files"
-#define AUTOLOAD_CAMERA_FILES_ENABLED "autoload.camera.files.enabled"
-#define AUTOLOAD_CAMERA_FILES_DISABLED "autoload.camera.files.disabled"
-#define SYNC_COMMAND "sync"
+#include "components/ThumbnailImageView.hpp"
 
 Logger ApplicationUI::logger = Logger::getLogger("ApplicationUI");
 
@@ -71,12 +65,14 @@ ApplicationUI::ApplicationUI() :
 
     QString token = m_settings.value(ACCESS_TOKEN_KEY, "").toString();
 //    QString token = "u_XewBWc388AAAAAAAAGvByN0abEdptmv4bv09iheXnQlZZvcgCwJwJ30xBnrCqh";
+
     QmlDocument* qml = 0;
     if (token.compare("") == 0) {
         m_pQdropbox = new QDropbox(CLIENT_SECRET, CLIENT_ID, REDIRECT_URL, this);
         qml = QmlDocument::create("asset:///pages/AuthPage.qml").parent(this);
     } else {
         m_pQdropbox = new QDropbox(token, this);
+        ThumbnailImageView::m_accessToken = token;
         qml = QmlDocument::create("asset:///main.qml").parent(this);
     }
     m_pQdropbox->setDownloadsFolder(m_downloadsFolder);
@@ -193,6 +189,7 @@ void ApplicationUI::onAccessTokenObtained(const QString& accessToken) {
         m_settings.sync();
 
         m_pQdropbox->setAccessToken(accessToken);
+        ThumbnailImageView::m_accessToken = accessToken;
 
         QmlDocument* qml = QmlDocument::create("asset:///main.qml").parent(this);
         configureQml();

@@ -24,6 +24,8 @@
 #include <Qt/qdeclarativedebug.h>
 
 #include "controllers/QDropboxController.hpp"
+#include "components/ThumbnailImageView.hpp"
+#include "components/FileImageView.hpp"
 #include "vendor/WebImageView.h"
 #include <QTimer>
 #include "vendor/Console.hpp"
@@ -48,6 +50,8 @@ Q_DECL_EXPORT int main(int argc, char **argv) {
 
     qRegisterMetaType<QDropboxController*>("QDropboxController*");
     qmlRegisterType<WebImageView>("WebImageView", 1, 0, "WebImageView");
+    qmlRegisterType<ThumbnailImageView>("components", 1, 0, "ThumbnailImageView");
+    qmlRegisterType<FileImageView>("components", 1, 0, "FileImageView");
     qmlRegisterType<QTimer>("basket.helpers", 1, 0, "Timer");
 
     QTextCodec *codec1 = QTextCodec::codecForName("UTF-8");

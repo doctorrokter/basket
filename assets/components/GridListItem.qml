@@ -1,6 +1,7 @@
 import bb.cascades 1.4
 import bb.device 1.4
 import bb.system 1.2
+import components 1.0
 import "../actions"
 
 CustomListItem {
@@ -40,44 +41,6 @@ CustomListItem {
         return root.tag === "folder";
     }
     
-    function getImage() {
-        if (!root.isDir()) {
-            var ext = _file.extension(root.name).toLowerCase();
-            if (_file.isImage(ext)) {
-                _qdropbox.getThumbnail(root.pathDisplay, "w640h480");
-                return "asset:///images/ic_doctype_picture.png";
-            } else if (_file.isVideo(ext)) {
-                return "asset:///images/ic_doctype_video.png";
-            } else if (_file.isAudio(ext)) {
-                return "asset:///images/ic_doctype_music.png";
-            } else if (_file.isPdf(ext)) {
-                return "asset:///images/ic_doctype_pdf.png";
-            } else if (_file.isDoc(ext)) {
-                return "asset:///images/ic_doctype_doc.png";
-            } else if (_file.isSpreadSheet(ext)) {
-                return "asset:///images/ic_doctype_xls.png";
-            } else if (_file.isPresentation(ext)) {
-                return "asset:///images/ic_doctype_ppt.png";
-            } else {
-                return "asset:///images/ic_doctype_generic.png";
-            }
-        }
-        return "asset:///images/ic_folder.png";
-    }
-    
-    function filterColor() {
-        if (!root.isDir()) {
-            return ui.palette.textOnPlain;
-        }
-        return ui.palette.primary;
-    }
-    
-    function assignDefaultImage() {
-        preview.imageSource = root.getImage();
-        preview.filterColor = root.filterColor();
-        preview.visible = true;
-    }
-    
     Container {
         horizontalAlignment: HorizontalAlignment.Fill
         verticalAlignment: VerticalAlignment.Fill
@@ -108,12 +71,8 @@ CustomListItem {
             horizontalAlignment: root.isDir() ? HorizontalAlignment.Fill : HorizontalAlignment.Center
         }
         
-        ImageView {
-            id: mainImage
-            visible: false
-            scalingMethod: ScalingMethod.AspectFill
-            preferredWidth: listItemLUH.layoutFrame.width
-            preferredHeight: listItemLUH.layoutFrame.height
+        Container {
+            id: mainImageContainer
         }
         
         ImageView {
@@ -209,6 +168,38 @@ CustomListItem {
     attachedObjects: [
         DisplayInfo {
             id: displayInfo
+        },
+        
+        ComponentDefinition {
+            id: dirView
+            ImageView {
+                imageSource: "asset:///images/ic_folder.png"
+                filterColor: ui.palette.primary
+                scalingMethod: ScalingMethod.AspectFill
+                opacity: 0.25
+                preferredWidth: listItemLUH.layoutFrame.width
+                preferredHeight: listItemLUH.layoutFrame.height
+            }
+        },
+        
+        ComponentDefinition {
+            id: fileView
+            FileImageView {
+                path: root.pathDisplay
+                preferredWidth: listItemLUH.layoutFrame.width
+                preferredHeight: listItemLUH.layoutFrame.height
+            }
+        },
+        
+        ComponentDefinition {
+            id: thumbnailView
+            ThumbnailImageView {
+                size: "w640h480"
+                scalingMethod: ScalingMethod.AspectFill
+                
+                preferredWidth: listItemLUH.layoutFrame.width
+                preferredHeight: listItemLUH.layoutFrame.height
+            }
         }
     ]
     
@@ -266,46 +257,26 @@ CustomListItem {
         sharedFolder.visible = sharedFolderId !== "";
     }
     
-    onThumbnailChanged: {
-        if (thumbnail !== "") {
-            preview.visible = false;
-            mainImage.imageSource = "file://" + thumbnail;
-            mainImage.visible = true;
-        }
-    }
-
     onNameChanged: {
         fileName.text = name;
         renameFileAction.name = name;
-        
-        root.assignDefaultImage();
-        if (root.isDir()) {
-            preview.visible = true;
-            mainImage.visible = false;
-        } else {
-            preview.visible = false;
-            mainImage.visible = true;
-        }
-    }
-    
-    onTagChanged: {
-        root.assignDefaultImage();
-        if (root.isDir()) {
-            preview.visible = true;
-            mainImage.visible = false;
-        } else {
-            preview.visible = false;
-            mainImage.visible = true;
-        }
     }
     
     onFileIdChanged: {
+        mainImageContainer.removeAll();
         if (root.isDir()) {
-            root.assignDefaultImage();
-            preview.visible = true;
-            mainImage.visible = false;
+            mainImageContainer.add(dirView.createObject());
         } else {
-            root.assignDefaultImage();
+            mainImageContainer.add(fileView.createObject());
+            var ext = _file.extension(root.name).toLowerCase();
+            if (_file.isImage(ext)) {
+                var thumb = thumbnailView.createObject();
+                thumb.loaded.connect(function() {
+                    mainImageContainer.removeAll();
+                    mainImageContainer.add(thumb);
+                });
+                thumb.path = root.pathDisplay;
+            }
         }
     }
 }

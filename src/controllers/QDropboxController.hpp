@@ -25,18 +25,8 @@
 #include <bb/system/SystemToast>
 #include "../util/FileUtil.hpp"
 #include <QNetworkReply>
-#include <QQueue>
 
 using namespace bb::system;
-
-struct Thumbnail {
-    QString path;
-    QString size;
-
-    bool operator==(const Thumbnail& t) {
-        return this->path.compare(t.path) == 0 && this->size.compare(t.size) == 0;
-    }
-};
 
 class QDropboxController: public QObject {
     Q_OBJECT
@@ -60,7 +50,6 @@ public:
     Q_INVOKABLE void getAccount(const QString& accountId);
     Q_INVOKABLE void getAccountBatch(const QVariantList& accountIds);
     Q_INVOKABLE void getSpaceUsage();
-    Q_INVOKABLE void getThumbnail(const QString& path, const QString& size = "w128h128");
     Q_INVOKABLE void download(const QString& path);
     Q_INVOKABLE void upload(const QString& localPath, const QString& remotePath);
     Q_INVOKABLE void shareFolder(const QString& path);
@@ -95,7 +84,6 @@ public:
         void accountLoaded(const QVariantMap& account);
         void accountBatchLoaded(const QVariantList& accounts);
         void spaceUsageLoaded(const QVariantMap& spaceUsage);
-        void thumbnailLoaded(const QString& path, const QString& localPath);
         void downloadsChanged(const QVariantList& downloads);
         void downloaded(const QString& path, const QString& localPath);
         void downloadProgress(const QString& path, qint64 loaded, qint64 total);
@@ -126,7 +114,6 @@ private slots:
     void onMoved(QDropboxFile* file);
     void onRenamed(QDropboxFile* file);
     void onSpaceUsageLoaded(QDropboxSpaceUsage* spaceUsage);
-    void onThumbnailLoaded(const QString& path, const QString& size, QImage* thumbnail);
     void onDownloaded(const QString& path, const QString& localPath);
     void onDownloadStarted(const QString& path);
     void onUploaded(QDropboxFile* file);
@@ -154,11 +141,8 @@ private:
     QVariantList m_uploads;
 
     SystemToast m_toast;
-    QQueue<Thumbnail> m_thumbnailsQueue;
-    QList<Thumbnail> m_thumbnailsInProgressQueue;
 
     void clear(QList<QDropboxFile*>& files);
-    void processNextThumbnail();
 };
 
 #endif /* QDROPBOXCONTROLLER_HPP_ */

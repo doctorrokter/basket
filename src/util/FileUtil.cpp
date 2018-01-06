@@ -10,8 +10,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QFileInfoList>
-
-#define TEMP_DIR "/data/temp"
+#include "../Common.hpp"
 
 FileUtil::FileUtil(QObject* parent) : QObject(parent), m_invokeReply(0), m_pTempLink(0), m_pProgressdialog(new SystemProgressDialog(this)) {
     m_imagesList << "jpg" << "jpeg" << "gif" << "png";

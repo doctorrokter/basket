@@ -1,6 +1,7 @@
 import bb.cascades 1.4
 import bb.system 1.2
 import "../actions"
+import components 1.0
 
 CustomListItem {
     id: root
@@ -83,43 +84,6 @@ CustomListItem {
         return root.tag === "folder";
     }
     
-    function getImage() {
-        if (!root.isDir()) {
-            var ext = _file.extension(root.name).toLowerCase();
-            if (_file.isImage(ext)) {
-                _qdropbox.getThumbnail(root.pathDisplay, "w128h128");
-                return "asset:///images/ic_doctype_picture.png";
-            } else if (_file.isVideo(ext)) {
-                return "asset:///images/ic_doctype_video.png";
-            } else if (_file.isAudio(ext)) {
-                return "asset:///images/ic_doctype_music.png";
-            } else if (_file.isPdf(ext)) {
-                return "asset:///images/ic_doctype_pdf.png";
-            } else if (_file.isDoc(ext)) {
-                return "asset:///images/ic_doctype_doc.png";
-            } else if (_file.isSpreadSheet(ext)) {
-                return "asset:///images/ic_doctype_xls.png";
-            } else if (_file.isPresentation(ext)) {
-                return "asset:///images/ic_doctype_ppt.png";
-            } else {
-                return "asset:///images/ic_doctype_generic.png";
-            }
-        }
-        return "asset:///images/ic_folder.png";
-    }
-    
-    function filterColor() {
-        if (!root.isDir()) {
-            return ui.palette.textOnPlain;
-        }
-        return ui.palette.primary;
-    }
-    
-    function assignDefaultImage() {
-        defaultImage.imageSource = root.getImage();
-        defaultImage.filterColor = root.filterColor();
-    }
-    
     Container {
         horizontalAlignment: HorizontalAlignment.Fill
         verticalAlignment: VerticalAlignment.Fill
@@ -135,20 +99,8 @@ CustomListItem {
                 
             }
             
-            ImageView {
-                id: defaultImage
-                
-                opacity: root.isDir() ? 0.25 : 1.0
-                preferredWidth: ui.du(11)
-                preferredHeight: ui.du(11)
-            }
-            
-            ImageView {
-                id: mainImage
-                visible: false
-                scalingMethod: ScalingMethod.AspectFill
-                preferredWidth: ui.du(11)
-                preferredHeight: ui.du(11)
+            Container {
+                id: mainImageContainer
             }
             
             ImageView {
@@ -271,25 +223,55 @@ CustomListItem {
         sharedFolder.visible = sharedFolderId !== "";
     }
     
-    onThumbnailChanged: {
-        if (thumbnail !== "") {
-            defaultImage.visible = false;
-            mainImage.imageSource = "file://" + thumbnail;
-            mainImage.visible = true;
-        }
-    }
-    
-    onCreationCompleted: {
-        root.assignDefaultImage();
-    }
-    
     onFileIdChanged: {
+        mainImageContainer.removeAll();
         if (root.isDir()) {
-            root.assignDefaultImage();
-            defaultImage.visible = true;
-            mainImage.visible = false;
+            mainImageContainer.add(dirView.createObject());
         } else {
-            root.assignDefaultImage();
+            mainImageContainer.add(fileView.createObject());
+            var ext = _file.extension(root.name).toLowerCase();
+            if (_file.isImage(ext)) {
+                var thumb = thumbnailView.createObject();
+                thumb.loaded.connect(function() {
+                    mainImageContainer.removeAll();
+                    mainImageContainer.add(thumb);
+                });
+                thumb.path = root.pathDisplay;
+            }
         }
     }
+    
+    attachedObjects: [
+        ComponentDefinition {
+            id: dirView
+            ImageView {
+                imageSource: "asset:///images/ic_folder.png"
+                filterColor: ui.palette.primary
+                scalingMethod: ScalingMethod.AspectFill
+                opacity: 0.25
+                preferredWidth: ui.du(11)
+                preferredHeight: ui.du(11)
+            }
+        },
+        
+        ComponentDefinition {
+            id: fileView
+            FileImageView {
+                path: root.pathDisplay
+                preferredWidth: ui.du(11)
+                preferredHeight: ui.du(11)
+            }
+        },
+        
+        ComponentDefinition {
+            id: thumbnailView
+            ThumbnailImageView {
+                size: "w128h128"
+                scalingMethod: ScalingMethod.AspectFill
+                
+                preferredWidth: ui.du(11)
+                preferredHeight: ui.du(11)
+            }
+        }
+    ]
 }
