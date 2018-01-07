@@ -74,7 +74,7 @@ CustomListItem {
                 
                 DownloadAction {
                     listView: root.ListItem.view
-                    enabled: !root.isDir()
+                    isDir: root.isDir()
                 }
             ]
         }

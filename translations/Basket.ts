@@ -117,12 +117,12 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>DownloadAction</name>
     <message>
-        <location filename="../assets/actions/DownloadAction.qml" line="8"/>
+        <location filename="../assets/actions/DownloadAction.qml" line="9"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/actions/DownloadAction.qml" line="14"/>
+        <location filename="../assets/actions/DownloadAction.qml" line="19"/>
         <source>Download started: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -470,12 +470,12 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="271"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="275"/>
         <source>Upload finished: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="369"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="373"/>
         <source>Download finished: </source>
         <translation type="unfinished"></translation>
     </message>

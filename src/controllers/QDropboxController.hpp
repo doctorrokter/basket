@@ -51,6 +51,7 @@ public:
     Q_INVOKABLE void getAccountBatch(const QVariantList& accountIds);
     Q_INVOKABLE void getSpaceUsage();
     Q_INVOKABLE void download(const QString& path);
+    Q_INVOKABLE void downloadZip(const QString& path);
     Q_INVOKABLE void upload(const QString& localPath, const QString& remotePath);
     Q_INVOKABLE void shareFolder(const QString& path);
     Q_INVOKABLE void unshareFolder(const QString& sharedFolderId);

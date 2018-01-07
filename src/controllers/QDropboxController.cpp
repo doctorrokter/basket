@@ -256,6 +256,10 @@ void QDropboxController::download(const QString& path) {
     m_pQDropbox->download(path);
 }
 
+void QDropboxController::downloadZip(const QString& path) {
+    m_pQDropbox->downloadZip(path);
+}
+
 void QDropboxController::upload(const QString& localPath, const QString& remotePath) {
     logger.debug("Upload: " + localPath);
     QString filename = m_pFileUtil->filename(localPath);
