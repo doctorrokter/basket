@@ -25,13 +25,15 @@ public:
     const QString& getPath() const;
     void setPath(const QString& path);
 
+    static void setFileUtil(FileUtil* fileUtil);
+
     Q_SIGNALS:
         void pathChanged(const QString& path);
 private:
     QString m_path;
     QString m_localPath;
 
-    static FileUtil m_file;
+    static FileUtil* m_pFile;
 
     void loadImageFromFile(const QString& localPath);
 };

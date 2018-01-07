@@ -115,6 +115,33 @@ Page {
                     }
                 }
                 
+                Header {
+                    title: qsTr("Other") + Retranslate.onLocaleOrLanguageChanged
+                }
+                
+                Container {
+                    topPadding: ui.du(2)
+                    bottomPadding: ui.du(2.5)
+                    leftPadding: ui.du(2.5)
+                    rightPadding: ui.du(2.5)
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    
+                    Label {
+                        text: qsTr("Remove all cached data such as thumbnails, opened documents etc.") + Retranslate.onLocaleOrLanguageChanged
+                        multiline: true
+                        textStyle.fontWeight: FontWeight.W300
+                    }
+                                        
+                    Button {
+                        horizontalAlignment: HorizontalAlignment.Fill
+                        text: qsTr("Clear cache") + Retranslate.onLocaleOrLanguageChanged
+                        
+                        onClicked: {
+                            _app.clearCache();
+                        }
+                    }
+                }
+                
                 Container {
                     horizontalAlignment: HorizontalAlignment.Fill
                     minHeight: ui.du(20)

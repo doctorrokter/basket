@@ -12,7 +12,6 @@
 #include <bb/cascades/Container>
 #include <QUrl>
 #include <qdropbox/QDropbox.hpp>
-#include "../util/FileUtil.hpp"
 
 using namespace bb::cascades;
 
@@ -30,7 +29,7 @@ public:
     const QString& getSize() const;
     void setSize(const QString& size);
 
-    static QString m_accessToken;
+    static void setAccessToken(const QString& accessToken);
 
     Q_SIGNALS:
         void pathChanged(const QString& path);
@@ -41,12 +40,13 @@ private slots:
     void onThumbnailLoaded(const QString& path, const QString& size, QImage* thumbnail);
 
 private:
-    static FileUtil m_file;
+    QDropbox m_qdropbox;
 
     QString m_path;
     QString m_size;
     QString m_thumbs;
-    QDropbox m_qdropbox;
+
+    static QString m_accessToken;
 
     void reload();
     void loadImageFromFile(const QString& localPath);

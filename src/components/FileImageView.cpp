@@ -14,7 +14,7 @@
 #include "../Common.hpp"
 #include <QDebug>
 
-FileUtil FileImageView::m_file;
+FileUtil* FileImageView::m_pFile = 0;
 
 FileImageView::FileImageView(Container* container) : bb::cascades::ImageView(container) {
     m_path = "";
@@ -26,20 +26,20 @@ FileImageView::~FileImageView() {}
 const QString& FileImageView::getPath() const { return m_path; }
 void FileImageView::setPath(const QString& path) {
     m_path = path;
-    QString ext = m_file.extension(m_path);
-    if (m_file.isImage(ext)) {
+    QString ext = m_pFile->extension(m_path);
+    if (m_pFile->isImage(ext)) {
         loadImageFromFile(QString(IMAGES_ASSETS_DIR).append("/ic_doctype_picture.png"));
-    } else if (m_file.isVideo(ext)) {
+    } else if (m_pFile->isVideo(ext)) {
         loadImageFromFile(QString(IMAGES_ASSETS_DIR).append("/ic_doctype_video.png"));
-    } else if (m_file.isAudio(ext)) {
+    } else if (m_pFile->isAudio(ext)) {
         loadImageFromFile(QString(IMAGES_ASSETS_DIR).append("/ic_doctype_music.png"));
-    } else if (m_file.isPdf(ext)) {
+    } else if (m_pFile->isPdf(ext)) {
         loadImageFromFile(QString(IMAGES_ASSETS_DIR).append("/ic_doctype_pdf.png"));
-    } else if (m_file.isDoc(ext)) {
+    } else if (m_pFile->isDoc(ext)) {
         loadImageFromFile(QString(IMAGES_ASSETS_DIR).append("/ic_doctype_doc.png"));
-    } else if (m_file.isSpreadSheet(ext)) {
+    } else if (m_pFile->isSpreadSheet(ext)) {
         loadImageFromFile(QString(IMAGES_ASSETS_DIR).append("/ic_doctype_xls.png"));
-    } else if (m_file.isPresentation(ext)) {
+    } else if (m_pFile->isPresentation(ext)) {
         loadImageFromFile(QString(IMAGES_ASSETS_DIR).append("/ic_doctype_ppt.png"));
     } else {
         loadImageFromFile(QString(IMAGES_ASSETS_DIR).append("/ic_doctype_generic.png"));
@@ -58,4 +58,8 @@ void FileImageView::loadImageFromFile(const QString& localPath) {
             imageFile.close();
         }
     }
+}
+
+void FileImageView::setFileUtil(FileUtil* fileUtil) {
+    m_pFile = fileUtil;
 }

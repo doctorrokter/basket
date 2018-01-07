@@ -18,7 +18,6 @@
 #include "../Common.hpp"
 
 QString ThumbnailImageView::m_accessToken;
-FileUtil ThumbnailImageView::m_file;
 
 ThumbnailImageView::ThumbnailImageView(Container* container) : bb::cascades::ImageView(container) {
     m_qdropbox.setAccessToken(m_accessToken);
@@ -103,4 +102,8 @@ void ThumbnailImageView::onThumbnailLoaded(const QString& path, const QString& s
 
     loadImageFromFile(localPath);
     emit loaded(path);
+}
+
+void ThumbnailImageView::setAccessToken(const QString& accessToken) {
+    m_accessToken = accessToken;
 }

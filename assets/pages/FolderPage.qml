@@ -553,17 +553,6 @@ Page {
         return root.path === "" && path.split("/").length === 2;
     }
     
-    function thumbnailLoaded(path, localPath) {
-        for (var i = 0; i < dataModel.size(); i++) {
-            var data = dataModel.value(i);
-            if (data.path_display === path) {
-                data.thumbnail = localPath;
-                dataModel.replace(i, data);
-                return;
-            }
-        }
-    }
-    
     function reload() {
         dataModel.clear();
         _qdropbox.listFolder(root.path, root.limit);
@@ -696,7 +685,6 @@ Page {
         _qdropbox.fileDeleted.disconnect(root.fileDeleted);
         _qdropbox.moved.disconnect(root.moved);
         _qdropbox.renamed.disconnect(root.renamed);
-//        _qdropbox.thumbnailLoaded.disconnect(root.thumbnailLoaded);
         _qdropbox.uploaded.disconnect(root.uploaded);
         _qdropbox.sharedFolder.disconnect(root.sharedFolder);
         _qdropbox.folderMemberAdded.disconnect(root.folderMemberAdded);
@@ -716,7 +704,6 @@ Page {
         _qdropbox.fileDeleted.connect(root.fileDeleted);
         _qdropbox.moved.connect(root.moved);
         _qdropbox.renamed.connect(root.renamed);
-//        _qdropbox.thumbnailLoaded.connect(root.thumbnailLoaded);
         _qdropbox.uploaded.connect(root.uploaded);
         _qdropbox.sharedFolder.connect(root.sharedFolder);
         _qdropbox.folderMemberAdded.connect(root.folderMemberAdded);

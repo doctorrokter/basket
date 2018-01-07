@@ -22,6 +22,7 @@
 #define THUMBNAILS_QUEUE_SIZE 10
 #define ACCESS_TOKEN_KEY "dropbox.access_token"
 #define IMAGES_ASSETS_DIR "app/native/assets/images"
+#define DOWNLOADS_DIR "/shared/downloads/basket"
 #define REDIRECT_URL "http://localhost:8080/auth"
 #define AUTOLOAD_SETTINGS "autoload.camera.files"
 #define AUTOLOAD_CAMERA_FILES_ENABLED "autoload.camera.files.enabled"

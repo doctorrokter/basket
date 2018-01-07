@@ -32,9 +32,14 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="232"/>
+        <location filename="../src/applicationui.cpp" line="237"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished">Ссылка скопирована в буфер</translation>
+    </message>
+    <message>
+        <location filename="../src/applicationui.cpp" line="360"/>
+        <source>Cache flushed!</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sync started!</source>
@@ -302,13 +307,13 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="317"/>
-        <location filename="../assets/pages/FolderPage.qml" line="587"/>
+        <location filename="../assets/pages/FolderPage.qml" line="576"/>
         <source>List</source>
         <translation type="unfinished">Список</translation>
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="319"/>
-        <location filename="../assets/pages/FolderPage.qml" line="594"/>
+        <location filename="../assets/pages/FolderPage.qml" line="583"/>
         <source>Grid</source>
         <translation type="unfinished">Сетка</translation>
     </message>
@@ -546,6 +551,21 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
         <translation type="unfinished">Автозагрузка файлов камеры</translation>
     </message>
     <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="119"/>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="130"/>
+        <source>Remove all cached data such as thumbnails, opened documents etc.</source>
+        <translation type="unfinished">Удалить все сохранённые картинки, открытые документы и т.д.</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="137"/>
+        <source>Clear cache</source>
+        <translation type="unfinished">Очистить кэш</translation>
+    </message>
+    <message>
         <source>Clicking by this button will start sync immediately</source>
         <translation type="obsolete">Нажатие на кнопку запустит синхронизацию сразу же</translation>
     </message>
@@ -593,7 +613,7 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>StackListItem</name>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="247"/>
+        <location filename="../assets/components/StackListItem.qml" line="248"/>
         <source>MB</source>
         <translation type="unfinished">МБ</translation>
     </message>

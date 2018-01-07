@@ -74,6 +74,7 @@ public:
     Q_INVOKABLE QVariantMap getSharedLink(const QString& path);
     Q_INVOKABLE void auth(const QString& token);
     Q_INVOKABLE void invokeFeedback();
+    Q_INVOKABLE void clearCache();
 
     const bool& isAutoloadEnabled() const;
     void setAutoloadEnabled(const bool& autoload);
@@ -118,6 +119,7 @@ private:
     void configureQml();
     void startHeadless();
     void initSignals();
+    void clearDir(const QString& path);
 
     static Logger logger;
 };

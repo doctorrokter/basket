@@ -32,6 +32,8 @@
 #include <bb/system/Clipboard>
 #include <QFile>
 #include "components/ThumbnailImageView.hpp"
+#include "components/FileImageView.hpp"
+#include <QDirIterator>
 
 Logger ApplicationUI::logger = Logger::getLogger("ApplicationUI");
 
@@ -58,7 +60,7 @@ ApplicationUI::ApplicationUI() :
     qsrand((uint)time.msec());
 
     m_palette << "#323232" << "#0092CC" << "#FF3333" << "#DCD427" << "#779933" << "#282828" << "#087099" << "#CC3333" << "#B7B327" << "#5C7829";
-    m_downloadsFolder = QDir::currentPath() + "/shared/downloads/basket";
+    m_downloadsFolder = QDir::currentPath() + DOWNLOADS_DIR;
 
     QString df = m_settings.value("date_format", "").toString();
     m_pDateUtil = new DateUtil(df, this);
@@ -72,11 +74,12 @@ ApplicationUI::ApplicationUI() :
         qml = QmlDocument::create("asset:///pages/AuthPage.qml").parent(this);
     } else {
         m_pQdropbox = new QDropbox(token, this);
-        ThumbnailImageView::m_accessToken = token;
+        ThumbnailImageView::setAccessToken(token);
         qml = QmlDocument::create("asset:///main.qml").parent(this);
     }
     m_pQdropbox->setDownloadsFolder(m_downloadsFolder);
     m_pQdropboxController = new QDropboxController(m_pQdropbox, m_pFileUtil, this);
+    FileImageView::setFileUtil(m_pFileUtil);
 
     setAutoloadEnabled(prop("autoload.camera.files", false).toBool());
 
@@ -95,6 +98,8 @@ ApplicationUI::~ApplicationUI() {
     m_translator->deleteLater();
     m_pQdropbox->deleteLater();
     m_pQdropboxController->deleteLater();
+    m_pFileUtil->deleteLater();
+    m_pDateUtil->deleteLater();
     if (m_pAccount != 0) {
         m_pAccount->deleteLater();
     }
@@ -189,7 +194,7 @@ void ApplicationUI::onAccessTokenObtained(const QString& accessToken) {
         m_settings.sync();
 
         m_pQdropbox->setAccessToken(accessToken);
-        ThumbnailImageView::m_accessToken = accessToken;
+        ThumbnailImageView::setAccessToken(accessToken);
 
         QmlDocument* qml = QmlDocument::create("asset:///main.qml").parent(this);
         configureQml();
@@ -347,4 +352,21 @@ void ApplicationUI::onFeedbackInvoked() {
     InvokeTargetReply* reply = qobject_cast<InvokeTargetReply*>(QObject::sender());
     logger.info(QString("Invoked email composer success: ").append(reply->target()));
     reply->deleteLater();
+}
+
+void ApplicationUI::clearCache() {
+    clearDir(QDir::currentPath() + THUMBNAILS_DIR);
+    clearDir(QDir::currentPath() + TEMP_DIR);
+    toast(tr("Cache flushed!"));
+}
+
+void ApplicationUI::clearDir(const QString& path) {
+    QDir dir(path);
+    if (dir.exists()) {
+        QDirIterator it(path, QDir::NoDotAndDotDot | QDir::Files);
+        while(it.hasNext()) {
+            QString f = it.next();
+            QFile::remove(f);
+        }
+    }
 }
