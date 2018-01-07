@@ -40,7 +40,7 @@
         can also be 1-part or 2-part. It is not necessary to have a 3-part value.
         An updated version of application must have a versionNumber value higher
         than the previous version. Required. -->
-    <versionNumber>1.0.2</versionNumber>
+    <versionNumber>1.1.0</versionNumber>
     <splashScreens>
        <image>splash_1280_x_720.png</image>
        <image>splash_1280_x_768.png</image>
@@ -49,7 +49,6 @@
        <image>splash_720_x_720.png</image>
        <image>splash_768_x_1280.png</image>
     </splashScreens>
-    <platformVersion>10.2.0</platformVersion>
     <authorId>gYAAgJBERbiwoSHtjskM8WvopKU</authorId>
 
     <!-- Fourth digit segment of the package version. First three segments are
