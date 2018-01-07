@@ -32,12 +32,12 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="237"/>
+        <location filename="../src/applicationui.cpp" line="243"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="360"/>
+        <location filename="../src/applicationui.cpp" line="384"/>
         <source>Cache flushed!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -250,17 +250,17 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>FilesUploader</name>
     <message>
-        <location filename="../assets/components/FilesUploader.qml" line="16"/>
+        <location filename="../assets/components/FilesUploader.qml" line="17"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/FilesUploader.qml" line="26"/>
+        <location filename="../assets/components/FilesUploader.qml" line="31"/>
         <source>Selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/FilesUploader.qml" line="31"/>
+        <location filename="../assets/components/FilesUploader.qml" line="36"/>
         <source>Upload</source>
         <translation type="unfinished"></translation>
     </message>
@@ -598,7 +598,7 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>StackListItem</name>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="248"/>
+        <location filename="../assets/components/StackListItem.qml" line="247"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>

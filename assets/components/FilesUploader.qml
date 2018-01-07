@@ -7,6 +7,7 @@ Container {
     
     signal startUpload();
     
+    visible: _app.sharedFiles.length > 0
     horizontalAlignment: HorizontalAlignment.Fill
     
     layout: DockLayout {}
@@ -18,12 +19,16 @@ Container {
         margin.leftOffset: ui.du(2)
         margin.topOffset: ui.du(2)
         margin.bottomOffset: ui.du(2)
+        
+        onClicked: {
+            _app.sharedFiles = [];
+        }
     }
     
     Label {
         horizontalAlignment: HorizontalAlignment.Center
         verticalAlignment: VerticalAlignment.Center
-        text: qsTr("Selected") + Retranslate.onLocaleOrLanguageChanged + " " + 0
+        text: qsTr("Selected") + Retranslate.onLocaleOrLanguageChanged + " " + _app.sharedFiles.length
     }
     
     Button {
@@ -35,6 +40,10 @@ Container {
         margin.bottomOffset: ui.du(2)
         
         onClicked: {
+            _app.sharedFiles.forEach(function(f) {
+                _qdropbox.upload(f, root.path);    
+            });
+            _app.sharedFiles = [];
             startUpload();
         }
     }

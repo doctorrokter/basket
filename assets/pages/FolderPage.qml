@@ -52,14 +52,14 @@ Page {
             FilesMover {
                 path: root.path
             }
-//            
-//            FilesUploader {
-//                path: root.path
-//                
-//                onStartUpload: {
-//                    uploadsPageRequested();
-//                }
-//            }
+            
+            FilesUploader {
+                path: root.path
+                
+                onStartUpload: {
+                    root.showUploads();
+                }
+            }
 
             ListView {
                 id: listView

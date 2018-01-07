@@ -24,6 +24,7 @@
 #include <bb/system/InvokeQueryTargetsReply>
 #include <bb/system/SystemUiPosition.hpp>
 #include <bb/cascades/ThemeSupport>
+#include <bb/data/JsonDataAccess>
 #include <QSettings>
 #include <QDir>
 #include "Common.hpp"
@@ -34,6 +35,11 @@
 #include "components/ThumbnailImageView.hpp"
 #include "components/FileImageView.hpp"
 #include <QDirIterator>
+
+#define CARD_EDIT_URI "chachkouski.Basket.card.edit.uri"
+#define CARD_EDIT_LINK "chachkouski.Basket.card.edit.link"
+
+using namespace bb::data;
 
 Logger ApplicationUI::logger = Logger::getLogger("ApplicationUI");
 
@@ -295,6 +301,24 @@ void ApplicationUI::onInvoke(const bb::system::InvokeRequest& req) {
     qDebug() << req.target() << endl;
     qDebug() << req.mimeType() << endl;
     qDebug() << req.uri() << endl;
+
+    if (req.target().compare(CARD_EDIT_URI) == 0) {
+        QByteArray data = req.data();
+        QString uri = req.uri().toString();
+        QVariantList list;
+        if (uri.contains("list")) {
+            JsonDataAccess jda;
+            QVariant var = jda.loadFromBuffer(data);
+            QVariantList dataList = var.toList();
+            foreach(QVariant v, dataList) {
+                QVariantMap m = v.toMap();
+                list << m.value("uri").toString().replace("file://", "");
+            }
+        } else {
+            list << uri.replace("file://", "");
+        }
+        setSharedFiles(list);
+    }
 }
 
 void ApplicationUI::startHeadless() {
@@ -369,4 +393,10 @@ void ApplicationUI::clearDir(const QString& path) {
             QFile::remove(f);
         }
     }
+}
+
+const QVariantList& ApplicationUI::getSharedFiles() const { return m_sharedFiles; }
+void ApplicationUI::setSharedFiles(const QVariantList& sharedFiles) {
+    m_sharedFiles = sharedFiles;
+    emit sharedFilesChanged(m_sharedFiles);
 }

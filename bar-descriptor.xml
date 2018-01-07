@@ -175,6 +175,32 @@
             <property var="uris" value="headless:" />
         </filter>
     </invoke-target>
+    
+    <invoke-target id="chachkouski.Basket.card.edit.uri">
+  		<invoke-target-type>card.composer</invoke-target-type>
+  		<!--<icon>
+  			<image public="true">icon_small.png</image>
+    		<image public="true">icon_big.png</image>
+		</icon>-->
+  		<filter>
+    		<action>bb.action.SHARE</action>
+    		<mime-type>*</mime-type>
+    		<property var="uris" value="file://,list://"/>
+  		</filter>
+	</invoke-target>
+	
+    <invoke-target id="chachkouski.Basket.card.edit.link">
+  		<invoke-target-type>card.composer</invoke-target-type>
+  		<!--<icon>
+  			<image public="true">icon_small.png</image>
+    		<image public="true">icon_big.png</image>
+		</icon>-->
+  		<filter>
+    		<action>bb.action.SHARE</action>
+    		<mime-type>*</mime-type>
+    		<property var="uris" value="http://,https://"/>
+  		</filter>
+	</invoke-target>
 
     <!-- Unique author ID assigned by signing authority. Required if using debug
         tokens. -->

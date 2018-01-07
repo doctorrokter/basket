@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QSettings>
 #include <QVariantMap>
+#include <QVariantList>
 #include <bb/cascades/QmlDocument>
 #include <qdropbox/QDropbox.hpp>
 #include <qdropbox/Account.hpp>
@@ -57,6 +58,7 @@ class QTranslator;
 class ApplicationUI: public QObject {
     Q_OBJECT
     Q_PROPERTY(bool autoload READ isAutoloadEnabled WRITE setAutoloadEnabled NOTIFY autoloadChanged);
+    Q_PROPERTY(QVariantList sharedFiles READ getSharedFiles WRITE setSharedFiles NOTIFY sharedFilesChanged);
 public:
     ApplicationUI();
     virtual ~ApplicationUI();
@@ -79,11 +81,15 @@ public:
     const bool& isAutoloadEnabled() const;
     void setAutoloadEnabled(const bool& autoload);
 
+    const QVariantList& getSharedFiles() const;
+    void setSharedFiles(const QVariantList& sharedFiles);
+
     Q_SIGNALS:
         void currentAccountLoaded(const QVariantMap& accountMap);
         void propChanged(const QString& key, const QVariant& val);
         void sharedLinksLoaded();
         void autoloadChanged(const bool& autoload);
+        void sharedFilesChanged(const QVariantList& sharedFiles);
 
 private slots:
     void onSystemLanguageChanged();
@@ -99,6 +105,7 @@ private slots:
 private:
     QSettings m_settings;
     QStringList m_palette;
+    QVariantList m_sharedFiles;
 
     QTranslator* m_translator;
     bb::cascades::LocaleHandler* m_localeHandler;
