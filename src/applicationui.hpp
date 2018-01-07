@@ -73,6 +73,7 @@ public:
     Q_INVOKABLE void shareText(const QString& str);
     Q_INVOKABLE QVariantMap getSharedLink(const QString& path);
     Q_INVOKABLE void auth(const QString& token);
+    Q_INVOKABLE void invokeFeedback();
 
     const bool& isAutoloadEnabled() const;
     void setAutoloadEnabled(const bool& autoload);
@@ -93,6 +94,7 @@ private slots:
     void onInvoke(const bb::system::InvokeRequest& req);
     void onSharedLinkRevoked(const QString& sharedLinkUrl);
     void headlessInvoked();
+    void onFeedbackInvoked();
 private:
     QSettings m_settings;
     QStringList m_palette;

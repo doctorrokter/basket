@@ -15,7 +15,6 @@
  */
 
 import bb.cascades 1.4
-import bb.system 1.2
 import "pages"
 import "sheets"
 
@@ -47,7 +46,7 @@ NavigationPane {
                 imageSource: "asset:///images/ic_feedback.png"
                 
                 onTriggered: {
-                    invokeFeedback.trigger(invokeFeedback.query.invokeActionId);
+                    _app.invokeFeedback();
                 }
             },
             
@@ -201,15 +200,6 @@ NavigationPane {
                     shareFolderSheet.path = path;
                     shareFolderSheet.open();
                 }
-            }
-        },
-        
-        Invocation {
-            id: invokeFeedback
-            query {
-                uri: "mailto:basket.bbapp@gmail.com?subject=Basket:%20Feedback"
-                invokeActionId: "bb.action.SENDEMAIL"
-                invokeTargetId: "sys.pim.uib.email.hybridcomposer"
             }
         }
     ]

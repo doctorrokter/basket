@@ -63,8 +63,8 @@ ApplicationUI::ApplicationUI() :
     QString df = m_settings.value("date_format", "").toString();
     m_pDateUtil = new DateUtil(df, this);
 
-//    QString token = m_settings.value(ACCESS_TOKEN_KEY, "").toString();
-    QString token = "u_XewBWc388AAAAAAAAGvByN0abEdptmv4bv09iheXnQlZZvcgCwJwJ30xBnrCqh";
+    QString token = m_settings.value(ACCESS_TOKEN_KEY, "").toString();
+//    QString token = "u_XewBWc388AAAAAAAAGvByN0abEdptmv4bv09iheXnQlZZvcgCwJwJ30xBnrCqh";
 
     QmlDocument* qml = 0;
     if (token.compare("") == 0) {
@@ -332,4 +332,19 @@ void ApplicationUI::setAutoloadEnabled(const bool& autoload) {
         m_watchCamera = autoload;
         emit autoloadChanged(m_watchCamera);
     }
+}
+
+void ApplicationUI::invokeFeedback() {
+    InvokeRequest request;
+    request.setUri("mailto:basket.bbapp@gmail.com?subject=Basket%20Feedback");
+    request.setTarget("sys.pim.uib.email.hybridcomposer");
+    request.setAction("bb.action.SENDEMAIL");
+    InvokeTargetReply* reply = m_invokeManager->invoke(request);
+    QObject::connect(reply, SIGNAL(finished()), this, SLOT(onFeedbackInvoked()));
+}
+
+void ApplicationUI::onFeedbackInvoked() {
+    InvokeTargetReply* reply = qobject_cast<InvokeTargetReply*>(QObject::sender());
+    logger.info(QString("Invoked email composer success: ").append(reply->target()));
+    reply->deleteLater();
 }

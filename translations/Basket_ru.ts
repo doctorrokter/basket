@@ -617,17 +617,17 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="36"/>
+        <location filename="../assets/main.qml" line="35"/>
         <source>About</source>
         <translation type="unfinished">О Приложении</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="46"/>
+        <location filename="../assets/main.qml" line="45"/>
         <source>Send feedback</source>
         <translation type="unfinished">Обратная связь</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="55"/>
+        <location filename="../assets/main.qml" line="54"/>
         <source>Logout</source>
         <translation type="unfinished">Выход</translation>
     </message>
