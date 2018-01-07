@@ -12,10 +12,14 @@
 #include <bb/cascades/Color>
 #include "FileImageView.hpp"
 #include "../Common.hpp"
+#include <QDebug>
 
 FileUtil FileImageView::m_file;
 
-FileImageView::FileImageView(Container* container) : bb::cascades::ImageView(container) {}
+FileImageView::FileImageView(Container* container) : bb::cascades::ImageView(container) {
+    m_path = "";
+    m_localPath = "";
+}
 
 FileImageView::~FileImageView() {}
 
@@ -45,10 +49,13 @@ void FileImageView::setPath(const QString& path) {
 }
 
 void FileImageView::loadImageFromFile(const QString& localPath) {
-    QFile imageFile(localPath);
-    if (imageFile.open(QIODevice::ReadOnly)) {
-        QByteArray imageData = imageFile.readAll();
-        setImage(Image(imageData));
-        imageFile.close();
+    if (m_localPath.compare(localPath) != 0) {
+        m_localPath = localPath;
+        QFile imageFile(m_localPath);
+        if (imageFile.open(QIODevice::ReadOnly)) {
+            QByteArray imageData = imageFile.readAll();
+            setImage(Image(imageData));
+            imageFile.close();
+        }
     }
 }

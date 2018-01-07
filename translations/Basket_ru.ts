@@ -593,7 +593,7 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>StackListItem</name>
     <message>
-        <location filename="../assets/components/StackListItem.qml" line="215"/>
+        <location filename="../assets/components/StackListItem.qml" line="247"/>
         <source>MB</source>
         <translation type="unfinished">МБ</translation>
     </message>

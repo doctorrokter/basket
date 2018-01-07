@@ -72,12 +72,7 @@ void ThumbnailImageView::setSize(const QString& size) {
 }
 
 void ThumbnailImageView::loadImageFromFile(const QString& localPath) {
-    QFile imageFile(localPath);
-    if (imageFile.open(QIODevice::ReadOnly)) {
-        QByteArray imageData = imageFile.readAll();
-        setImage(Image(imageData));
-        imageFile.close();
-    }
+    setImageSource(localPath);
 }
 
 void ThumbnailImageView::reload() {
@@ -86,7 +81,7 @@ void ThumbnailImageView::reload() {
         QFile file(localPath);
         if (file.exists()) {
             loadImageFromFile(localPath);
-            emit loaded();
+            emit loaded(m_path);
         } else {
             loadImageFromFile(QString(IMAGES_ASSETS_DIR).append("/ic_doctype_picture.png"));
             m_qdropbox.getThumbnail(m_path, m_size);
@@ -107,5 +102,5 @@ void ThumbnailImageView::onThumbnailLoaded(const QString& path, const QString& s
     thumbnail = 0;
 
     loadImageFromFile(localPath);
-    emit loaded();
+    emit loaded(path);
 }

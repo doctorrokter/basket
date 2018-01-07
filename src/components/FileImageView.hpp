@@ -29,6 +29,7 @@ public:
         void pathChanged(const QString& path);
 private:
     QString m_path;
+    QString m_localPath;
 
     static FileUtil m_file;
 

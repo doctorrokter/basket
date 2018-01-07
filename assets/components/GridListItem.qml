@@ -71,8 +71,39 @@ CustomListItem {
             horizontalAlignment: root.isDir() ? HorizontalAlignment.Fill : HorizontalAlignment.Center
         }
         
-        Container {
-            id: mainImageContainer
+        ImageView {
+            id: dirView
+            imageSource: "asset:///images/ic_folder.png"
+            filterColor: ui.palette.primary
+            scalingMethod: ScalingMethod.AspectFill
+            opacity: 0.25
+            preferredWidth: listItemLUH.layoutFrame.width
+            preferredHeight: listItemLUH.layoutFrame.height
+            visible: false
+        }
+        
+        FileImageView {
+            id: fileView
+            path: root.pathDisplay
+            preferredWidth: listItemLUH.layoutFrame.width
+            preferredHeight: listItemLUH.layoutFrame.height
+            visible: false
+        }
+        
+        ThumbnailImageView {
+            id: thumbnailView
+            size: "w640h480"
+            scalingMethod: ScalingMethod.AspectFill
+            preferredWidth: listItemLUH.layoutFrame.width
+            preferredHeight: listItemLUH.layoutFrame.height
+            visible: false
+            
+            onLoaded: {
+                if (remotePath === root.pathDisplay) {
+                    fileView.visible = false;
+                    thumbnailView.visible = true;
+                }
+            }
         }
         
         ImageView {
@@ -168,38 +199,6 @@ CustomListItem {
     attachedObjects: [
         DisplayInfo {
             id: displayInfo
-        },
-        
-        ComponentDefinition {
-            id: dirView
-            ImageView {
-                imageSource: "asset:///images/ic_folder.png"
-                filterColor: ui.palette.primary
-                scalingMethod: ScalingMethod.AspectFill
-                opacity: 0.25
-                preferredWidth: listItemLUH.layoutFrame.width
-                preferredHeight: listItemLUH.layoutFrame.height
-            }
-        },
-        
-        ComponentDefinition {
-            id: fileView
-            FileImageView {
-                path: root.pathDisplay
-                preferredWidth: listItemLUH.layoutFrame.width
-                preferredHeight: listItemLUH.layoutFrame.height
-            }
-        },
-        
-        ComponentDefinition {
-            id: thumbnailView
-            ThumbnailImageView {
-                size: "w640h480"
-                scalingMethod: ScalingMethod.AspectFill
-                
-                preferredWidth: listItemLUH.layoutFrame.width
-                preferredHeight: listItemLUH.layoutFrame.height
-            }
         }
     ]
     
@@ -263,19 +262,18 @@ CustomListItem {
     }
     
     onFileIdChanged: {
-        mainImageContainer.removeAll();
         if (root.isDir()) {
-            mainImageContainer.add(dirView.createObject());
+            dirView.visible = true;
+            fileView.visible = false;
+            thumbnailView.visible = false;
         } else {
-            mainImageContainer.add(fileView.createObject());
+            dirView.visible = false;
+            thumbnailView.visible = false;
+            fileView.visible = true;
+            fileView.path = root.pathDisplay;
             var ext = _file.extension(root.name).toLowerCase();
             if (_file.isImage(ext)) {
-                var thumb = thumbnailView.createObject();
-                thumb.loaded.connect(function() {
-                    mainImageContainer.removeAll();
-                    mainImageContainer.add(thumb);
-                });
-                thumb.path = root.pathDisplay;
+                thumbnailView.path = root.pathDisplay;
             }
         }
     }

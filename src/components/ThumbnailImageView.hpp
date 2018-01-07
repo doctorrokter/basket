@@ -35,7 +35,7 @@ public:
     Q_SIGNALS:
         void pathChanged(const QString& path);
         void sizeChanged(const QString& size);
-        void loaded();
+        void loaded(const QString& remotePath);
 
 private slots:
     void onThumbnailLoaded(const QString& path, const QString& size, QImage* thumbnail);
