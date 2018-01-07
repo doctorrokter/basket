@@ -65,6 +65,7 @@ public:
     Q_INVOKABLE void revokeSharedLink(const QString& sharedLinkUrl);
     Q_INVOKABLE void deleteBatch(const QVariantList& paths);
     Q_INVOKABLE void moveBatch(const QString& toPath);
+    Q_INVOKABLE void saveUrl(const QString& path, const QString& url);
 
     Q_INVOKABLE const QVariantList& getSelected() const;
     Q_INVOKABLE void setSelected(const QVariantList& selected);
@@ -103,6 +104,7 @@ public:
         void folderMemberUpdated(const QString& sharedFolderId, const QVariantMap& member);
         void sharedLinkRevoked(const QString& sharedLinkUrl);
         void deletedBatch();
+        void urlSaved();
 
         void selectedChanged(const QVariantList& selected);
         void error(const QString& error);

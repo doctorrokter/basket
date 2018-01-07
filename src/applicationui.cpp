@@ -318,6 +318,10 @@ void ApplicationUI::onInvoke(const bb::system::InvokeRequest& req) {
             list << uri.replace("file://", "");
         }
         setSharedFiles(list);
+    } else if (req.target().compare(CARD_EDIT_LINK) == 0) {
+        QVariantList list;
+        list << req.uri().toString();
+        setSharedUrls(list);
     }
 }
 
@@ -399,4 +403,10 @@ const QVariantList& ApplicationUI::getSharedFiles() const { return m_sharedFiles
 void ApplicationUI::setSharedFiles(const QVariantList& sharedFiles) {
     m_sharedFiles = sharedFiles;
     emit sharedFilesChanged(m_sharedFiles);
+}
+
+const QVariantList& ApplicationUI::getSharedUrls() const { return m_sharedUrls; }
+void ApplicationUI::setSharedUrls(const QVariantList& sharedUrls) {
+    m_sharedUrls = sharedUrls;
+    emit sharedUrlsChanged(m_sharedUrls);
 }

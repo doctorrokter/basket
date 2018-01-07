@@ -7,7 +7,7 @@ Container {
     
     signal startUpload();
     
-    visible: _app.sharedFiles.length > 0
+    visible: _app.sharedFiles.length > 0 || _app.sharedUrls.length > 0
     horizontalAlignment: HorizontalAlignment.Fill
     
     layout: DockLayout {}
@@ -28,7 +28,7 @@ Container {
     Label {
         horizontalAlignment: HorizontalAlignment.Center
         verticalAlignment: VerticalAlignment.Center
-        text: qsTr("Selected") + Retranslate.onLocaleOrLanguageChanged + " " + _app.sharedFiles.length
+        text: qsTr("Selected") + Retranslate.onLocaleOrLanguageChanged + " " + root.getCount()
     }
     
     Button {
@@ -40,15 +40,44 @@ Container {
         margin.bottomOffset: ui.du(2)
         
         onClicked: {
-            _app.sharedFiles.forEach(function(f) {
-                _qdropbox.upload(f, root.path);    
-            });
-            _app.sharedFiles = [];
-            startUpload();
+            if (hasSharedFiles()) {
+                _app.sharedFiles.forEach(function(f) {
+                        _qdropbox.upload(f, root.path);    
+                });
+                _app.sharedFiles = [];
+                startUpload();
+            }
+            
+            if (hasSharedUrls()) {
+                _app.sharedUrls.forEach(function(u) {
+                    _qdropbox.saveUrl(root.path, u);    
+                });
+                _app.sharedUrls = [];
+                _app.toast(qsTr("Saving URL...") + Retranslate.onLocaleOrLanguageChanged);
+            }
         }
     }
     
     Divider {
         verticalAlignment: VerticalAlignment.Bottom
+    }
+    
+    function hasSharedFiles() {
+        return _app.sharedFiles.length > 0;
+    }
+    
+    function hasSharedUrls() {
+        return _app.sharedUrls.length > 0;
+    }
+    
+    function getCount() {
+        if (hasSharedFiles()) {
+            return _app.sharedFiles.length;
+        } else if (hasSharedUrls()) {
+            return _app.sharedUrls.length;
+        } else {
+            return 0;
+        }
+        
     }
 }

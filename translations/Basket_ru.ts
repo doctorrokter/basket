@@ -37,7 +37,7 @@
         <translation type="unfinished">Ссылка скопирована в буфер</translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="384"/>
+        <location filename="../src/applicationui.cpp" line="388"/>
         <source>Cache flushed!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -271,6 +271,11 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
         <source>Upload</source>
         <translation type="unfinished">Загрузить</translation>
     </message>
+    <message>
+        <location filename="../assets/components/FilesUploader.qml" line="56"/>
+        <source>Saving URL...</source>
+        <translation type="unfinished">Сохранение URL...</translation>
+    </message>
 </context>
 <context>
     <name>FolderPage</name>
@@ -482,12 +487,12 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="275"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="279"/>
         <source>Upload finished: </source>
         <translation type="unfinished">Загрузка завершена: </translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="373"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="377"/>
         <source>Download finished: </source>
         <translation type="unfinished">Загрузка завершена: </translation>
     </message>

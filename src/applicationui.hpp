@@ -59,6 +59,7 @@ class ApplicationUI: public QObject {
     Q_OBJECT
     Q_PROPERTY(bool autoload READ isAutoloadEnabled WRITE setAutoloadEnabled NOTIFY autoloadChanged);
     Q_PROPERTY(QVariantList sharedFiles READ getSharedFiles WRITE setSharedFiles NOTIFY sharedFilesChanged);
+    Q_PROPERTY(QVariantList sharedUrls READ getSharedUrls WRITE setSharedUrls NOTIFY sharedUrlsChanged);
 public:
     ApplicationUI();
     virtual ~ApplicationUI();
@@ -84,12 +85,16 @@ public:
     const QVariantList& getSharedFiles() const;
     void setSharedFiles(const QVariantList& sharedFiles);
 
+    const QVariantList& getSharedUrls() const;
+    void setSharedUrls(const QVariantList& sharedUrls);
+
     Q_SIGNALS:
         void currentAccountLoaded(const QVariantMap& accountMap);
         void propChanged(const QString& key, const QVariant& val);
         void sharedLinksLoaded();
         void autoloadChanged(const bool& autoload);
         void sharedFilesChanged(const QVariantList& sharedFiles);
+        void sharedUrlsChanged(const QVariantList& sharedUrls);
 
 private slots:
     void onSystemLanguageChanged();
@@ -106,6 +111,7 @@ private:
     QSettings m_settings;
     QStringList m_palette;
     QVariantList m_sharedFiles;
+    QVariantList m_sharedUrls;
 
     QTranslator* m_translator;
     bb::cascades::LocaleHandler* m_localeHandler;

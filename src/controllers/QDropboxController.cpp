@@ -75,6 +75,8 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, Q
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(deletedBatch()), this, SIGNAL(deletedBatch()));
     Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(urlSaved()), this, SIGNAL(urlSaved()));
+    Q_ASSERT(res);
     Q_UNUSED(res);
 }
 
@@ -132,6 +134,8 @@ QDropboxController::~QDropboxController() {
     res = QObject::disconnect(m_pQDropbox, SIGNAL(sharedLinkRevoked(const QString&)), this, SIGNAL(sharedLinkRevoked(const QString&)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(deletedBatch()), this, SIGNAL(deletedBatch()));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(urlSaved()), this, SIGNAL(urlSaved()));
     Q_ASSERT(res);
     Q_UNUSED(res);
 }
@@ -460,4 +464,8 @@ void QDropboxController::moveBatch(const QString& toPath) {
     }
     unselectAll();
     m_pQDropbox->moveBatch(entries);
+}
+
+void QDropboxController::saveUrl(const QString& path, const QString& url) {
+    m_pQDropbox->saveUrl(path, url);
 }
