@@ -32,17 +32,17 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="259"/>
+        <location filename="../src/applicationui.cpp" line="260"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="404"/>
+        <location filename="../src/applicationui.cpp" line="405"/>
         <source>Cache flushed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="434"/>
+        <location filename="../src/applicationui.cpp" line="435"/>
         <source>Success!</source>
         <translation type="unfinished"></translation>
     </message>

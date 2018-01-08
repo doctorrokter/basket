@@ -36,6 +36,7 @@
 #include "components/ThumbnailImageView.hpp"
 #include "components/FileImageView.hpp"
 #include <QDirIterator>
+#include <QDataStream>
 
 #define CARD_EDIT_URI "chachkouski.Basket.card.edit.uri"
 #define CARD_EDIT_LINK "chachkouski.Basket.card.edit.link"
@@ -449,8 +450,8 @@ void ApplicationUI::shareFiles(const QString& path) {
     map["files"] = m_sharedFiles;
 
     QByteArray data;
-    JsonDataAccess jda;
-    jda.saveToBuffer(map, &data);
+    QDataStream os(&data, QIODevice::WriteOnly);
+    os << map;
     request.setData(data);
 
     InvokeTargetReply* reply = m_invokeManager->invoke(request);
@@ -470,8 +471,8 @@ void ApplicationUI::shareUrls(const QString& path) {
     logger.debug(map);
 
     QByteArray data;
-    JsonDataAccess jda;
-    jda.saveToBuffer(map, &data);
+    QDataStream os(&data, QIODevice::WriteOnly);
+    os << map;
     request.setData(data);
 
     InvokeTargetReply* reply = m_invokeManager->invoke(request);
