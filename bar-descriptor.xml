@@ -174,14 +174,24 @@
             <mime-type>*</mime-type>
             <property var="uris" value="headless:" />
         </filter>
+        <filter>
+            <action>chachkouski.BasketService.UPLOAD_FILES</action>
+            <mime-type>text/plain</mime-type>
+        </filter>
+        <filter>
+            <action>chachkouski.BasketService.SAVE_URL</action>
+            <mime-type>text/plain</mime-type>
+        </filter>
     </invoke-target>
     
     <invoke-target id="chachkouski.Basket.card.edit.uri">
   		<invoke-target-type>card.composer</invoke-target-type>
-  		<!--<icon>
-  			<image public="true">icon_small.png</image>
-    		<image public="true">icon_big.png</image>
-		</icon>-->
+  		<invoke-target-name>Basket</invoke-target-name>
+  		<entry-point-id>Basket</entry-point-id>
+  		<icon>
+  			<image public="true">icon_81_x_81.png</image>
+    		<image public="true">icon_358_x_358.png</image>
+		</icon>
   		<filter>
     		<action>bb.action.SHARE</action>
     		<mime-type>*</mime-type>
@@ -191,10 +201,12 @@
 	
     <invoke-target id="chachkouski.Basket.card.edit.link">
   		<invoke-target-type>card.composer</invoke-target-type>
-  		<!--<icon>
-  			<image public="true">icon_small.png</image>
-    		<image public="true">icon_big.png</image>
-		</icon>-->
+  		<invoke-target-name>Basket</invoke-target-name>
+  		<entry-point-id>Basket</entry-point-id>
+  		<icon>
+  			<image public="true">icon_81_x_81.png</image>
+    		<image public="true">icon_358_x_358.png</image>
+		</icon>
   		<filter>
     		<action>bb.action.SHARE</action>
     		<mime-type>*</mime-type>
@@ -237,6 +249,8 @@
     <asset path="assets/splash/splash_720_x_1280.png">splash_720_x_1280.png</asset>
     <asset path="assets/splash/splash_720_x_720.png">splash_720_x_720.png</asset>
     <asset path="assets/splash/splash_768_x_1280.png">splash_768_x_1280.png</asset>
+    <asset path="icon_358_x_358.png">icon_358_x_358.png</asset>
+    <asset path="icon_81_x_81.png">icon_81_x_81.png</asset>
 
     <!-- Request permission to post notification. -->
     <permission>post_notification</permission>

@@ -102,6 +102,11 @@ Page {
     }
     
     onCreationCompleted: {
+        if (_startupMode === "Card") {
+            root.parent.peekEnabled = false;
+            root.actionBarVisibility = ChromeVisibility.Hidden;
+        }
+        
         _qdropbox.uploadStarted.connect(root.uploadStarted);
         _qdropbox.uploaded.connect(root.uploaded);
         _qdropbox.uploadProgress.connect(root.uploadProgress);

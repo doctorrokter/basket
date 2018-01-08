@@ -32,13 +32,18 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="243"/>
+        <location filename="../src/applicationui.cpp" line="259"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="388"/>
+        <location filename="../src/applicationui.cpp" line="404"/>
         <source>Cache flushed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/applicationui.cpp" line="434"/>
+        <source>Success!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -255,18 +260,13 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/FilesUploader.qml" line="31"/>
+        <location filename="../assets/components/FilesUploader.qml" line="33"/>
         <source>Selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/components/FilesUploader.qml" line="36"/>
+        <location filename="../assets/components/FilesUploader.qml" line="38"/>
         <source>Upload</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/components/FilesUploader.qml" line="56"/>
-        <source>Saving URL...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

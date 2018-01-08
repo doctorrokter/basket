@@ -78,6 +78,8 @@ public:
     Q_INVOKABLE void auth(const QString& token);
     Q_INVOKABLE void invokeFeedback();
     Q_INVOKABLE void clearCache();
+    Q_INVOKABLE void shareFiles(const QString& path);
+    Q_INVOKABLE void shareUrls(const QString& path);
 
     const bool& isAutoloadEnabled() const;
     void setAutoloadEnabled(const bool& autoload);
@@ -95,6 +97,10 @@ public:
         void autoloadChanged(const bool& autoload);
         void sharedFilesChanged(const QVariantList& sharedFiles);
         void sharedUrlsChanged(const QVariantList& sharedUrls);
+        void cardDone();
+
+public Q_SLOTS:
+    void onCardDone(const QString& msg);
 
 private slots:
     void onSystemLanguageChanged();
@@ -128,6 +134,7 @@ private:
     SystemToast m_toast;
     QMap<QString, SharedLink*> m_sharedLinksMap;
     bool m_watchCamera;
+    QString m_startupMode;
 
     void configureQml();
     void startHeadless();

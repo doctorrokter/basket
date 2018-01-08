@@ -22,6 +22,8 @@ Container {
         
         onClicked: {
             _app.sharedFiles = [];
+            _app.sharedUrls = [];
+            _app.onCardDone("Card done!");
         }
     }
     
@@ -41,19 +43,15 @@ Container {
         
         onClicked: {
             if (hasSharedFiles()) {
-                _app.sharedFiles.forEach(function(f) {
-                        _qdropbox.upload(f, root.path);    
-                });
+                _app.shareFiles(root.path);
                 _app.sharedFiles = [];
-                startUpload();
+                _app.onCardDone("Card done!");
             }
             
             if (hasSharedUrls()) {
-                _app.sharedUrls.forEach(function(u) {
-                    _qdropbox.saveUrl(root.path, u);    
-                });
+                _app.shareUrls(root.path);
                 _app.sharedUrls = [];
-                _app.toast(qsTr("Saving URL...") + Retranslate.onLocaleOrLanguageChanged);
+                _app.onCardDone("Card done!");
             }
         }
     }

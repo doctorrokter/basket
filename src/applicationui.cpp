@@ -22,7 +22,8 @@
 #include <bb/system/InvokeManager>
 #include <bb/system/InvokeQueryTargetsRequest>
 #include <bb/system/InvokeQueryTargetsReply>
-#include <bb/system/SystemUiPosition.hpp>
+#include <bb/system/SystemUiPosition>
+#include <bb/system/CardDoneMessage>
 #include <bb/cascades/ThemeSupport>
 #include <bb/data/JsonDataAccess>
 #include <QSettings>
@@ -73,6 +74,7 @@ ApplicationUI::ApplicationUI() :
 
     QString token = m_settings.value(ACCESS_TOKEN_KEY, "").toString();
 //    QString token = "u_XewBWc388AAAAAAAAGvByN0abEdptmv4bv09iheXnQlZZvcgCwJwJ30xBnrCqh";
+//    setProp(ACCESS_TOKEN_KEY, token);
 
     QmlDocument* qml = 0;
     if (token.compare("") == 0) {
@@ -94,6 +96,18 @@ ApplicationUI::ApplicationUI() :
     configureQml();
     startHeadless();
 
+    switch (m_invokeManager->startupMode()) {
+        case ApplicationStartupMode::LaunchApplication:
+            m_startupMode = "Launch";
+            break;
+        case ApplicationStartupMode::InvokeApplication:
+            m_startupMode = "Invoke";
+            break;
+        case ApplicationStartupMode::InvokeCard:
+            m_startupMode = "Card";
+            break;
+    }
+
     AbstractPane *root = qml->createRootObject<AbstractPane>();
     Application::instance()->setScene(root);
 }
@@ -112,6 +126,7 @@ ApplicationUI::~ApplicationUI() {
     foreach(SharedLink* l, m_sharedLinksMap.values()) {
         l->deleteLater();
     }
+    logger.debug("DESTROY APP UI");
 }
 
 void ApplicationUI::onSystemLanguageChanged() {
@@ -225,6 +240,7 @@ void ApplicationUI::configureQml() {
     rootContext->setContextProperty("_qdropbox", m_pQdropboxController);
     rootContext->setContextProperty("_file", m_pFileUtil);
     rootContext->setContextProperty("_date", m_pDateUtil);
+    rootContext->setContextProperty("_startupMode", m_startupMode);
 }
 
 QString ApplicationUI::getRandomColor() const {
@@ -409,4 +425,55 @@ const QVariantList& ApplicationUI::getSharedUrls() const { return m_sharedUrls; 
 void ApplicationUI::setSharedUrls(const QVariantList& sharedUrls) {
     m_sharedUrls = sharedUrls;
     emit sharedUrlsChanged(m_sharedUrls);
+}
+
+void ApplicationUI::onCardDone(const QString& msg) {
+    CardDoneMessage message;
+    message.setData(msg);
+    message.setDataType("text/plain");
+    message.setReason(tr("Success!"));
+
+    m_invokeManager->sendCardDone(message);
+    emit cardDone();
+    this->~ApplicationUI();
+}
+
+void ApplicationUI::shareFiles(const QString& path) {
+    InvokeRequest request;
+    request.setTarget("chachkouski.BasketService");
+    request.setAction("chachkouski.BasketService.UPLOAD_FILES");
+    request.setMimeType("text/plain");
+
+    QVariantMap map;
+    map["path"] = path;
+    map["files"] = m_sharedFiles;
+
+    QByteArray data;
+    JsonDataAccess jda;
+    jda.saveToBuffer(map, &data);
+    request.setData(data);
+
+    InvokeTargetReply* reply = m_invokeManager->invoke(request);
+    QObject::connect(reply, SIGNAL(finished()), this, SLOT(headlessInvoked()));
+}
+
+void ApplicationUI::shareUrls(const QString& path) {
+    InvokeRequest request;
+    request.setTarget("chachkouski.BasketService");
+    request.setAction("chachkouski.BasketService.SAVE_URL");
+    request.setMimeType("text/plain");
+
+    QVariantMap map;
+    map["path"] = path;
+    map["url"] = m_sharedUrls.at(0);
+
+    logger.debug(map);
+
+    QByteArray data;
+    JsonDataAccess jda;
+    jda.saveToBuffer(map, &data);
+    request.setData(data);
+
+    InvokeTargetReply* reply = m_invokeManager->invoke(request);
+    QObject::connect(reply, SIGNAL(finished()), this, SLOT(headlessInvoked()));
 }
