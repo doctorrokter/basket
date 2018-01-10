@@ -28,5 +28,6 @@
 #define AUTOLOAD_CAMERA_FILES_ENABLED "autoload.camera.files.enabled"
 #define AUTOLOAD_CAMERA_FILES_DISABLED "autoload.camera.files.disabled"
 #define SYNC_COMMAND "sync"
+#define CACHE_DIR "/data/cache"
 
 #endif /* COMMON_HPP_ */

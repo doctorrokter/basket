@@ -87,6 +87,7 @@ ApplicationUI::ApplicationUI() :
         qml = QmlDocument::create("asset:///main.qml").parent(this);
     }
     m_pQdropbox->setDownloadsFolder(m_downloadsFolder);
+//    m_pQdropbox->enableCache(QDir::currentPath() + CACHE_DIR);
     m_pQdropboxController = new QDropboxController(m_pQdropbox, m_pFileUtil, this);
     FileImageView::setFileUtil(m_pFileUtil);
 
@@ -127,7 +128,6 @@ ApplicationUI::~ApplicationUI() {
     foreach(SharedLink* l, m_sharedLinksMap.values()) {
         l->deleteLater();
     }
-    logger.debug("DESTROY APP UI");
 }
 
 void ApplicationUI::onSystemLanguageChanged() {
@@ -216,6 +216,8 @@ void ApplicationUI::onAccessTokenObtained(const QString& accessToken) {
         m_settings.sync();
 
         m_pQdropbox->setAccessToken(accessToken);
+//        m_pQdropbox->enableCache(QDir::currentPath() + CACHE_DIR);
+        m_pQdropbox->setDownloadsFolder(m_downloadsFolder);
         ThumbnailImageView::setAccessToken(accessToken);
 
         QmlDocument* qml = QmlDocument::create("asset:///main.qml").parent(this);
