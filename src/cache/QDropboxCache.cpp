@@ -131,6 +131,8 @@ void QDropboxCache::move(const QList<MoveEntry>& moveEntries) {
 
 void QDropboxCache::flush() {
     DB::execute("DELETE FROM files");
+    m_pathsCursors.clear();
+    persistCursors();
 }
 
 void QDropboxCache::insert(const QString& path, QDropboxFile* file) {

@@ -116,7 +116,79 @@ Page {
                 }
                 
                 Header {
-                    title: qsTr("Other") + Retranslate.onLocaleOrLanguageChanged
+                    title: qsTr("Cache") + Retranslate.onLocaleOrLanguageChanged
+                }
+                
+                Container {
+                    layout: DockLayout {}
+                    topPadding: ui.du(2)
+                    bottomPadding: ui.du(2.5)
+                    leftPadding: ui.du(2.5)
+                    rightPadding: ui.du(2.5)
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    Label {
+                        text: qsTr("Delete thumbnails") + Retranslate.onLocaleOrLanguageChanged
+                        verticalAlignment: VerticalAlignment.Center
+                        horizontalAlignment: HorizontalAlignment.Left
+                    }
+                    
+                    ToggleButton {
+                        id: deleteThumbnails
+                        horizontalAlignment: HorizontalAlignment.Right
+                        checked: _app.deleteThumbnails
+                        
+                        onCheckedChanged: {
+                            _app.deleteThumbnails = checked;
+                        }
+                    }
+                }
+                
+                Container {
+                    layout: DockLayout {}
+                    topPadding: ui.du(2)
+                    bottomPadding: ui.du(2.5)
+                    leftPadding: ui.du(2.5)
+                    rightPadding: ui.du(2.5)
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    Label {
+                        text: qsTr("Delete opened docs") + Retranslate.onLocaleOrLanguageChanged
+                        verticalAlignment: VerticalAlignment.Center
+                        horizontalAlignment: HorizontalAlignment.Left
+                    }
+                    
+                    ToggleButton {
+                        id: deleteOpenedFiles
+                        horizontalAlignment: HorizontalAlignment.Right
+                        checked: _app.deleteOpenedFiles
+                        
+                        onCheckedChanged: {
+                            _app.deleteOpenedFiles = checked;
+                        }
+                    }
+                }
+                
+                Container {
+                    layout: DockLayout {}
+                    topPadding: ui.du(2)
+                    bottomPadding: ui.du(2.5)
+                    leftPadding: ui.du(2.5)
+                    rightPadding: ui.du(2.5)
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    Label {
+                        text: qsTr("Delete common cache") + Retranslate.onLocaleOrLanguageChanged
+                        verticalAlignment: VerticalAlignment.Center
+                        horizontalAlignment: HorizontalAlignment.Left
+                    }
+                    
+                    ToggleButton {
+                        id: deleteSyncFiles
+                        horizontalAlignment: HorizontalAlignment.Right
+                        checked: _app.deleteSynchronizedFiles
+                        
+                        onCheckedChanged: {
+                            _app.deleteSynchronizedFiles = checked;
+                        }
+                    }
                 }
                 
                 Container {

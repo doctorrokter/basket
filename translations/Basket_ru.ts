@@ -32,17 +32,17 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="265"/>
+        <location filename="../src/applicationui.cpp" line="272"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished">Ссылка скопирована в буфер</translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="410"/>
+        <location filename="../src/applicationui.cpp" line="427"/>
         <source>Cache flushed!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Кэш сброшен!</translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="440"/>
+        <location filename="../src/applicationui.cpp" line="457"/>
         <source>Success!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -561,16 +561,31 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
     </message>
     <message>
         <location filename="../assets/pages/SettingsPage.qml" line="119"/>
-        <source>Other</source>
-        <translation type="unfinished"></translation>
+        <source>Cache</source>
+        <translation type="unfinished">Кэш</translation>
     </message>
     <message>
         <location filename="../assets/pages/SettingsPage.qml" line="130"/>
+        <source>Delete thumbnails</source>
+        <translation type="unfinished">Удалить картинки</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="154"/>
+        <source>Delete opened docs</source>
+        <translation type="unfinished">Удалить документы</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="178"/>
+        <source>Delete common cache</source>
+        <translation type="unfinished">Удалить общий кэш</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="202"/>
         <source>Remove all cached data such as thumbnails, opened documents etc.</source>
         <translation type="unfinished">Удалить все сохранённые картинки, открытые документы и т.д.</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="137"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="209"/>
         <source>Clear cache</source>
         <translation type="unfinished">Очистить кэш</translation>
     </message>

@@ -60,6 +60,9 @@ class QTranslator;
 class ApplicationUI: public QObject {
     Q_OBJECT
     Q_PROPERTY(bool autoload READ isAutoloadEnabled WRITE setAutoloadEnabled NOTIFY autoloadChanged);
+    Q_PROPERTY(bool deleteThumbnails READ isDeleteThumbnails WRITE setDeleteThumbnails NOTIFY deleteThumbnailsChanged);
+    Q_PROPERTY(bool deleteOpenedFiles READ isDeleteOpenedFiles WRITE setDeleteOpenedFiles NOTIFY deleteOpenedFilesChanged);
+    Q_PROPERTY(bool deleteSynchronizedFiles READ isDeleteSynchronizedFiles WRITE setDeleteSynchronizedFiles NOTIFY deleteSynchronizedFilesChanged);
     Q_PROPERTY(QVariantList sharedFiles READ getSharedFiles WRITE setSharedFiles NOTIFY sharedFilesChanged);
     Q_PROPERTY(QVariantList sharedUrls READ getSharedUrls WRITE setSharedUrls NOTIFY sharedUrlsChanged);
 public:
@@ -86,6 +89,15 @@ public:
     const bool& isAutoloadEnabled() const;
     void setAutoloadEnabled(const bool& autoload);
 
+    const bool& isDeleteThumbnails() const;
+    void setDeleteThumbnails(const bool& deleteThumbnails);
+
+    const bool& isDeleteOpenedFiles() const;
+    void setDeleteOpenedFiles(const bool& deleteOpenedFiles);
+
+    const bool& isDeleteSynchronizedFiles() const;
+    void setDeleteSynchronizedFiles(const bool& deleteSynchronizedFiles);
+
     const QVariantList& getSharedFiles() const;
     void setSharedFiles(const QVariantList& sharedFiles);
 
@@ -100,6 +112,9 @@ public:
         void sharedFilesChanged(const QVariantList& sharedFiles);
         void sharedUrlsChanged(const QVariantList& sharedUrls);
         void cardDone();
+        void deleteThumbnailsChanged(const bool& deleteThumbnails);
+        void deleteOpenedFilesChanged(const bool& deleteOpenedFiles);
+        void deleteSynchronizedFilesChanged(const bool& deleteSynchronizedFiles);
 
 public Q_SLOTS:
     void onCardDone(const QString& msg);
@@ -140,6 +155,9 @@ private:
     QMap<QString, SharedLink*> m_sharedLinksMap;
     bool m_watchCamera;
     QString m_startupMode;
+    bool m_deleteThumbnails;
+    bool m_deleteOpenedFiles;
+    bool m_deleteSynchronizedFiles;
 
     void configureQml();
     void startHeadless();

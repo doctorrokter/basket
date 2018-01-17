@@ -41,6 +41,10 @@
 #define CARD_EDIT_URI "chachkouski.Basket.card.edit.uri"
 #define CARD_EDIT_LINK "chachkouski.Basket.card.edit.link"
 
+#define CACHE_DELETE_THUMBNAILS "cache.delete_thumbnails"
+#define CACHE_DELETE_OPENED_FILES "cache.delete_opened_files"
+#define CACHE_DELETE_SYNC_FILES "cache.delete_sync_files"
+
 using namespace bb::data;
 
 Logger ApplicationUI::logger = Logger::getLogger("ApplicationUI");
@@ -94,6 +98,9 @@ ApplicationUI::ApplicationUI() :
     FileImageView::setFileUtil(m_pFileUtil);
 
     setAutoloadEnabled(prop("autoload.camera.files", false).toBool());
+    m_deleteThumbnails = prop(CACHE_DELETE_THUMBNAILS, true).toBool();
+    m_deleteOpenedFiles = prop(CACHE_DELETE_OPENED_FILES, true).toBool();
+    m_deleteSynchronizedFiles = prop(CACHE_DELETE_SYNC_FILES, true).toBool();
 
     initSignals();
     onSystemLanguageChanged();
@@ -405,8 +412,18 @@ void ApplicationUI::onFeedbackInvoked() {
 }
 
 void ApplicationUI::clearCache() {
-    clearDir(QDir::currentPath() + THUMBNAILS_DIR);
-    clearDir(QDir::currentPath() + TEMP_DIR);
+    if (m_deleteThumbnails) {
+        clearDir(QDir::currentPath() + THUMBNAILS_DIR);
+    }
+
+    if (m_deleteOpenedFiles) {
+        clearDir(QDir::currentPath() + TEMP_DIR);
+    }
+
+    if (m_deleteSynchronizedFiles) {
+        m_pCache->flush();
+    }
+
     toast(tr("Cache flushed!"));
 }
 
@@ -482,4 +499,31 @@ void ApplicationUI::shareUrls(const QString& path) {
 
     InvokeTargetReply* reply = m_invokeManager->invoke(request);
     QObject::connect(reply, SIGNAL(finished()), this, SLOT(headlessInvoked()));
+}
+
+const bool& ApplicationUI::isDeleteThumbnails() const { return m_deleteThumbnails; }
+void ApplicationUI::setDeleteThumbnails(const bool& deleteThumbnails) {
+    if (m_deleteThumbnails != deleteThumbnails) {
+        m_deleteThumbnails = deleteThumbnails;
+        setProp(CACHE_DELETE_THUMBNAILS, m_deleteThumbnails);
+        emit deleteThumbnailsChanged(m_deleteThumbnails);
+    }
+}
+
+const bool& ApplicationUI::isDeleteOpenedFiles() const { return m_deleteOpenedFiles; }
+void ApplicationUI::setDeleteOpenedFiles(const bool& deleteOpenedFiles) {
+    if (m_deleteOpenedFiles != deleteOpenedFiles) {
+        m_deleteOpenedFiles = deleteOpenedFiles;
+        setProp(CACHE_DELETE_OPENED_FILES, m_deleteOpenedFiles);
+        emit deleteOpenedFilesChanged(m_deleteOpenedFiles);
+    }
+}
+
+const bool& ApplicationUI::isDeleteSynchronizedFiles() const { return m_deleteSynchronizedFiles; }
+void ApplicationUI::setDeleteSynchronizedFiles(const bool& deleteSynchronizedFiles) {
+    if (m_deleteSynchronizedFiles != deleteSynchronizedFiles) {
+        m_deleteSynchronizedFiles = deleteSynchronizedFiles;
+        setProp(CACHE_DELETE_SYNC_FILES, deleteSynchronizedFiles);
+        emit deleteSynchronizedFilesChanged(m_deleteSynchronizedFiles);
+    }
 }

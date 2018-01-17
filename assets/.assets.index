@@ -1,5 +1,5 @@
 1
-88
+87
 sheets/FilePickersSheet.qml
 sheets/ShareFolderSheet.qml
 sheets/EditFolderMemberSheet.qml
@@ -76,7 +76,6 @@ images/ic_unshare.png
 images/d_logo.png
 images/ic_groups_white.png
 images/ic_doctype_generic.png
-images/syllabus.pdf
 images/ic_doctype_music.png
 images/misha.jpeg
 images/transparent_circle.png
