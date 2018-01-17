@@ -222,7 +222,6 @@ Page {
     }
     
     function cleanUp() {
-        _qdropbox.thumbnailLoaded.disconnect(root.thumbnailLoaded);
         _qdropbox.unsharedFolder.disconnect(root.unsharedFolder);
         _qdropbox.folderMemberRemoved.disconnect(root.folderMemberRemoved);
         _qdropbox.folderMemberAdded.disconnect(root.folderMemberAdded);
@@ -262,7 +261,6 @@ Page {
     }
     
     onCreationCompleted: {
-        _qdropbox.thumbnailLoaded.connect(root.thumbnailLoaded);
         _qdropbox.unsharedFolder.connect(root.unsharedFolder);
         _qdropbox.folderMemberRemoved.connect(root.folderMemberRemoved);
         _qdropbox.folderMemberAdded.connect(root.folderMemberAdded);
@@ -287,7 +285,7 @@ Page {
             
             onFinished: {
                 if (value !== 1) {
-                    _qdropbox.unshareFolder(root.sharedFolderId);
+                    _qdropbox.unshareFolder(root.pathDisplay, root.sharedFolderId);
                 } else {
                     timer.stop();
                 }

@@ -34,6 +34,8 @@
 #include <bb/system/InvokeRequest>
 #include <QMap>
 #include "Logger.hpp"
+#include "cache/DB.hpp"
+#include "cache/QDropboxCache.hpp"
 
 namespace bb {
     namespace cascades {
@@ -129,6 +131,9 @@ private:
     QDropboxController* m_pQdropboxController;
     FileUtil* m_pFileUtil;
     DateUtil* m_pDateUtil;
+
+    DB* m_pDb;
+    QDropboxCache* m_pCache;
 
     QString m_downloadsFolder;
     SystemToast m_toast;

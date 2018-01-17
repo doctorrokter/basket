@@ -32,17 +32,17 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="262"/>
+        <location filename="../src/applicationui.cpp" line="265"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished">Ссылка скопирована в буфер</translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="407"/>
+        <location filename="../src/applicationui.cpp" line="410"/>
         <source>Cache flushed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="437"/>
+        <location filename="../src/applicationui.cpp" line="440"/>
         <source>Success!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -475,7 +475,7 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
         <translation type="unfinished">Ссылка общего доступа</translation>
     </message>
     <message>
-        <location filename="../assets/pages/PropertiesPage.qml" line="285"/>
+        <location filename="../assets/pages/PropertiesPage.qml" line="283"/>
         <source>Cancel</source>
         <translation type="unfinished">Отмена</translation>
     </message>
@@ -491,12 +491,12 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="279"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="327"/>
         <source>Upload finished: </source>
         <translation type="unfinished">Загрузка завершена: </translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="377"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="450"/>
         <source>Download finished: </source>
         <translation type="unfinished">Загрузка завершена: </translation>
     </message>

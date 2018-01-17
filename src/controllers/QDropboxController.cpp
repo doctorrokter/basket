@@ -17,9 +17,10 @@
 
 Logger QDropboxController::logger = Logger::getLogger("QDropboxController");
 
-QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, QObject* parent) : QObject(parent) {
+QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, QDropboxCache* cache, QObject* parent) : QObject(parent) {
     m_pQDropbox = qdropbox;
     m_pFileUtil = fileUtil;
+    m_pCache = cache;
 
     bool res = QObject::connect(m_pQDropbox, SIGNAL(listFolderLoaded(const QString&, QList<QDropboxFile*>&, const QString&, const bool&)), this, SLOT(onListFolderLoaded(const QString&, QList<QDropboxFile*>&, const QString&, const bool&)));
     Q_ASSERT(res);
@@ -29,7 +30,7 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, Q
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(fileDeleted(QDropboxFile*)), this, SLOT(onFileDeleted(QDropboxFile*)));
     Q_ASSERT(res);
-    res = QObject::connect(m_pQDropbox, SIGNAL(moved(QDropboxFile*)), this, SLOT(onMoved(QDropboxFile*)));
+    res = QObject::connect(m_pQDropbox, SIGNAL(moved(QDropboxFile*, const QString&, const QString&)), this, SLOT(onMoved(QDropboxFile*, const QString&, const QString&)));
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(renamed(QDropboxFile*)), this, SLOT(onRenamed(QDropboxFile*)));
     Q_ASSERT(res);
@@ -61,8 +62,6 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, Q
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(accountLoaded(Account*)), this, SLOT(onAccountLoaded(Account*)));
     Q_ASSERT(res);
-    res = QObject::connect(m_pQDropbox, SIGNAL(folderUnshared(const QString&)), this, SIGNAL(unsharedFolder(const QString&)));
-    Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(sharedLinkCreated(SharedLink*)), this, SLOT(onSharedLinkCreated(SharedLink*)));
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(temporaryLinkLoaded(QDropboxTempLink*)), this, SLOT(onTemporaryLinkLoaded(QDropboxTempLink*)));
@@ -73,9 +72,17 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, Q
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(sharedLinkRevoked(const QString&)), this, SIGNAL(sharedLinkRevoked(const QString&)));
     Q_ASSERT(res);
-    res = QObject::connect(m_pQDropbox, SIGNAL(deletedBatch()), this, SIGNAL(deletedBatch()));
+    res = QObject::connect(m_pQDropbox, SIGNAL(deletedBatch(const QStringList&)), this, SLOT(onDeletedBatch(const QStringList&)));
     Q_ASSERT(res);
     res = QObject::connect(m_pQDropbox, SIGNAL(urlSaved()), this, SIGNAL(urlSaved()));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(movedBatch(const QList<MoveEntry>&)), this, SLOT(onMovedBatch(const QList<MoveEntry>&)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(metadataReceived(QDropboxFile*)), this, SLOT(onMetadataReceived(QDropboxFile*)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(folderUnshared(const UnshareJobStatus&)), this, SLOT(onFolderUnshared(const UnshareJobStatus&)));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pQDropbox, SIGNAL(jobStatusChecked(const UnshareJobStatus&)), this, SLOT(onJobStatusChecked(const UnshareJobStatus&)));
     Q_ASSERT(res);
     Q_UNUSED(res);
 }
@@ -89,7 +96,7 @@ QDropboxController::~QDropboxController() {
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(fileDeleted(QDropboxFile*)), this, SLOT(onFileDeleted(QDropboxFile*)));
     Q_ASSERT(res);
-    res = QObject::disconnect(m_pQDropbox, SIGNAL(moved(QDropboxFile*)), this, SLOT(onMoved(QDropboxFile*)));
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(moved(QDropboxFile*, const QString&, const QString&)), this, SLOT(onMoved(QDropboxFile*, const QString&, const QString&)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(renamed(QDropboxFile*)), this, SLOT(onRenamed(QDropboxFile*)));
     Q_ASSERT(res);
@@ -121,8 +128,6 @@ QDropboxController::~QDropboxController() {
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(accountLoaded(Account*)), this, SLOT(onAccountLoaded(Account*)));
     Q_ASSERT(res);
-    res = QObject::disconnect(m_pQDropbox, SIGNAL(folderUnshared(const QString&)), this, SIGNAL(unsharedFolder(const QString&)));
-    Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(sharedLinkCreated(SharedLink*)), this, SLOT(onSharedLinkCreated(SharedLink*)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(temporaryLinkLoaded(QDropboxTempLink*)), this, SLOT(onTemporaryLinkLoaded(QDropboxTempLink*)));
@@ -133,9 +138,17 @@ QDropboxController::~QDropboxController() {
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(sharedLinkRevoked(const QString&)), this, SIGNAL(sharedLinkRevoked(const QString&)));
     Q_ASSERT(res);
-    res = QObject::disconnect(m_pQDropbox, SIGNAL(deletedBatch()), this, SIGNAL(deletedBatch()));
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(deletedBatch(const QStringList&)), this, SLOT(onDeletedBatch(const QStringList&)));
     Q_ASSERT(res);
     res = QObject::disconnect(m_pQDropbox, SIGNAL(urlSaved()), this, SIGNAL(urlSaved()));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(movedBatch(const QList<MoveEntry>&)), this, SLOT(onMovedBatch(const QList<MoveEntry>&)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(metadataReceived(QDropboxFile*)), this, SLOT(onMetadataReceived(QDropboxFile*)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(folderUnshared(const UnshareJobStatus&)), this, SLOT(onFolderUnshared(const UnshareJobStatus&)));
+    Q_ASSERT(res);
+    res = QObject::disconnect(m_pQDropbox, SIGNAL(jobStatusChecked(const UnshareJobStatus&)), this, SLOT(onJobStatusChecked(const UnshareJobStatus&)));
     Q_ASSERT(res);
     Q_UNUSED(res);
 }
@@ -156,20 +169,33 @@ QString QDropboxController::popPath() {
 
 void QDropboxController::listFolder(const QString& path, const int& limit) {
     m_pathsList.append(path);
-    m_pQDropbox->listFolder(path, true, false, false, false, false, limit);
+    Cache cache = m_pCache->findForPath(path);
+    if (!cache.isEmpty()) {
+        logger.debug("Path " + path + " loaded from cache");
+        listFolderLoaded(path, cache.files, cache.cursor, false);
+    } else {
+        m_pQDropbox->listFolder(path, true, false, false, false, false, limit);
+    }
 }
 
 void QDropboxController::onListFolderLoaded(const QString& path, QList<QDropboxFile*>& files, const QString& cursor, const bool& hasMore) {
     if (m_pathsList.last().compare(path) == 0) {
-        logger.debug("Loaded for path: " + path);
-        logger.debug("Files: " + QString::number(files.size()));
-        QVariantList list;
-        foreach(QDropboxFile* f, files) {
-            list.append(f->toMap());
+//        QVariantList list;
+//        foreach(QDropboxFile* f, files) {
+//            list.append(f->toMap());
+//        }
+//        m_pCache->updateByPath(path, files, cursor);
+//        emit listFolderLoaded(path, list, cursor, hasMore);
+        m_pCache->updateByPath(path, files, cursor);
+        clear(files);
+        if (hasMore) {
+            listFolderContinue(cursor);
+        } else {
+            Cache cache = m_pCache->findForPath(path);
+            emit listFolderLoaded(path, cache.files, cache.cursor, hasMore);
         }
-        emit listFolderLoaded(path, list, cursor, hasMore);
     }
-    clear(files);
+//    clear(files);
 }
 
 void QDropboxController::listFolderContinue(const QString& cursor) {
@@ -177,12 +203,22 @@ void QDropboxController::listFolderContinue(const QString& cursor) {
 }
 
 void QDropboxController::onListFolderContinueLoaded(QList<QDropboxFile*>& files, const QString& prevCursor, const QString& cursor, const bool& hasMore) {
-    QVariantList list;
-    foreach(QDropboxFile* f, files) {
-        list.append(f->toMap());
-    }
-    emit listFolderContinueLoaded(list, prevCursor, cursor, hasMore);
+//    QVariantList list;
+//    foreach(QDropboxFile* f, files) {
+//        list.append(f->toMap());
+//    }
+//    m_pCache->updateByCursor(prevCursor, files, cursor);
+//    emit listFolderContinueLoaded(list, prevCursor, cursor, hasMore);
+//    clear(files);
+    m_pCache->updateByCursor(prevCursor, files, cursor);
     clear(files);
+    if (hasMore) {
+        listFolderContinue(cursor);
+    } else {
+        Cache cache = m_pCache->findForCursor(cursor);
+        emit listFolderLoaded(cache.path, cache.files, cursor, false);
+    }
+//    clear(files);
 }
 
 void QDropboxController::createFolder(const QString& path) {
@@ -190,6 +226,7 @@ void QDropboxController::createFolder(const QString& path) {
 }
 
 void QDropboxController::onFolderCreated(QDropboxFile* folder) {
+    m_pCache->add(folder);
     emit folderCreated(folder->toMap());
     folder->deleteLater();
 }
@@ -199,6 +236,7 @@ void QDropboxController::deleteFile(const QString& path) {
 }
 
 void QDropboxController::onFileDeleted(QDropboxFile* file) {
+    m_pCache->remove(file);
     emit fileDeleted(file->toMap());
     file->deleteLater();
 }
@@ -211,16 +249,25 @@ void QDropboxController::rename(const QString& fromPath, const QString& toPath) 
     m_pQDropbox->rename(fromPath, toPath);
 }
 
-void QDropboxController::onMoved(QDropboxFile* file) {
+void QDropboxController::onMoved(QDropboxFile* file, const QString& fromPath, const QString& toPath) {
+    m_pCache->update(file);
     emit moved(file->toMap());
     m_selected.clear();
     emit selectedChanged(m_selected);
     file->deleteLater();
+    Q_UNUSED(fromPath);
+    Q_UNUSED(toPath);
 }
 
 void QDropboxController::onRenamed(QDropboxFile* file) {
+    m_pCache->update(file);
     emit renamed(file->toMap());
     file->deleteLater();
+}
+
+void QDropboxController::onDeletedBatch(const QStringList& paths) {
+    m_pCache->deleteByPaths(paths);
+    emit deletedBatch();
 }
 
 void QDropboxController::getCurrentAccount() {
@@ -272,6 +319,7 @@ void QDropboxController::upload(const QString& localPath, const QString& remoteP
 }
 
 void QDropboxController::onUploaded(QDropboxFile* file) {
+    m_pCache->add(file);
     QString path = file->getPathDisplay();
     m_uploads.removeAll(path);
     emit uploadsChanged(m_uploads);
@@ -292,11 +340,36 @@ void QDropboxController::shareFolder(const QString& path) {
 }
 
 void QDropboxController::onFolderShared(const QString& path, const QString& sharedFolderId) {
+    m_pQDropbox->getMetadata(path);
     emit sharedFolder(path, sharedFolderId);
 }
 
-void QDropboxController::unshareFolder(const QString& sharedFolderId) {
+void QDropboxController::unshareFolder(const QString& path, const QString& sharedFolderId) {
+    m_sharedFolderIds[sharedFolderId] = path;
     m_pQDropbox->unshareFolder(sharedFolderId);
+}
+
+void QDropboxController::onFolderUnshared(const UnshareJobStatus& status) {
+    if (status.status == UnshareJobStatus::Complete) {
+        m_pQDropbox->getMetadata(m_sharedFolderIds.value(status.sharedFolderId));
+        m_sharedFolderIds.remove(status.sharedFolderId);
+    } else {
+        m_jobStatuses[status.asyncJobId] = status;
+        m_pQDropbox->checkJobStatus(status.asyncJobId);
+    }
+
+    emit unsharedFolder(status.sharedFolderId);
+}
+
+void QDropboxController::onJobStatusChecked(const UnshareJobStatus& status) {
+    if (status.status == UnshareJobStatus::Complete) {
+        UnshareJobStatus oldStatus = m_jobStatuses.value(status.asyncJobId);
+        m_pQDropbox->getMetadata(m_sharedFolderIds.value(oldStatus.sharedFolderId));
+        m_sharedFolderIds.remove(oldStatus.sharedFolderId);
+        m_jobStatuses.remove(status.asyncJobId);
+    } else {
+        m_pQDropbox->checkJobStatus(status.asyncJobId);
+    }
 }
 
 void QDropboxController::addFolderMember(const QString& sharedFolderId, const QVariantList& members, const int& accessLevel) {
@@ -466,6 +539,17 @@ void QDropboxController::moveBatch(const QString& toPath) {
     m_pQDropbox->moveBatch(entries);
 }
 
+void QDropboxController::onMovedBatch(const QList<MoveEntry>& moveEntries) {
+    m_pCache->move(moveEntries);
+    emit movedBatch();
+}
+
 void QDropboxController::saveUrl(const QString& path, const QString& url) {
     m_pQDropbox->saveUrl(path, url);
+}
+
+void QDropboxController::onMetadataReceived(QDropboxFile* file) {
+    logger.debug(file->toMap());
+    m_pCache->update(file);
+    file->deleteLater();
 }

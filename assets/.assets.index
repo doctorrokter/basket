@@ -1,5 +1,5 @@
 1
-85
+88
 sheets/FilePickersSheet.qml
 sheets/ShareFolderSheet.qml
 sheets/EditFolderMemberSheet.qml
@@ -46,6 +46,8 @@ icons/icon_90_x_90.png
 icons/icon_144_x_144.png
 icons/icon_110_x_110.png
 icons/icon_96_x_96.png
+migrations/002_create_files_table.sql
+migrations/001_create_schema_version_table.sql
 images/ic_rename.png
 images/ic_doctype_pdf.png
 images/ic_share.png
@@ -74,6 +76,7 @@ images/ic_unshare.png
 images/d_logo.png
 images/ic_groups_white.png
 images/ic_doctype_generic.png
+images/syllabus.pdf
 images/ic_doctype_music.png
 images/misha.jpeg
 images/transparent_circle.png

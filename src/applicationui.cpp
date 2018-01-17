@@ -64,6 +64,9 @@ ApplicationUI::ApplicationUI() :
         Application::instance()->themeSupport()->setVisualStyle(VisualStyle::Bright);
     }
 
+    m_pDb = new DB(this);
+    m_pCache = new QDropboxCache(this);
+
     QTime time = QTime::currentTime();
     qsrand((uint)time.msec());
 
@@ -87,8 +90,7 @@ ApplicationUI::ApplicationUI() :
         qml = QmlDocument::create("asset:///main.qml").parent(this);
     }
     m_pQdropbox->setDownloadsFolder(m_downloadsFolder);
-//    m_pQdropbox->enableCache(QDir::currentPath() + CACHE_DIR);
-    m_pQdropboxController = new QDropboxController(m_pQdropbox, m_pFileUtil, this);
+    m_pQdropboxController = new QDropboxController(m_pQdropbox, m_pFileUtil, m_pCache, this);
     FileImageView::setFileUtil(m_pFileUtil);
 
     setAutoloadEnabled(prop("autoload.camera.files", false).toBool());
@@ -122,6 +124,8 @@ ApplicationUI::~ApplicationUI() {
     m_pQdropboxController->deleteLater();
     m_pFileUtil->deleteLater();
     m_pDateUtil->deleteLater();
+    m_pDb->deleteLater();
+    m_pCache->deleteLater();
     if (m_pAccount != 0) {
         m_pAccount->deleteLater();
     }
@@ -216,7 +220,6 @@ void ApplicationUI::onAccessTokenObtained(const QString& accessToken) {
         m_settings.sync();
 
         m_pQdropbox->setAccessToken(accessToken);
-//        m_pQdropbox->enableCache(QDir::currentPath() + CACHE_DIR);
         m_pQdropbox->setDownloadsFolder(m_downloadsFolder);
         ThumbnailImageView::setAccessToken(accessToken);
 

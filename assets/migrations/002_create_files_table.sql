@@ -1,0 +1,10 @@
+CREATE TABLE files (
+	path TEXT DEFAULT NULL,
+    name TEXT DEFAULT NULL,
+    type TEXT DEFAULT NULL,
+	date INTEGER DEFAULT 0,
+	content TEXT DEFAULT NULL,
+    id TEXT DEFAULT NULL,
+    content_hash TEXT DEFAULT NULL,
+    path_display TEXT DEFAULT NULL
+);

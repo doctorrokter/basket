@@ -12,6 +12,7 @@
 #include <QStringList>
 #include <QList>
 #include <QVariantList>
+#include <QMap>
 #include <QtGui/QImage>
 #include <qdropbox/QDropbox.hpp>
 #include <qdropbox/QDropboxFile.hpp>
@@ -25,6 +26,7 @@
 #include <bb/system/SystemToast>
 #include "../util/FileUtil.hpp"
 #include <QNetworkReply>
+#include "../cache/QDropboxCache.hpp"
 
 using namespace bb::system;
 
@@ -34,7 +36,7 @@ class QDropboxController: public QObject {
     Q_PROPERTY(QVariantList downloads READ getDownloads NOTIFY downloadsChanged)
     Q_PROPERTY(QVariantList uploads READ getUploads NOTIFY uploadsChanged)
 public:
-    QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, QObject* parent = 0);
+    QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, QDropboxCache* cache, QObject* parent = 0);
     virtual ~QDropboxController();
 
     Q_INVOKABLE QString fullPath() const;
@@ -54,7 +56,7 @@ public:
     Q_INVOKABLE void downloadZip(const QString& path);
     Q_INVOKABLE void upload(const QString& localPath, const QString& remotePath);
     Q_INVOKABLE void shareFolder(const QString& path);
-    Q_INVOKABLE void unshareFolder(const QString& sharedFolderId);
+    Q_INVOKABLE void unshareFolder(const QString& path, const QString& sharedFolderId);
     Q_INVOKABLE void addFolderMember(const QString& sharedFolderId, const QVariantList& members, const int& accessLevel);
     Q_INVOKABLE void removeFolderMember(const QString& sharedFolderId, const QVariantMap& accountMap);
     Q_INVOKABLE void updateFolderMember(const QString& sharedFolderId, const QVariantMap& accountMap, const int& accessLevel);
@@ -104,6 +106,7 @@ public:
         void folderMemberUpdated(const QString& sharedFolderId, const QVariantMap& member);
         void sharedLinkRevoked(const QString& sharedLinkUrl);
         void deletedBatch();
+        void movedBatch();
         void urlSaved();
 
         void selectedChanged(const QVariantList& selected);
@@ -114,14 +117,17 @@ private slots:
     void onListFolderContinueLoaded(QList<QDropboxFile*>& files, const QString& prevCursor, const QString& cursor, const bool& hasMore);
     void onFolderCreated(QDropboxFile* folder);
     void onFileDeleted(QDropboxFile* file);
-    void onMoved(QDropboxFile* file);
+    void onMoved(QDropboxFile* file, const QString& fromPath, const QString& toPath);
+    void onMovedBatch(const QList<MoveEntry>& moveEntries);
     void onRenamed(QDropboxFile* file);
+    void onDeletedBatch(const QStringList& paths);
     void onSpaceUsageLoaded(QDropboxSpaceUsage* spaceUsage);
     void onDownloaded(const QString& path, const QString& localPath);
     void onDownloadStarted(const QString& path);
     void onUploaded(QDropboxFile* file);
     void onUploadStarted(const QString& remotePath);
     void onFolderShared(const QString& path, const QString& sharedFolderId);
+    void onFolderUnshared(const UnshareJobStatus& status);
     void onListFolderMembers(const QString& sharedFolderId, const QList<QDropboxFolderMember*>& members, const QString& cursor = "");
     void onAccountBatchLoaded(const QList<Account*>& accounts);
     void onAccountLoaded(Account* account);
@@ -129,6 +135,8 @@ private slots:
     void onTemporaryLinkLoaded(QDropboxTempLink* link);
     void onFolderMemberRemoved(const QString& sharedFolderId, QDropboxMember* member);
     void onFolderMemberUpdated(const QString& sharedFolderId, QDropboxMember* member);
+    void onMetadataReceived(QDropboxFile* file);
+    void onJobStatusChecked(const UnshareJobStatus& status);
 
     void onError(QNetworkReply::NetworkError e, const QString& errorString);
 
@@ -137,6 +145,7 @@ private:
 
     QDropbox* m_pQDropbox;
     FileUtil* m_pFileUtil;
+    QDropboxCache* m_pCache;
 
     QStringList m_pathsList;
     QVariantList m_selected;
@@ -144,6 +153,8 @@ private:
     QVariantList m_uploads;
 
     SystemToast m_toast;
+    QMap<QString, QString> m_sharedFolderIds;
+    QMap<QString, UnshareJobStatus> m_jobStatuses;
 
     void clear(QList<QDropboxFile*>& files);
 };
