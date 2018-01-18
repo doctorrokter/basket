@@ -32,17 +32,17 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="272"/>
+        <location filename="../src/applicationui.cpp" line="280"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="427"/>
+        <location filename="../src/applicationui.cpp" line="435"/>
         <source>Cache flushed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="457"/>
+        <location filename="../src/applicationui.cpp" line="465"/>
         <source>Success!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -305,13 +305,13 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="317"/>
-        <location filename="../assets/pages/FolderPage.qml" line="576"/>
+        <location filename="../assets/pages/FolderPage.qml" line="613"/>
         <source>List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="319"/>
-        <location filename="../assets/pages/FolderPage.qml" line="583"/>
+        <location filename="../assets/pages/FolderPage.qml" line="620"/>
         <source>Grid</source>
         <translation type="unfinished"></translation>
     </message>
@@ -326,9 +326,34 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="455"/>
-        <location filename="../assets/pages/FolderPage.qml" line="456"/>
+        <location filename="../assets/pages/FolderPage.qml" line="355"/>
+        <source>Sort</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="369"/>
+        <source>Sort by:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="492"/>
+        <location filename="../assets/pages/FolderPage.qml" line="493"/>
         <source>GB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="386"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="371"/>
+        <source>Descending order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="387"/>
+        <source>Date</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -480,12 +505,12 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="327"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="331"/>
         <source>Upload finished: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="450"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="454"/>
         <source>Download finished: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -565,7 +590,7 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
     </message>
     <message>
         <location filename="../assets/pages/SettingsPage.qml" line="178"/>
-        <source>Delete cached files structure</source>
+        <source>Delete common cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

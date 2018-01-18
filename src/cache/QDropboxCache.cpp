@@ -136,13 +136,17 @@ void QDropboxCache::flush() {
 }
 
 void QDropboxCache::insert(const QString& path, QDropboxFile* file) {
+    QDateTime time = QDateTime::fromString(file->getClientModified(), Qt::ISODate);
+    time.setTimeSpec(Qt::UTC);
+    uint timestamp = time.toTime_t();
+
     QVariantMap data;
     data["id"] = file->getId();
     data["content_hash"] = file->getContentHash();
     data["name"] = file->getName();
     data["type"] = file->getTag();
     data["content"] = QString(QJson::Serializer().serialize(file->toMap()));
-    data["date"] = QDateTime::fromString(file->getClientModified()).toTime_t();
+    data["date"] = timestamp;
     data["path_display"] = file->getPathDisplay();
 
     QString sql;

@@ -32,17 +32,17 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="272"/>
+        <location filename="../src/applicationui.cpp" line="280"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished">Ссылка скопирована в буфер</translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="427"/>
+        <location filename="../src/applicationui.cpp" line="435"/>
         <source>Cache flushed!</source>
         <translation type="unfinished">Кэш сброшен!</translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="457"/>
+        <location filename="../src/applicationui.cpp" line="465"/>
         <source>Success!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -316,13 +316,13 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="317"/>
-        <location filename="../assets/pages/FolderPage.qml" line="576"/>
+        <location filename="../assets/pages/FolderPage.qml" line="613"/>
         <source>List</source>
         <translation type="unfinished">Список</translation>
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="319"/>
-        <location filename="../assets/pages/FolderPage.qml" line="583"/>
+        <location filename="../assets/pages/FolderPage.qml" line="620"/>
         <source>Grid</source>
         <translation type="unfinished">Сетка</translation>
     </message>
@@ -337,10 +337,35 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
         <translation type="unfinished">Загрузки</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="455"/>
-        <location filename="../assets/pages/FolderPage.qml" line="456"/>
+        <location filename="../assets/pages/FolderPage.qml" line="355"/>
+        <source>Sort</source>
+        <translation type="unfinished">Сортировать</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="369"/>
+        <source>Sort by:</source>
+        <translation type="unfinished">Сортировать по:</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="492"/>
+        <location filename="../assets/pages/FolderPage.qml" line="493"/>
         <source>GB</source>
         <translation type="unfinished">ГБ</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="386"/>
+        <source>Name</source>
+        <translation type="unfinished">Названию</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="371"/>
+        <source>Descending order</source>
+        <translation type="unfinished">Нисходящий порядок</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/FolderPage.qml" line="387"/>
+        <source>Date</source>
+        <translation type="unfinished">Дате</translation>
     </message>
 </context>
 <context>
@@ -491,12 +516,12 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="327"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="331"/>
         <source>Upload finished: </source>
         <translation type="unfinished">Загрузка завершена: </translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="450"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="454"/>
         <source>Download finished: </source>
         <translation type="unfinished">Загрузка завершена: </translation>
     </message>
@@ -581,8 +606,8 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
     </message>
     <message>
         <location filename="../assets/pages/SettingsPage.qml" line="202"/>
-        <source>Remove all cached data such as thumbnails, opened documents etc.</source>
-        <translation type="unfinished">Удалить все сохранённые картинки, открытые документы и т.д.</translation>
+        <source>Remove cached data marked above.</source>
+        <translation type="unfinished">Удалить закэшированные данные, отмеченные выше.</translation>
     </message>
     <message>
         <location filename="../assets/pages/SettingsPage.qml" line="209"/>

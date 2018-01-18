@@ -21,6 +21,8 @@ QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, Q
     m_pQDropbox = qdropbox;
     m_pFileUtil = fileUtil;
     m_pCache = cache;
+    m_orderBy = "name";
+    m_order = "asc";
 
     bool res = QObject::connect(m_pQDropbox, SIGNAL(listFolderLoaded(const QString&, QList<QDropboxFile*>&, const QString&, const bool&)), this, SLOT(onListFolderLoaded(const QString&, QList<QDropboxFile*>&, const QString&, const bool&)));
     Q_ASSERT(res);
@@ -167,9 +169,11 @@ QString QDropboxController::popPath() {
     return last;
 }
 
-void QDropboxController::listFolder(const QString& path, const int& limit) {
+void QDropboxController::listFolder(const QString& path, const int& limit, const QString& orderBy, const QString& order) {
     m_pathsList.append(path);
-    Cache cache = m_pCache->findForPath(path);
+    m_orderBy = orderBy;
+    m_order = order;
+    Cache cache = m_pCache->findForPath(path, m_orderBy, m_order);
     if (!cache.isEmpty()) {
         logger.debug("Path " + path + " loaded from cache");
         listFolderLoaded(path, cache.files, cache.cursor, false);
@@ -191,7 +195,7 @@ void QDropboxController::onListFolderLoaded(const QString& path, QList<QDropboxF
         if (hasMore) {
             listFolderContinue(cursor);
         } else {
-            Cache cache = m_pCache->findForPath(path);
+            Cache cache = m_pCache->findForPath(path, m_orderBy, m_order);
             emit listFolderLoaded(path, cache.files, cache.cursor, hasMore);
         }
     }
@@ -215,7 +219,7 @@ void QDropboxController::onListFolderContinueLoaded(QList<QDropboxFile*>& files,
     if (hasMore) {
         listFolderContinue(cursor);
     } else {
-        Cache cache = m_pCache->findForCursor(cursor);
+        Cache cache = m_pCache->findForCursor(cursor, m_orderBy, m_order);
         emit listFolderLoaded(cache.path, cache.files, cursor, false);
     }
 //    clear(files);

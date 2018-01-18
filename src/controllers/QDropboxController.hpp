@@ -42,7 +42,7 @@ public:
     Q_INVOKABLE QString fullPath() const;
     Q_INVOKABLE QString topPath() const;
     Q_INVOKABLE QString popPath();
-    Q_INVOKABLE void listFolder(const QString& path = "", const int& limit = 0);
+    Q_INVOKABLE void listFolder(const QString& path = "", const int& limit = 0, const QString& orderBy = "name", const QString& order = "asc");
     Q_INVOKABLE void listFolderContinue(const QString& cursor);
     Q_INVOKABLE void createFolder(const QString& path);
     Q_INVOKABLE void deleteFile(const QString& path);
@@ -146,6 +146,9 @@ private:
     QDropbox* m_pQDropbox;
     FileUtil* m_pFileUtil;
     QDropboxCache* m_pCache;
+
+    QString m_orderBy;
+    QString m_order;
 
     QStringList m_pathsList;
     QVariantList m_selected;

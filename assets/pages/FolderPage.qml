@@ -348,10 +348,55 @@ Page {
             onTriggered: {
                 root.showUploads();
             }
+        },
+        
+        ActionItem {
+            id: sort
+            title: qsTr("Sort") + Retranslate.onLocaleOrLanguageChanged
+            imageSource: "asset:///images/ic_sort.png"
+            
+            onTriggered: {
+                sortingDialog.configure();
+                sortingDialog.show();
+            }
+            
+            shortcuts: Shortcut {
+                key: "s"
+                
+                onTriggered: {
+                    sort.triggered();
+                }
+            }
         }
     ]
     
     attachedObjects: [
+        SystemListDialog {
+            id: sortingDialog
+            
+            title: qsTr("Sort by:") + Retranslate.onLocaleOrLanguageChanged
+            includeRememberMe: true
+            rememberMeText: qsTr("Descending order") + Retranslate.onLocaleOrLanguageChanged
+            
+            onFinished: {
+                if (value === SystemUiResult.ConfirmButtonSelection) {
+                    var props = {};
+                    props["sort.order"] = rememberMeSelection() ? "desc" : "asc";
+                    props["sort.order_by"] = selectedIndices[0] === 0 ? "name" : "date";
+                    _app.setProps(props);
+                    configure();
+                }
+            }
+            
+            function configure() {
+                rememberMeChecked = _app.prop("sort.order", "asc") === "desc";
+                clearList();
+                appendItem(qsTr("Name") + Retranslate.onLocaleOrLanguageChanged, true, _app.prop("sort.order_by", "name") === "name");
+                appendItem(qsTr("Date") + Retranslate.onLocaleOrLanguageChanged, true, _app.prop("sort.order_by", "name") === "date");
+            }
+                
+        },
+        
         GridListLayout {
             id: gridListLayout
             objectName: "gridListLayout"
@@ -677,6 +722,14 @@ Page {
         console.debug("Deleted batch: " + ids.length);
     }
     
+    function propsChanged(props) {
+        if (props["sort.order_by"] || props["sort.order"]) {
+            dataModel.clear();
+            _qdropbox.listFolder(root.path, root.limit, props["sort.order_by"], props["sort.order"]);
+        }
+        
+    }
+    
     function cleanUp() {
         _qdropbox.popPath();
         _qdropbox.listFolderLoaded.disconnect(root.listFolderLoaded);
@@ -695,6 +748,7 @@ Page {
         _qdropbox.sharedLinkRevoked.disconnect(root.sharedLinkRevoked);
         _qdropbox.deletedBatch.disconnect(root.deletedBatch);
         _app.propChanged.disconnect(root.propChanged);
+        _app.propsChanged.disconnect(root.propsChanged);
     }
     
     onCreationCompleted: {
@@ -714,10 +768,13 @@ Page {
         _qdropbox.sharedLinkRevoked.connect(root.sharedLinkRevoked);
         _qdropbox.deletedBatch.connect(root.deletedBatch);
         _app.propChanged.connect(root.propChanged);
+        _app.propsChanged.connect(root.propsChanged);
+        
+        sortingDialog.configure();
     }
     
     onPathChanged: {
         spinner.start();
-        _qdropbox.listFolder(root.path, root.limit);
+        _qdropbox.listFolder(root.path, root.limit, _app.prop("sort.order_by", "name"), _app.prop("sort.order", "asc"));
     }
 }

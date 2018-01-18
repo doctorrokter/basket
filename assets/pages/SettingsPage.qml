@@ -199,7 +199,7 @@ Page {
                     horizontalAlignment: HorizontalAlignment.Fill
                     
                     Label {
-                        text: qsTr("Remove all cached data such as thumbnails, opened documents etc.") + Retranslate.onLocaleOrLanguageChanged
+                        text: qsTr("Remove cached data marked above.") + Retranslate.onLocaleOrLanguageChanged
                         multiline: true
                         textStyle.fontWeight: FontWeight.W300
                     }

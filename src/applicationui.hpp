@@ -71,6 +71,7 @@ public:
 
     Q_INVOKABLE QVariant prop(const QString& key, const QVariant& defaultValue = "");
     Q_INVOKABLE void setProp(const QString& key, const QVariant& val);
+    Q_INVOKABLE void setProps(const QVariantMap& map);
     Q_INVOKABLE void resendNotification();
     Q_INVOKABLE void authorize();
     Q_INVOKABLE void logout();
@@ -107,6 +108,7 @@ public:
     Q_SIGNALS:
         void currentAccountLoaded(const QVariantMap& accountMap);
         void propChanged(const QString& key, const QVariant& val);
+        void propsChanged(const QVariantMap& props);
         void sharedLinksLoaded();
         void autoloadChanged(const bool& autoload);
         void sharedFilesChanged(const QVariantList& sharedFiles);
@@ -115,6 +117,7 @@ public:
         void deleteThumbnailsChanged(const bool& deleteThumbnails);
         void deleteOpenedFilesChanged(const bool& deleteOpenedFiles);
         void deleteSynchronizedFilesChanged(const bool& deleteSynchronizedFiles);
+        void sortingChanged();
 
 public Q_SLOTS:
     void onCardDone(const QString& msg);

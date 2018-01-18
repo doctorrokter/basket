@@ -166,6 +166,14 @@ void ApplicationUI::setProp(const QString& key, const QVariant& val) {
     emit propChanged(key, val);
 }
 
+void ApplicationUI::setProps(const QVariantMap& map) {
+    foreach(QString key, map.keys()) {
+        m_settings.setValue(key, map.value(key));
+    }
+    m_settings.sync();
+    emit propsChanged(map);
+}
+
 void ApplicationUI::resendNotification() {
     InvokeRequest request;
     request.setTarget("chachkouski.BasketService");
