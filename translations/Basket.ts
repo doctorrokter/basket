@@ -273,86 +273,86 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>FolderPage</name>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="103"/>
-        <location filename="../assets/pages/FolderPage.qml" line="157"/>
+        <location filename="../assets/pages/FolderPage.qml" line="124"/>
+        <location filename="../assets/pages/FolderPage.qml" line="178"/>
         <source>selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="125"/>
+        <location filename="../assets/pages/FolderPage.qml" line="146"/>
         <source>Move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="139"/>
+        <location filename="../assets/pages/FolderPage.qml" line="160"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="150"/>
+        <location filename="../assets/pages/FolderPage.qml" line="171"/>
         <source>Download started</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="266"/>
+        <location filename="../assets/pages/FolderPage.qml" line="287"/>
         <source>Create folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="286"/>
+        <location filename="../assets/pages/FolderPage.qml" line="307"/>
         <source>Upload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="317"/>
-        <location filename="../assets/pages/FolderPage.qml" line="613"/>
+        <location filename="../assets/pages/FolderPage.qml" line="338"/>
+        <location filename="../assets/pages/FolderPage.qml" line="646"/>
         <source>List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="319"/>
-        <location filename="../assets/pages/FolderPage.qml" line="620"/>
+        <location filename="../assets/pages/FolderPage.qml" line="340"/>
+        <location filename="../assets/pages/FolderPage.qml" line="653"/>
         <source>Grid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="335"/>
+        <location filename="../assets/pages/FolderPage.qml" line="356"/>
         <source>Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="345"/>
+        <location filename="../assets/pages/FolderPage.qml" line="366"/>
         <source>Uploads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="355"/>
+        <location filename="../assets/pages/FolderPage.qml" line="376"/>
         <source>Sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="369"/>
+        <location filename="../assets/pages/FolderPage.qml" line="402"/>
         <source>Sort by:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="492"/>
-        <location filename="../assets/pages/FolderPage.qml" line="493"/>
+        <location filename="../assets/pages/FolderPage.qml" line="525"/>
+        <location filename="../assets/pages/FolderPage.qml" line="526"/>
         <source>GB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="386"/>
+        <location filename="../assets/pages/FolderPage.qml" line="419"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="371"/>
+        <location filename="../assets/pages/FolderPage.qml" line="404"/>
         <source>Descending order</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="387"/>
+        <location filename="../assets/pages/FolderPage.qml" line="420"/>
         <source>Date</source>
         <translation type="unfinished"></translation>
     </message>
@@ -595,7 +595,7 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
     </message>
     <message>
         <location filename="../assets/pages/SettingsPage.qml" line="202"/>
-        <source>Remove all cached data such as thumbnails, opened documents etc.</source>
+        <source>Remove cached data marked above.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -35,6 +35,7 @@ Page {
     titleBar: defaultTitleBar
     
     Container {
+        id: mainContainer
         horizontalAlignment: HorizontalAlignment.Fill
         verticalAlignment: VerticalAlignment.Fill
         
@@ -91,6 +92,16 @@ Page {
                               spinner.start();
                               _qdropbox.listFolderContinue(root.cursor);
                            }
+                        }
+                        
+                        onAtEndChanged: {
+                            if (dataModel.size() > 0) {
+                                if (atEnd) {
+                                    listView.translationY = listView.translationY - ui.du(12);
+                                } else {
+                                    listView.translationY = 0;
+                                }
+                            }
                         }
                     }
                 ]
