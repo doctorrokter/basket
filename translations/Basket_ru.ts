@@ -284,86 +284,86 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>FolderPage</name>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="124"/>
-        <location filename="../assets/pages/FolderPage.qml" line="178"/>
+        <location filename="../assets/pages/FolderPage.qml" line="114"/>
+        <location filename="../assets/pages/FolderPage.qml" line="168"/>
         <source>selected</source>
         <translation type="unfinished">выбрано</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="146"/>
+        <location filename="../assets/pages/FolderPage.qml" line="136"/>
         <source>Move</source>
         <translation type="unfinished">Переместить</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="160"/>
+        <location filename="../assets/pages/FolderPage.qml" line="150"/>
         <source>Download</source>
         <translation type="unfinished">Скачать</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="171"/>
+        <location filename="../assets/pages/FolderPage.qml" line="161"/>
         <source>Download started</source>
         <translation type="unfinished">Загрузка начата</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="287"/>
+        <location filename="../assets/pages/FolderPage.qml" line="277"/>
         <source>Create folder</source>
         <translation type="unfinished">Создать папку</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="307"/>
+        <location filename="../assets/pages/FolderPage.qml" line="297"/>
         <source>Upload</source>
         <translation type="unfinished">Загрузить</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="338"/>
-        <location filename="../assets/pages/FolderPage.qml" line="646"/>
+        <location filename="../assets/pages/FolderPage.qml" line="328"/>
+        <location filename="../assets/pages/FolderPage.qml" line="632"/>
         <source>List</source>
         <translation type="unfinished">Список</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="340"/>
-        <location filename="../assets/pages/FolderPage.qml" line="653"/>
+        <location filename="../assets/pages/FolderPage.qml" line="330"/>
+        <location filename="../assets/pages/FolderPage.qml" line="639"/>
         <source>Grid</source>
         <translation type="unfinished">Сетка</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="356"/>
+        <location filename="../assets/pages/FolderPage.qml" line="346"/>
         <source>Downloads</source>
         <translation type="unfinished">Закачки</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="366"/>
+        <location filename="../assets/pages/FolderPage.qml" line="356"/>
         <source>Uploads</source>
         <translation type="unfinished">Загрузки</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="376"/>
+        <location filename="../assets/pages/FolderPage.qml" line="366"/>
         <source>Sort</source>
         <translation type="unfinished">Сортировать</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="402"/>
+        <location filename="../assets/pages/FolderPage.qml" line="388"/>
         <source>Sort by:</source>
         <translation type="unfinished">Сортировать по:</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="525"/>
-        <location filename="../assets/pages/FolderPage.qml" line="526"/>
+        <location filename="../assets/pages/FolderPage.qml" line="511"/>
+        <location filename="../assets/pages/FolderPage.qml" line="512"/>
         <source>GB</source>
         <translation type="unfinished">ГБ</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="419"/>
+        <location filename="../assets/pages/FolderPage.qml" line="405"/>
         <source>Name</source>
         <translation type="unfinished">Названию</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="404"/>
+        <location filename="../assets/pages/FolderPage.qml" line="390"/>
         <source>Descending order</source>
         <translation type="unfinished">Нисходящий порядок</translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="420"/>
+        <location filename="../assets/pages/FolderPage.qml" line="406"/>
         <source>Date</source>
         <translation type="unfinished">Дате</translation>
     </message>

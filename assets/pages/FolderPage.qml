@@ -372,7 +372,7 @@ Page {
             }
             
             shortcuts: Shortcut {
-                key: "s"
+                key: "o"
                 
                 onTriggered: {
                     sort.triggered();
