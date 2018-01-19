@@ -10,14 +10,20 @@
 #include <QDirIterator>
 #include "QDropboxController.hpp"
 #include <qdropbox/QDropboxAccessLevel.hpp>
+#include <bb/system/InvokeQueryTargetsRequest>
+#include <bb/system/InvokeQueryTargetsReply>
+#include <bb/data/JsonDataAccess>
 
 #define THUMBNAILS_DIR "/data/thumbnails"
 #define THUMBNAILS_THRESHOLD 500
 #define THUMBNAILS_QUEUE_SIZE 5
 
+using namespace bb::data;
+
+
 Logger QDropboxController::logger = Logger::getLogger("QDropboxController");
 
-QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, QDropboxCache* cache, QObject* parent) : QObject(parent) {
+QDropboxController::QDropboxController(QDropbox* qdropbox, FileUtil* fileUtil, QDropboxCache* cache, QObject* parent) : QObject(parent), m_invokeManager(new InvokeManager(this)) {
     m_pQDropbox = qdropbox;
     m_pFileUtil = fileUtil;
     m_pCache = cache;
@@ -153,6 +159,7 @@ QDropboxController::~QDropboxController() {
     res = QObject::disconnect(m_pQDropbox, SIGNAL(jobStatusChecked(const UnshareJobStatus&)), this, SLOT(onJobStatusChecked(const UnshareJobStatus&)));
     Q_ASSERT(res);
     Q_UNUSED(res);
+    m_invokeManager->deleteLater();
 }
 
 QString QDropboxController::fullPath() const {
@@ -358,13 +365,36 @@ void QDropboxController::onFolderUnshared(const UnshareJobStatus& status) {
         m_pQDropbox->getMetadata(m_sharedFolderIds.value(status.sharedFolderId));
         m_sharedFolderIds.remove(status.sharedFolderId);
     } else {
-        m_jobStatuses[status.asyncJobId] = status;
-        m_pQDropbox->checkJobStatus(status.asyncJobId);
+        InvokeRequest request;
+        request.setTarget("chachkouski.BasketService");
+        request.setAction("chachkouski.BasketService.CHECK_JOB_STATUS");
+        request.setMimeType("text/plain");
+
+        QVariantMap map;
+        map["path"] = m_sharedFolderIds[status.sharedFolderId];
+        map["status"] = status.toMap();
+
+        QByteArray data;
+        QDataStream os(&data, QIODevice::WriteOnly);
+        os << map;
+        request.setData(data);
+
+        InvokeTargetReply* reply = m_invokeManager->invoke(request);
+        QObject::connect(reply, SIGNAL(finished()), this, SLOT(headlessInvoked()));
+        m_sharedFolderIds.remove(status.sharedFolderId);
+//        m_jobStatuses[status.asyncJobId] = status;
+//        m_pQDropbox->checkJobStatus(status.asyncJobId);
     }
 
     emit unsharedFolder(status.sharedFolderId);
 }
 
+void QDropboxController::headlessInvoked() {
+    InvokeTargetReply* reply = qobject_cast<InvokeTargetReply*>(QObject::sender());
+    logger.info("Invoked headless success: ");
+    logger.info(reply->error());
+    reply->deleteLater();
+}
 void QDropboxController::onJobStatusChecked(const UnshareJobStatus& status) {
     if (status.status == UnshareJobStatus::Complete) {
         UnshareJobStatus oldStatus = m_jobStatuses.value(status.asyncJobId);

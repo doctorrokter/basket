@@ -182,6 +182,10 @@
             <action>chachkouski.BasketService.SAVE_URL</action>
             <mime-type>text/plain</mime-type>
         </filter>
+        <filter>
+        	<action>chachkouski.BasketService.CHECK_JOB_STATUS</action>
+        	<mime-type>text/plain</mime-type>
+        </filter>
     </invoke-target>
     
     <invoke-target id="chachkouski.Basket.card.edit.uri">

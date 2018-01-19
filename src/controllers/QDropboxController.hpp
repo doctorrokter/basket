@@ -27,6 +27,7 @@
 #include "../util/FileUtil.hpp"
 #include <QNetworkReply>
 #include "../cache/QDropboxCache.hpp"
+#include <bb/system/InvokeManager>
 
 using namespace bb::system;
 
@@ -139,6 +140,7 @@ private slots:
     void onJobStatusChecked(const UnshareJobStatus& status);
 
     void onError(QNetworkReply::NetworkError e, const QString& errorString);
+    void headlessInvoked();
 
 private:
     static Logger logger;
@@ -146,6 +148,7 @@ private:
     QDropbox* m_pQDropbox;
     FileUtil* m_pFileUtil;
     QDropboxCache* m_pCache;
+    InvokeManager* m_invokeManager;
 
     QString m_orderBy;
     QString m_order;
