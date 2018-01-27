@@ -1,5 +1,5 @@
 1
-89
+90
 sheets/FilePickersSheet.qml
 sheets/ShareFolderSheet.qml
 sheets/EditFolderMemberSheet.qml
@@ -59,6 +59,7 @@ images/ic_properties.png
 images/ic_link.png
 images/ic_feedback.png
 images/ic_doctype_picture.png
+images/ic_search.png
 images/opac_bg.png
 images/ic_sign_out.png
 images/ic_add.png

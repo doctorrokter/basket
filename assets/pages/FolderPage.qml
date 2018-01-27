@@ -1,6 +1,7 @@
 import bb.cascades 1.4
 import bb.device 1.4
 import bb.system 1.2
+import basket.helpers 1.0
 import "../components"
 
 Page {
@@ -21,6 +22,8 @@ Page {
         LIST: "list"
     }
     property string default_files_view: files_view_types.LIST 
+    property variant data: []
+    property variant filteredData: []
     
     signal listFolder(string path, string name)
     signal showProps(variant file)
@@ -67,6 +70,7 @@ Page {
                 scrollRole: ScrollRole.Main
                 
                 property string currentPath: root.path
+                property bool searchMode:false
                 
                 verticalAlignment: VerticalAlignment.Bottom
                 
@@ -95,11 +99,11 @@ Page {
                         }
                         
                         onAtEndChanged: {
-                            if (dataModel.size() > 0) {
+                            if (dataModel.size() > 0 && !listView.searchMode) {
                                 if (atEnd) {
-                                    listView.translationY = listView.translationY - ui.du(12);
+                                    listView.up();
                                 } else {
-                                    listView.translationY = 0;
+                                    listView.down();
                                 }
                             }
                         }
@@ -166,6 +170,14 @@ Page {
                 
                 onSelectionChanged: {
                     multiSelectHandler.status = selectionList().length + " " + (qsTr("selected") + Retranslate.onLocaleOrLanguageChanged)
+                }
+                
+                function up() {
+                    listView.translationY = listView.translationY - ui.du(12);
+                }
+                
+                function down() {
+                    listView.translationY = 0;
                 }
                 
                 function itemType(data, indexPath) {
@@ -378,6 +390,31 @@ Page {
                     sort.triggered();
                 }
             }
+        },
+        
+        ActionItem {
+            id: search
+            title: qsTr("Search") + Retranslate.onLocaleOrLanguageChanged
+            imageSource: "asset:///images/ic_search.png"
+            
+            onTriggered: {
+                var d = [];
+                for (var i = 0; i < dataModel.size(); i++) {
+                    d.push(dataModel.value(i));
+                }
+                root.data = d;
+                listView.searchMode = true;
+                root.titleBar = searchTitleBar;
+                root.titleBar.focus();
+            }
+            
+            shortcuts: Shortcut {
+                key: "s"
+                
+                onTriggered: {
+                    search.triggered();
+                }
+            }
         }
     ]
     
@@ -444,6 +481,39 @@ Page {
                     root.titleBar.reset();
                     root.titleBar = defaultTitleBar;
                 }
+            }
+        },
+        
+        InputTitleBar {
+            id: searchTitleBar
+            
+            onCancel: {
+                listView.searchMode = false;
+                dataModel.clear();
+                dataModel.append(root.data);
+                root.filteredData = [];
+                searchTitleBar.reset();
+                root.titleBar = defaultTitleBar;
+            }    
+            
+            onTyping: {
+                searchTimer.stop();
+                root.filteredData = root.data.filter(function(f) {
+                    return f.name.toLowerCase().indexOf(text.toLowerCase()) !== -1;
+                });
+                searchTimer.start();
+            }
+        },
+        
+        Timer {
+            id: searchTimer
+            
+            interval: 500
+            singleShot: true
+            
+            onTimeout: {
+                dataModel.clear();
+                dataModel.append(root.filteredData);
             }
         },
         
