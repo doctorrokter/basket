@@ -66,9 +66,11 @@ NavigationPane {
         
         _app.currentAccountLoaded.connect(function(account) {
             fp.account = account;
+            highCover.account = account;
         });
         _qdropbox.spaceUsageLoaded.connect(function(spaceUsage) {
             fp.spaceUsage = spaceUsage;
+            highCover.spaceUsage = spaceUsage;
         });
         _app.sharedLinksLoaded.connect(function() {
             fp.path = "";
@@ -78,6 +80,7 @@ NavigationPane {
         _qdropbox.getCurrentAccount();
         _qdropbox.getSpaceUsage();
         _qdropbox.getSharedLinks();
+        Application.thumbnail.connect(navPane.onThumbnail);
     }
     
     onPopTransitionEnded: {
@@ -201,6 +204,13 @@ NavigationPane {
                     shareFolderSheet.open();
                 }
             }
+        },
+        
+        SceneCover {
+            id: cover
+            content: HighCover {
+                id: highCover
+            }
         }
     ]
     
@@ -212,5 +222,10 @@ NavigationPane {
     function openUploads() {
         var up = uploadsPage.createObject();
         navPane.push(up);
+    }
+    
+    function onThumbnail() {
+        highCover.update();
+        Application.setCover(cover);
     }
 }

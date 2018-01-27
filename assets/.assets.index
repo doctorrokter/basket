@@ -1,5 +1,5 @@
 1
-90
+92
 sheets/FilePickersSheet.qml
 sheets/ShareFolderSheet.qml
 sheets/EditFolderMemberSheet.qml
@@ -25,6 +25,7 @@ pages/AuthPage.qml
 pages/SettingsPage.qml
 pages/PropertiesPage.qml
 pages/MembersPage.qml
+pages/HighCover.qml
 pages/FolderPage.qml
 splash/splash_720_x_720.png
 splash/splash_1280_x_720.png
@@ -75,6 +76,7 @@ images/ic_clear.png
 images/ic_uploads.png
 images/ic_add_folder.png
 images/auth.png
+images/ic_contact.png
 images/ic_unshare.png
 images/d_logo.png
 images/ic_groups_white.png

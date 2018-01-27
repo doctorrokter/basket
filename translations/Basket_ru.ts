@@ -402,6 +402,15 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
     </message>
 </context>
 <context>
+    <name>HighCover</name>
+    <message>
+        <location filename="../assets/pages/HighCover.qml" line="100"/>
+        <location filename="../assets/pages/HighCover.qml" line="101"/>
+        <source>GB</source>
+        <translation type="unfinished">ГБ</translation>
+    </message>
+</context>
+<context>
     <name>MembersPage</name>
     <message>
         <location filename="../assets/pages/MembersPage.qml" line="22"/>
