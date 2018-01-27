@@ -18,28 +18,15 @@
 Logger QDropboxCache::logger = Logger::getLogger("QDropboxCache");
 
 QDropboxCache::QDropboxCache(QObject* parent) : QObject(parent) {
-    QString dirPath = QDir::currentPath() + CACHE_DIR;
-    QDir dir(dirPath);
-    if (!dir.exists()) {
-        dir.mkpath(dirPath);
+    QVariantList list = DB::execute("SELECT * FROM paths_cursors").toList();
+    foreach(QVariant v, list) {
+        QVariantMap m = v.toMap();
+        m_pathsCursors[m.value("path").toString()] = m.value("cursor").toString();
     }
-
-    QFile cursors(dirPath + "/cursors.json");
-    if (cursors.exists()) {
-        bool res = false;
-        QVariant data = QJson::Parser().parse(&cursors, &res);
-        if (res) {
-            m_pathsCursors = data.toMap();
-        } else {
-            logger.error("Cannot read cursors.json");
-            logger.error(data);
-        }
-    }
+    logger.debug(m_pathsCursors);
 }
 
-QDropboxCache::~QDropboxCache() {
-    persistCursors();
-}
+QDropboxCache::~QDropboxCache() {}
 
 void QDropboxCache::updateByPath(const QString& path, QList<QDropboxFile*>& files, const QString& cursor) {
     logger.debug("Update by path: " + path + ", cursor: " + cursor);
@@ -47,19 +34,19 @@ void QDropboxCache::updateByPath(const QString& path, QList<QDropboxFile*>& file
     data["path"] = path;
     DB::execute("DELETE FROM files WHERE path = :path", data);
     insert(path, files, cursor);
-    persistCursors();
+
+    updatePathsCursors(path, cursor);
 }
 
 void QDropboxCache::updateByCursor(const QString& prevCursor, QList<QDropboxFile*>& files, const QString& cursor) {
     logger.debug("Update by cursor: prev - " + prevCursor + ", new - " + cursor);
     foreach(QString path, m_pathsCursors.keys()) {
-        if (m_pathsCursors.value(path).toString().compare(prevCursor) == 0) {
-            m_pathsCursors[path] = cursor;
+        if (m_pathsCursors.value(path).compare(prevCursor) == 0) {
             insert(path, files, cursor);
+            updatePathsCursors(path, cursor);
             return;
         }
     }
-    persistCursors();
 }
 
 Cache QDropboxCache::findForPath(const QString& path, const QString& orderBy, const QString& order) {
@@ -84,15 +71,21 @@ Cache QDropboxCache::findForCursor(const QString& cursor, const QString& orderBy
     return findForPath(findPath(cursor), orderBy, order);
 }
 
+QMap<QString, QString> QDropboxCache::getPathsCursors() const {
+    return m_pathsCursors;
+}
+
 void QDropboxCache::add(QDropboxFile* file) {
-    QString path = pathFromPathDisplay(file->getPathDisplay(), file->getName());
-    insert(path, file);
+    if (isExists(file)) {
+        update(file);
+    } else {
+        QString path = pathFromPathDisplay(file->getPathDisplay(), file->getName());
+        insert(path, file);
+    }
 }
 
 void QDropboxCache::remove(QDropboxFile* file) {
-    QVariantMap data;
-    data["id"] = file->getId();
-    DB::execute("DELETE FROM files WHERE id = :id", data);
+    deleteById(file->getId());
 }
 
 void QDropboxCache::insert(const QString& path, QList<QDropboxFile*>& files, const QString& cursor) {
@@ -131,8 +124,8 @@ void QDropboxCache::move(const QList<MoveEntry>& moveEntries) {
 
 void QDropboxCache::flush() {
     DB::execute("DELETE FROM files");
+    DB::execute("DELETE FROM paths_cursors");
     m_pathsCursors.clear();
-    persistCursors();
 }
 
 void QDropboxCache::insert(const QString& path, QDropboxFile* file) {
@@ -183,27 +176,16 @@ QVariantList QDropboxCache::select(const QString& path, const QString& type, con
 }
 
 QString QDropboxCache::findCursor(const QString& path) {
-    return m_pathsCursors.value(path).toString();
+    return m_pathsCursors.value(path);
 }
 
 QString QDropboxCache::findPath(const QString& cursor) {
     foreach(QString path, m_pathsCursors.keys()) {
-        if (m_pathsCursors.value(path).toString().compare(cursor) == 0) {
+        if (m_pathsCursors.value(path).compare(cursor) == 0) {
             return path;
         }
     }
     return "";
-}
-
-void QDropboxCache::persistCursors() {
-    QFile cursors(QDir::currentPath() + CACHE_DIR + "/cursors.json");
-    if (cursors.exists()) {
-        cursors.remove();
-    }
-
-    cursors.open(QIODevice::WriteOnly);
-    cursors.write(QJson::Serializer().serialize(m_pathsCursors));
-    cursors.close();
 }
 
 void QDropboxCache::deleteById(const QString& id) {
@@ -214,4 +196,17 @@ void QDropboxCache::deleteById(const QString& id) {
 
 QString QDropboxCache::pathFromPathDisplay(QString pathDisplay, QString name) {
     return pathDisplay.replace("/" + name, "");
+}
+
+bool QDropboxCache::isExists(QDropboxFile* file) {
+    QVariantMap map;
+    map["id"] = file->getId();
+    map["content_hash"] = file->getContentHash();
+    return DB::execute("SELECT EXISTS (SELECT 1 FROM files WHERE id = :id AND content_hash = :content_hash) AS present", map).toList().at(0).toMap().value("present").toBool();
+}
+
+void QDropboxCache::updatePathsCursors(const QString& path, const QString& cursor) {
+    DB::execute(QString("DELETE FROM paths_cursors WHERE path = '%1'").arg(path));
+    DB::execute(QString("INSERT INTO paths_cursors (path, cursor) VALUES ('%1', '%2')").arg(path).arg(cursor));
+    m_pathsCursors[path] = cursor;
 }

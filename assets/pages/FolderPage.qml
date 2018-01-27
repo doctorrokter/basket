@@ -741,6 +741,12 @@ Page {
         
     }
     
+    function pollPathChanged(path) {
+        if (root.path === path) {
+            root.reload();
+        }
+    }
+    
     function cleanUp() {
         _qdropbox.popPath();
         _qdropbox.listFolderLoaded.disconnect(root.listFolderLoaded);
@@ -760,6 +766,7 @@ Page {
         _qdropbox.deletedBatch.disconnect(root.deletedBatch);
         _app.propChanged.disconnect(root.propChanged);
         _app.propsChanged.disconnect(root.propsChanged);
+        _poller.pathChanged.disconnect(root.pollPathChanged);
     }
     
     onCreationCompleted: {
@@ -780,6 +787,7 @@ Page {
         _qdropbox.deletedBatch.connect(root.deletedBatch);
         _app.propChanged.connect(root.propChanged);
         _app.propsChanged.connect(root.propsChanged);
+        _poller.pathChanged.connect(root.pollPathChanged);
         
         sortingDialog.configure();
     }

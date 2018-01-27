@@ -36,6 +36,7 @@
 #include "Logger.hpp"
 #include "cache/DB.hpp"
 #include "cache/QDropboxCache.hpp"
+#include "cache/QDropboxPoller.hpp"
 
 namespace bb {
     namespace cascades {
@@ -152,6 +153,7 @@ private:
 
     DB* m_pDb;
     QDropboxCache* m_pCache;
+    QDropboxPoller* m_pPoller;
 
     QString m_downloadsFolder;
     SystemToast m_toast;
@@ -166,6 +168,8 @@ private:
     void startHeadless();
     void initSignals();
     void clearDir(const QString& path);
+    void startHeadlessPolling();
+    void stopHeadlessPolling();
 
     static Logger logger;
 };

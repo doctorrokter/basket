@@ -32,17 +32,17 @@
 <context>
     <name>ApplicationUI</name>
     <message>
-        <location filename="../src/applicationui.cpp" line="280"/>
+        <location filename="../src/applicationui.cpp" line="292"/>
         <source>Shared link copied to clipboard</source>
         <translation type="unfinished">Ссылка скопирована в буфер</translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="435"/>
+        <location filename="../src/applicationui.cpp" line="447"/>
         <source>Cache flushed!</source>
         <translation type="unfinished">Кэш сброшен!</translation>
     </message>
     <message>
-        <location filename="../src/applicationui.cpp" line="465"/>
+        <location filename="../src/applicationui.cpp" line="477"/>
         <source>Success!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -516,12 +516,12 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>QDropboxController</name>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="338"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="345"/>
         <source>Upload finished: </source>
         <translation type="unfinished">Загрузка завершена: </translation>
     </message>
     <message>
-        <location filename="../src/controllers/QDropboxController.cpp" line="484"/>
+        <location filename="../src/controllers/QDropboxController.cpp" line="491"/>
         <source>Download finished: </source>
         <translation type="unfinished">Загрузка завершена: </translation>
     </message>

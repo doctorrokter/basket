@@ -186,6 +186,14 @@
         	<action>chachkouski.BasketService.CHECK_JOB_STATUS</action>
         	<mime-type>text/plain</mime-type>
         </filter>
+        <filter>
+        	<action>chachkouski.BasketService.START_POLLING</action>
+        	<mime-type>text/plain</mime-type>
+        </filter>
+        <filter>
+        	<action>chachkouski.BasketService.STOP_POLLING</action>
+        	<mime-type>text/plain</mime-type>
+        </filter>
     </invoke-target>
     
     <invoke-target id="chachkouski.Basket.card.edit.uri">

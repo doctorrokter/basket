@@ -12,6 +12,7 @@
 #include <QList>
 #include <QFile>
 #include <QVariantList>
+#include <QMap>
 #include "../../include/qdropbox/QDropboxFile.hpp"
 #include <QVariantMap>
 #include "../../include/qdropbox/Logger.hpp"
@@ -37,6 +38,10 @@ public:
     void updateByCursor(const QString& prevCursor, QList<QDropboxFile*>& files, const QString& cursor);
     Cache findForPath(const QString& path, const QString& orderBy = "name", const QString& order = "asc");
     Cache findForCursor(const QString& cursor, const QString& orderBy = "name", const QString& order = "asc");
+    QMap<QString, QString> getPathsCursors() const;
+    void updatePathsCursors(const QString& path, const QString& cursor);
+    QString findCursor(const QString& path);
+    QString findPath(const QString& cursor);
 
     void add(QDropboxFile* file);
     void remove(QDropboxFile* file);
@@ -49,16 +54,14 @@ public:
 private:
     static Logger logger;
 
-    QVariantMap m_pathsCursors;
+    QMap<QString, QString> m_pathsCursors;
 
     void insert(const QString& path, QList<QDropboxFile*>& files, const QString& cursor);
     void insert(const QString& path, QDropboxFile* file);
     QVariantList select(const QString& path, const QString& type, const QString& orderBy, const QString& order);
-    QString findCursor(const QString& path);
-    QString findPath(const QString& cursor);
-    void persistCursors();
     void deleteById(const QString& id);
     QString pathFromPathDisplay(QString pathDisplay, QString name);
+    bool isExists(QDropboxFile* file);
 };
 
 #endif /* QDROPBOXCACHE_HPP_ */

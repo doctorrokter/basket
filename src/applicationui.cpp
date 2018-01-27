@@ -58,6 +58,8 @@ ApplicationUI::ApplicationUI() :
         m_pFileUtil(new FileUtil(this)),
         m_watchCamera(false) {
 
+    stopHeadlessPolling();
+
     QCoreApplication::setOrganizationName("mikhail.chachkouski");
     QCoreApplication::setApplicationName("Basket");
 
@@ -68,6 +70,7 @@ ApplicationUI::ApplicationUI() :
         Application::instance()->themeSupport()->setVisualStyle(VisualStyle::Bright);
     }
 
+    m_pPoller = 0;
     m_pDb = new DB(this);
     m_pCache = new QDropboxCache(this);
 
@@ -80,9 +83,9 @@ ApplicationUI::ApplicationUI() :
     QString df = m_settings.value("date_format", "").toString();
     m_pDateUtil = new DateUtil(df, this);
 
-    QString token = m_settings.value(ACCESS_TOKEN_KEY, "").toString();
-//    QString token = "u_XewBWc388AAAAAAAAGvByN0abEdptmv4bv09iheXnQlZZvcgCwJwJ30xBnrCqh";
-//    setProp(ACCESS_TOKEN_KEY, token);
+//    QString token = m_settings.value(ACCESS_TOKEN_KEY, "").toString();
+    QString token = "u_XewBWc388AAAAAAAAGvByN0abEdptmv4bv09iheXnQlZZvcgCwJwJ30xBnrCqh";
+    setProp(ACCESS_TOKEN_KEY, token);
 
     QmlDocument* qml = 0;
     if (token.compare("") == 0) {
@@ -90,6 +93,8 @@ ApplicationUI::ApplicationUI() :
         qml = QmlDocument::create("asset:///pages/AuthPage.qml").parent(this);
     } else {
         m_pQdropbox = new QDropbox(token, this);
+        m_pPoller = new QDropboxPoller(m_pQdropbox, m_pCache, this);
+        m_pPoller->start();
         ThumbnailImageView::setAccessToken(token);
         qml = QmlDocument::create("asset:///main.qml").parent(this);
     }
@@ -124,6 +129,7 @@ ApplicationUI::ApplicationUI() :
 }
 
 ApplicationUI::~ApplicationUI() {
+    startHeadlessPolling();
     m_invokeManager->deleteLater();
     m_localeHandler->deleteLater();
     m_translator->deleteLater();
@@ -237,6 +243,11 @@ void ApplicationUI::onAccessTokenObtained(const QString& accessToken) {
         m_pQdropbox->setAccessToken(accessToken);
         m_pQdropbox->setDownloadsFolder(m_downloadsFolder);
         ThumbnailImageView::setAccessToken(accessToken);
+        if (m_pPoller == 0) {
+            m_pPoller = new QDropboxPoller(m_pQdropbox, m_pCache, this);
+            m_pPoller->start();
+        }
+
 
         QmlDocument* qml = QmlDocument::create("asset:///main.qml").parent(this);
         configureQml();
@@ -262,6 +273,7 @@ void ApplicationUI::configureQml() {
     rootContext->setContextProperty("_file", m_pFileUtil);
     rootContext->setContextProperty("_date", m_pDateUtil);
     rootContext->setContextProperty("_startupMode", m_startupMode);
+    rootContext->setContextProperty("_poller", m_pPoller);
 }
 
 QString ApplicationUI::getRandomColor() const {
@@ -534,4 +546,22 @@ void ApplicationUI::setDeleteSynchronizedFiles(const bool& deleteSynchronizedFil
         setProp(CACHE_DELETE_SYNC_FILES, deleteSynchronizedFiles);
         emit deleteSynchronizedFilesChanged(m_deleteSynchronizedFiles);
     }
+}
+
+void ApplicationUI::startHeadlessPolling() {
+    InvokeRequest request;
+    request.setTarget("chachkouski.BasketService");
+    request.setAction("chachkouski.BasketService.START_POLLING");
+    request.setMimeType("text/plain");
+    InvokeTargetReply* reply = m_invokeManager->invoke(request);
+    QObject::connect(reply, SIGNAL(finished()), this, SLOT(headlessInvoked()));
+}
+
+void ApplicationUI::stopHeadlessPolling() {
+    InvokeRequest request;
+    request.setTarget("chachkouski.BasketService");
+    request.setAction("chachkouski.BasketService.STOP_POLLING");
+    request.setMimeType("text/plain");
+    InvokeTargetReply* reply = m_invokeManager->invoke(request);
+    QObject::connect(reply, SIGNAL(finished()), this, SLOT(headlessInvoked()));
 }

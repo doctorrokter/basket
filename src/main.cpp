@@ -29,6 +29,7 @@
 #include "vendor/WebImageView.h"
 #include <QTimer>
 #include "vendor/Console.hpp"
+#include "cache/QDropboxPoller.hpp"
 
 using namespace bb::cascades;
 
@@ -49,6 +50,7 @@ Q_DECL_EXPORT int main(int argc, char **argv) {
     qInstallMsgHandler(myMessageOutput);
 
     qRegisterMetaType<QDropboxController*>("QDropboxController*");
+    qRegisterMetaType<QDropboxPoller*>("QDropboxPoller*");
     qmlRegisterType<WebImageView>("WebImageView", 1, 0, "WebImageView");
     qmlRegisterType<ThumbnailImageView>("components", 1, 0, "ThumbnailImageView");
     qmlRegisterType<FileImageView>("components", 1, 0, "FileImageView");
