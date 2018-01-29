@@ -404,8 +404,8 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>HighCover</name>
     <message>
-        <location filename="../assets/pages/HighCover.qml" line="99"/>
         <location filename="../assets/pages/HighCover.qml" line="100"/>
+        <location filename="../assets/pages/HighCover.qml" line="101"/>
         <source>GB</source>
         <translation type="unfinished">ГБ</translation>
     </message>

@@ -3,11 +3,12 @@ import bb.cascades 1.4
 Container {
     id: root
     
-    property variant account: undefined
+    property variant account: {email: "doctorrokter@gmail.com", name: {display_name: "Mikhail Chachkouski"}}
     property variant spaceUsage: undefined
     property int bytesInGB: 1073741824
     
     horizontalAlignment: HorizontalAlignment.Fill
+    background: Color.White
     
     Container {
         horizontalAlignment: HorizontalAlignment.Fill
@@ -22,7 +23,8 @@ Container {
             
             ImageView {
                 imageSource: "asset:///images/ic_contact.png"
-                filterColor: ui.palette.secondaryTextOnPlain
+//                filterColor: ui.palette.secondaryTextOnPlain
+                filterColor: Color.DarkGray
                 verticalAlignment: VerticalAlignment.Center
                 maxWidth: ui.du(5)
                 maxHeight: ui.du(5)
@@ -38,6 +40,7 @@ Container {
                     Label {
                         text: root.account === undefined ? "" : root.account.name.display_name
                         textStyle.base: SystemDefaults.TextStyles.SubtitleText
+                        textStyle.color: Color.Black
                         multiline: true
                     }
                 }
@@ -46,7 +49,8 @@ Container {
                     Label {
                         text: root.account === undefined ? "" : root.account.email
                         textStyle.base: SystemDefaults.TextStyles.SmallText
-                        textStyle.color: ui.palette.secondaryTextOnPlain
+                        textStyle.color: Color.Black
+                        textStyle.fontWeight: FontWeight.W300
                     }
                 }
                 
@@ -69,7 +73,8 @@ Container {
             
             ImageView {
                 imageSource: "asset:///images/ic_set_as_default.png"
-                filterColor: ui.palette.secondaryTextOnPlain
+//                filterColor: ui.palette.secondaryTextOnPlain
+                filterColor: Color.DarkGray
                 verticalAlignment: VerticalAlignment.Center
                 maxWidth: ui.du(5)
                 maxHeight: ui.du(5)
@@ -86,6 +91,9 @@ Container {
                         id: bytesLabel
                         textStyle.base: SystemDefaults.TextStyles.SubtitleText
                         multiline: true
+                        textStyle.color: Color.Black
+                        textStyle.fontWeight: FontWeight.W300
+                        text: "2134"
                     }
                 }
             }
