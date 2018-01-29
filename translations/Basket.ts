@@ -305,13 +305,13 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="340"/>
-        <location filename="../assets/pages/FolderPage.qml" line="702"/>
+        <location filename="../assets/pages/FolderPage.qml" line="716"/>
         <source>List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../assets/pages/FolderPage.qml" line="342"/>
-        <location filename="../assets/pages/FolderPage.qml" line="709"/>
+        <location filename="../assets/pages/FolderPage.qml" line="723"/>
         <source>Grid</source>
         <translation type="unfinished"></translation>
     </message>
@@ -341,8 +341,8 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/FolderPage.qml" line="581"/>
-        <location filename="../assets/pages/FolderPage.qml" line="582"/>
+        <location filename="../assets/pages/FolderPage.qml" line="593"/>
+        <location filename="../assets/pages/FolderPage.qml" line="594"/>
         <source>GB</source>
         <translation type="unfinished"></translation>
     </message>
@@ -393,8 +393,8 @@ Copy this link and open it in any modern browser (mobile or desktop):</source>
 <context>
     <name>HighCover</name>
     <message>
+        <location filename="../assets/pages/HighCover.qml" line="99"/>
         <location filename="../assets/pages/HighCover.qml" line="100"/>
-        <location filename="../assets/pages/HighCover.qml" line="101"/>
         <source>GB</source>
         <translation type="unfinished"></translation>
     </message>

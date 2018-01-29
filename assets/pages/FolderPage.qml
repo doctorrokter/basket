@@ -514,6 +514,18 @@ Page {
             onTimeout: {
                 dataModel.clear();
                 dataModel.append(root.filteredData);
+                root.downListView();
+            }
+        },
+        
+        Timer {
+            id: listViewTimer
+            
+            interval: 500
+            singleShot: true    
+            
+            onTimeout: {
+                listView.down();
             }
         },
         
@@ -599,6 +611,7 @@ Page {
             root.cursor = cursor;
             root.hasMore = hasMore;
             root.append(files);
+            root.downListView();
         }
     }
     
@@ -691,6 +704,7 @@ Page {
         }
         dataModel.clear();
         dataModel.append(files);
+        root.downListView();
     }
     
     function propChanged(key, val) {
@@ -815,6 +829,10 @@ Page {
         if (root.path === path) {
             root.reload();
         }
+    }
+    
+    function downListView() {
+        listViewTimer.start();
     }
     
     function cleanUp() {
